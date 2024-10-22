@@ -39,7 +39,7 @@ fi
 if [ ! -s src/_inputs/csv/polyhedra-wallets.csv ]
   then :
     echo "\nCreating polyhedra-wallets.csv in src/_inputs/csv/"
-    touch src/_inputs/csv/polyhedra-wallets.csv && echo "id,walletAddress,privKey,transferAddress,bitgetAddress,proxy,updateProxyLink" >> src/_inputs/csv/polyhedra-wallets.csv
+    touch src/_inputs/csv/polyhedra-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/polyhedra-wallets.csv
 fi
 if [ ! -s src/_outputs/json/polyhedra-wallets.json ]
   then :
@@ -69,7 +69,7 @@ fi
 if [ ! -s src/_inputs/csv/layer-zero-wallets.csv ]
   then :
     echo "\nCreating layer-zero-wallets.csv in src/_inputs/csv/"
-    touch src/_inputs/csv/layer-zero-wallets.csv && echo "id,walletAddress,privKey,transferAddress,bitgetAddress,proxy,updateProxyLink" >> src/_inputs/csv/layer-zero-wallets.csv
+    touch src/_inputs/csv/layer-zero-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/layer-zero-wallets.csv
 fi
 if [ ! -s src/_outputs/json/layer-zero-wallets.json ]
   then :
@@ -99,7 +99,7 @@ fi
 if [ ! -s src/_inputs/csv/blast-wallets.csv ]
   then :
     echo "\nCreating blast-wallets.csv in src/_inputs/csv/"
-    touch src/_inputs/csv/blast-wallets.csv && echo "id,walletAddress,privKey,transferAddress,bitgetAddress,proxy,updateProxyLink" >> src/_inputs/csv/blast-wallets.csv
+    touch src/_inputs/csv/blast-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/blast-wallets.csv
 fi
 if [ ! -s src/_outputs/json/blast-wallets.json ]
   then :
@@ -129,7 +129,7 @@ fi
 if [ ! -s src/_inputs/csv/taiko-wallets.csv ]
   then :
     echo "\nCreating taiko-wallets.csv in src/_inputs/csv/"
-    touch src/_inputs/csv/taiko-wallets.csv && echo "id,walletAddress,privKey,transferAddress,bitgetAddress,proxy,updateProxyLink" >> src/_inputs/csv/taiko-wallets.csv
+    touch src/_inputs/csv/taiko-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/taiko-wallets.csv
 fi
 if [ ! -s src/_outputs/json/taiko-wallets.json ]
   then :
@@ -159,7 +159,7 @@ fi
 if [ ! -s src/_inputs/csv/scroll-wallets.csv ]
   then :
     echo "\nCreating scroll-wallets.csv in src/_inputs/csv/"
-    touch src/_inputs/csv/scroll-wallets.csv && echo "id,walletAddress,privKey,transferAddress,bitgetAddress,proxy,updateProxyLink" >> src/_inputs/csv/scroll-wallets.csv
+    touch src/_inputs/csv/scroll-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/scroll-wallets.csv
 fi
 if [ ! -s src/_outputs/json/scroll-wallets.json ]
   then :

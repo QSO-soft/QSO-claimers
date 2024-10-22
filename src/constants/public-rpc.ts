@@ -137,11 +137,11 @@ export const PUBLIC_RPCS: RPCsRecord = {
   ],
   scroll: [
     // 'https://scroll.blockpi.network/v1/rpc/public',
-    // 'https://scroll-mainnet.public.blastapi.io',
+    'https://scroll-mainnet.public.blastapi.io',
     // 'https://1rpc.io/scroll',
     // 'https://rpc.scroll.io',
     // 'https://rpc-scroll.icecreamswap.com',
-    'https://rpc.ankr.com/scroll',
+    // 'https://rpc.ankr.com/scroll',
   ],
   fantom: [
     'https://fantom-pokt.nodies.app',

@@ -1,15 +1,5 @@
-import { AxiosError } from 'axios';
-import { TransactionExecutionError } from 'viem';
-
 import settings from '../../_inputs/settings/settings';
-import {
-  CRITICAL_ERRORS_MAP,
-  NFT_HOLDING_ERROR,
-  NOT_ENOUGH_FUNDS_FOR_FEE_ERROR,
-  PASSED_ERROR_MAP,
-  SUCCESS_MESSAGES_TO_STOP_WALLET,
-  WARNING_ERRORS_MAP,
-} from '../../constants';
+import { CRITICAL_ERRORS_MAP, PASSED_ERROR_MAP, WARNING_ERRORS_MAP } from '../../constants';
 import { LoggerData } from '../../logger';
 import { runAutoGas } from '../../managers/auto-gas';
 import { MaxGas, ModuleNames, NumberRange, WorkerResponse } from '../../types';
@@ -17,6 +7,7 @@ import { getClientByNetwork } from '../clients';
 import { waitGas, waitGasMultiple } from '../gas';
 import { updateSavedModulesCount } from '../modules/save-modules';
 import { checkMultipleOf, createRandomProxyAgent, getRandomNumber, sleep, sleepByRange } from '../utils';
+import { getFormattedErrorMessage } from './errors-format';
 import { TransactionWorkerPropsWithCallback } from './types';
 
 const DEFAULT_ERROR_MSG = 'Execution was not done successfully';
@@ -205,102 +196,54 @@ export const transactionWorker = async (props: TransactionWorkerPropsWithCallbac
 
         break;
       } catch (e) {
-        const error = e as Error;
-        let errorMessage: string = error.message;
+        const errorMessage = getFormattedErrorMessage(e, currentNetwork);
 
-        if (e instanceof AxiosError) {
-          errorMessage =
-            e.response?.data.msg ||
-            e.response?.data.message ||
-            e.response?.data.error ||
-            e.response?.data.error?.message ||
-            e.response?.data.error?.msg ||
-            e.response?.data.errors?.[0]?.message ||
-            e.response?.data.errors?.[0]?.msg ||
-            errorMessage;
-        }
-
-        if (e instanceof TransactionExecutionError) {
-          if (errorMessage.includes('gas required exceeds allowance')) {
-            errorMessage = NOT_ENOUGH_FUNDS_FOR_FEE_ERROR;
-          } else {
-            errorMessage = `Unable to execute transaction. ${e.shortMessage}`;
-          }
-        }
-
-        if (errorMessage.includes('Details: {')) {
-          errorMessage = errorMessage.split('"message":"')[1]?.split('"')[0] || errorMessage;
-        }
-        const successMessage = SUCCESS_MESSAGES_TO_STOP_WALLET.find((error) => errorMessage.includes(error));
-
-        const isNftHoldingError = errorMessage.includes(NFT_HOLDING_ERROR);
-
-        if (errorMessage.includes('max fee per gas less than block base fee')) {
-          errorMessage = `Please, increase gasMultiplier setting for ${currentNetwork} network. Fee of this network is higher, than provided`;
-        }
-
-        if (errorMessage.includes('An unknown RPC error occured')) {
-          errorMessage = `An unknown RPC error occured in ${currentNetwork} network`;
-        }
-
-        if (errorMessage.includes('execution reverted') && !isNftHoldingError) {
-          errorMessage = 'Unable to execute transaction for unknown reason';
-        }
-
-        if (successMessage) {
-          throw new Error(errorMessage);
-        }
-
-        for (const [originalMessage, customMessage] of Object.entries(CRITICAL_ERRORS_MAP)) {
-          if (errorMessage.includes(originalMessage)) {
-            return {
-              ...workerResponse,
-              status: 'critical',
-              message: customMessage,
-            };
-          }
+        const criticalMessages = Object.values(CRITICAL_ERRORS_MAP);
+        if (criticalMessages.includes(errorMessage)) {
+          return {
+            ...workerResponse,
+            status: 'critical',
+            message: errorMessage,
+          };
         }
 
         attempts--;
 
-        for (const [originalMessage, customMessage] of Object.entries(WARNING_ERRORS_MAP)) {
-          if (errorMessage.includes(originalMessage)) {
-            if (!isInnerWorker && !props.stopWalletOnError) {
-              updateSavedModulesCount({
-                wallet,
-                moduleIndex,
-                projectName,
-                setZeroCount: true,
-              });
-            }
-
-            return {
-              ...workerResponse,
-              status: 'warning',
-              message: customMessage,
-            };
-          }
-        }
-
-        for (const [originalMessage, customMessage] of Object.entries(PASSED_ERROR_MAP)) {
-          if (!isInnerWorker && errorMessage.includes(originalMessage)) {
+        const warningMessages = Object.values(WARNING_ERRORS_MAP);
+        if (warningMessages.includes(errorMessage)) {
+          if (!isInnerWorker && !props.stopWalletOnError && !props.skipClearInSaved) {
             updateSavedModulesCount({
               wallet,
               moduleIndex,
               projectName,
               setZeroCount: true,
             });
-
-            logger.success(customMessage, {
-              ...logTemplate,
-              status: 'succeeded',
-            });
-
-            return {
-              ...workerResponse,
-              status: 'passed',
-            };
           }
+
+          return {
+            ...workerResponse,
+            status: 'warning',
+            message: errorMessage,
+          };
+        }
+
+        const passedMessages = Object.values(PASSED_ERROR_MAP);
+        if (!isInnerWorker && passedMessages.includes(errorMessage) && !props.skipClearInSaved) {
+          updateSavedModulesCount({
+            wallet,
+            moduleIndex,
+            projectName,
+            setZeroCount: true,
+          });
+
+          logger.success(errorMessage, {
+            ...logTemplate,
+          });
+
+          return {
+            ...workerResponse,
+            status: 'passed',
+          };
         }
 
         if (attempts > 0 && !isInnerWorker) {

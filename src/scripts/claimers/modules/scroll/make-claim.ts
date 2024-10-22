@@ -1,12 +1,14 @@
-import { Hex } from 'viem';
+import { encodeFunctionData, Hex } from 'viem';
 
 import settings from '../../../../_inputs/settings/settings';
 import { CLAIM_STATUSES, DB_NOT_CONNECTED } from '../../../../constants';
 import {
+  addNumberPercentage,
   decimalToInt,
   getAxiosConfig,
   getGasOptions,
   getHeaders,
+  getRandomNumber,
   sleepByRange,
   TransactionCallbackParams,
   TransactionCallbackReturn,
@@ -158,16 +160,38 @@ const makeClaimScroll = async (params: TransactionCallbackParams): TransactionCa
       args: [walletAddress],
     })) as any[];
 
+    const currentNetworkGasMultiplier = settings.gasLimitMultiplier[network];
+
     if (!delegates?.length) {
+      const args = [[{ _delegatee: walletAddress as Hex, _numerator: 10000n }]];
+
+      let updatedGas;
+      if (currentNetworkGasMultiplier) {
+        const gasLimitMp = getRandomNumber(currentNetworkGasMultiplier);
+
+        const encodedData = encodeFunctionData({
+          abi: SCROLL_ABI,
+          functionName: 'delegate',
+          args,
+        });
+
+        const gas = await publicClient.estimateGas({
+          account: client.walletClient.account,
+          to: SCROLL_TOKEN_CONTRACT,
+          data: encodedData,
+          ...feeOptions,
+        });
+
+        updatedGas = BigInt(addNumberPercentage(Number(gas), gasLimitMp).toFixed(0));
+      }
+
       const delegateTxHash = await walletClient.writeContract({
         address: SCROLL_TOKEN_CONTRACT,
         abi: SCROLL_ABI,
-        // TODO: HERE
         functionName: 'delegate',
-        args: [[{ _delegatee: walletAddress as Hex, _numerator: 10000n }]],
-        // TODO: ?
-        // value: amountWei,
+        args,
         ...feeOptions,
+        gas: 'gas' in feeOptions ? (feeOptions.gas as bigint) : updatedGas,
       });
 
       await client.waitTxReceipt(delegateTxHash);
@@ -177,15 +201,35 @@ const makeClaimScroll = async (params: TransactionCallbackParams): TransactionCa
       await sleepByRange(settings.delay.betweenTransactions, {}, logger);
     }
 
+    const args = [walletAddress, amountWei, proofRes.proof];
+
+    let updatedGas;
+    if (currentNetworkGasMultiplier) {
+      const gasLimitMp = getRandomNumber(currentNetworkGasMultiplier);
+
+      const encodedData = encodeFunctionData({
+        abi: SCROLL_ABI,
+        functionName: 'claim',
+        args,
+      });
+
+      const gas = await publicClient.estimateGas({
+        account: client.walletClient.account,
+        to: contract,
+        data: encodedData,
+        ...feeOptions,
+      });
+
+      updatedGas = BigInt(addNumberPercentage(Number(gas), gasLimitMp).toFixed(0));
+    }
+
     const txHash = await walletClient.writeContract({
       address: contract,
       abi: SCROLL_ABI,
-      // TODO: HERE
       functionName: 'claim',
-      args: [walletAddress, amountWei, proofRes.proof],
-      // TODO: ?
-      // value: amountWei,
+      args,
       ...feeOptions,
+      gas: 'gas' in feeOptions ? (feeOptions.gas as bigint) : updatedGas,
     });
 
     await client.waitTxReceipt(txHash);

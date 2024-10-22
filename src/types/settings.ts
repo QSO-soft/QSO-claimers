@@ -55,6 +55,7 @@ export interface DefaultSettings {
   delay: SettingsDelays;
   maxGas: MaxGasSetting;
   gasMultiplier: GasMultiplierSettings;
+  gasLimitMultiplier: Partial<Record<SupportedNetworks, NumberRange | null>>;
   invitesAmount?: InvitesAmount;
   autoGas: AutoGasSettings;
   logsTrimNumber: TrimLogsAmountSettings;

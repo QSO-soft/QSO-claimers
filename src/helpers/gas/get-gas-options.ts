@@ -1,4 +1,4 @@
-import { parseGwei, PublicClient } from 'viem';
+import { formatGwei, parseGwei, PublicClient } from 'viem';
 
 import settings from '../../_inputs/settings/settings';
 import { NumberRange, SupportedNetworks } from '../../types';
@@ -49,14 +49,26 @@ export const getGasOptions = async (params: GetGasOptions): Promise<GetGasOption
     const percentToUpdate = settings.gasMultiplier[network];
 
     if (percentToUpdate) {
-      const currentGasPrice = await getCurrentGas(publicClient);
-      const currentGwei = addNumberPercentage(currentGasPrice, percentToUpdate);
-
       if (isLegacy) {
+        const currentGasPrice = await getCurrentGas(publicClient);
+        const currentGwei = addNumberPercentage(currentGasPrice, percentToUpdate);
+
         gasPrice = parseCurrentGwei(currentGwei);
       } else {
-        maxFeePerGas = parseCurrentGwei(currentGwei);
-        maxPriorityFeePerGas = parseCurrentGwei(subtractNumberPercentage(currentGwei, percentForGwei));
+        const estimateFees = await publicClient.estimateFeesPerGas();
+        const updatedMaxFeePerGas = addNumberPercentage(
+          parseFloat(formatGwei(estimateFees.maxFeePerGas)),
+          percentToUpdate
+        );
+        const updatedMaxPriorityFeePerGas = addNumberPercentage(
+          estimateFees.maxPriorityFeePerGas <= 10000n
+            ? subtractNumberPercentage(parseFloat(formatGwei(estimateFees.maxFeePerGas)), 2)
+            : parseFloat(formatGwei(estimateFees.maxPriorityFeePerGas)),
+          percentToUpdate
+        );
+
+        maxFeePerGas = parseCurrentGwei(updatedMaxFeePerGas);
+        maxPriorityFeePerGas = parseCurrentGwei(updatedMaxPriorityFeePerGas);
       }
     }
   }

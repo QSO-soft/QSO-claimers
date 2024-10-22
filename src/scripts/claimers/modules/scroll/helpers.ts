@@ -26,7 +26,7 @@ interface ProofRes {
 export const getProofData = async ({ walletAddress, config }: GetData): Promise<ProofRes> => {
   const { data } = await axios.post(`${API_URL}/?step=5`, JSON.stringify([walletAddress]), config);
 
-  const dataObj = data.split('1:')?.[1] || '{}';
+  const dataObj = data.match(/1:(\{.*\})/s)[1] || '{}';
   return JSON.parse(dataObj);
 };
 

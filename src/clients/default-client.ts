@@ -259,12 +259,10 @@ export class DefaultClient {
     } catch (err) {
       const errMessage = (err as Error).message;
 
-      if (errMessage.includes(WAIT_TX_ERROR_MESSAGE)) {
-        throw err;
-      }
-
       if (errMessage.includes(WAIT_TX_TIMEOUT) || errMessage.includes(WAIT_TX_BLOCK_ERROR)) {
         shouldCheckTx = true;
+      } else {
+        throw err;
       }
 
       // this.logger.warning(`${unableToWaitMsg} ${errMessage}`);

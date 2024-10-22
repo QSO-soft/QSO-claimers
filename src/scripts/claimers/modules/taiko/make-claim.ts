@@ -22,8 +22,7 @@ export const execMakeClaimTaiko = async (params: TransformedModuleParams) =>
   });
 
 const makeClaimTaiko = async (params: TransactionCallbackParams): TransactionCallbackReturn => {
-  const { client, nativePrices, tokenToSupply, dbSource, gweiRange, gasLimitRange, wallet, network, proxyAgent } =
-    params;
+  const { client, dbSource, gweiRange, gasLimitRange, wallet, network, proxyAgent } = params;
 
   const { walletAddress, walletClient, publicClient, explorerLink } = client;
 
@@ -109,7 +108,7 @@ const makeClaimTaiko = async (params: TransactionCallbackParams): TransactionCal
       args: [walletAddress, amountWei],
     })) as bigint;
 
-    if (claimed > 0n) {
+    if (claimed) {
       if (currentBalance === 0) {
         await dbRepo.update(walletInDb.id, {
           status: CLAIM_STATUSES.CLAIMED_AND_SENT,
@@ -118,22 +117,28 @@ const makeClaimTaiko = async (params: TransactionCallbackParams): TransactionCal
           balance: currentBalance,
         });
 
+        const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_AND_SENT);
+
         return {
           status: 'passed',
-          message: getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_AND_SENT),
+          message: status,
+          tgMessage: `${status} | Amount: ${amountInt}`,
         };
       }
 
       await dbRepo.update(walletInDb.id, {
-        status: CLAIM_STATUSES.ALREADY_CLAIMED,
+        status: CLAIM_STATUSES.CLAIMED_NOT_SENT,
         claimAmount: amountInt,
         nativeBalance,
         balance: currentBalance,
       });
 
+      const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_NOT_SENT);
+
       return {
         status: 'passed',
-        message: getCheckClaimMessage(CLAIM_STATUSES.ALREADY_CLAIMED),
+        message: status,
+        tgMessage: `${status} | Amount: ${amountInt}`,
       };
     }
 

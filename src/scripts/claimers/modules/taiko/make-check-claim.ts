@@ -116,9 +116,12 @@ const makeCheckClaimTaiko = async (params: TransactionCallbackParams): Transacti
           balance: currentBalance,
         });
 
+        const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_AND_SENT);
+
         return {
           status: 'passed',
-          message: getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_AND_SENT),
+          message: status,
+          tgMessage: `${status} | Amount: ${amountInt}`,
         };
       }
 
@@ -132,7 +135,7 @@ const makeCheckClaimTaiko = async (params: TransactionCallbackParams): Transacti
       const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_NOT_SENT);
 
       return {
-        status: 'success',
+        status: 'passed',
         message: status,
         tgMessage: `${status} | Amount: ${amountInt}`,
       };

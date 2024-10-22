@@ -103,9 +103,9 @@ const makeCheckClaimScroll = async (params: TransactionCallbackParams): Transact
       abi: SCROLL_ABI,
       functionName: 'hasClaimed',
       args: [walletAddress],
-    })) as bigint;
+    })) as boolean;
 
-    if (claimed > 0n) {
+    if (claimed) {
       if (currentBalance === 0) {
         await dbRepo.update(walletInDb.id, {
           status: CLAIM_STATUSES.CLAIMED_AND_SENT,
@@ -114,9 +114,12 @@ const makeCheckClaimScroll = async (params: TransactionCallbackParams): Transact
           balance: currentBalance,
         });
 
+        const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_AND_SENT);
+
         return {
           status: 'passed',
-          message: getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_AND_SENT),
+          message: status,
+          tgMessage: `${status} | Amount: ${amountInt}`,
         };
       }
 
@@ -130,7 +133,7 @@ const makeCheckClaimScroll = async (params: TransactionCallbackParams): Transact
       const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_NOT_SENT);
 
       return {
-        status: 'success',
+        status: 'passed',
         message: status,
         tgMessage: `${status} | Amount: ${amountInt}`,
       };

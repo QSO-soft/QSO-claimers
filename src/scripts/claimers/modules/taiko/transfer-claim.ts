@@ -129,7 +129,7 @@ const makeTransferClaimTaiko = async (params: TransactionCallbackParams): Transa
       args: [walletAddress, amountWei],
     })) as bigint;
 
-    if (claimed === 0n) {
+    if (!claimed) {
       await dbRepo.update(walletInDb.id, {
         status: CLAIM_STATUSES.NOT_CLAIMED,
         claimAmount: amountInt,
@@ -137,9 +137,29 @@ const makeTransferClaimTaiko = async (params: TransactionCallbackParams): Transa
         balance: currentBalance,
       });
 
+      const status = getCheckClaimMessage(CLAIM_STATUSES.NOT_CLAIMED);
+
       return {
         status: 'passed',
-        message: getCheckClaimMessage(CLAIM_STATUSES.NOT_CLAIMED),
+        message: status,
+        tgMessage: `${status} | Amount: ${amountInt}`,
+      };
+    }
+
+    if (currentBalance === 0) {
+      await dbRepo.update(walletInDb.id, {
+        status: CLAIM_STATUSES.CLAIMED_AND_SENT,
+        claimAmount: amountInt,
+        nativeBalance,
+        balance: currentBalance,
+      });
+
+      const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_AND_SENT);
+
+      return {
+        status: 'passed',
+        message: status,
+        tgMessage: `${status} | Amount: ${amountInt}`,
       };
     }
 

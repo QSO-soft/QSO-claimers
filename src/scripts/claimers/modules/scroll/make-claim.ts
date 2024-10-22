@@ -108,7 +108,7 @@ const makeClaimScroll = async (params: TransactionCallbackParams): TransactionCa
       abi: SCROLL_ABI,
       functionName: 'hasClaimed',
       args: [walletAddress],
-    })) as bigint;
+    })) as boolean;
 
     if (claimed) {
       if (currentBalance === 0) {
@@ -119,9 +119,12 @@ const makeClaimScroll = async (params: TransactionCallbackParams): TransactionCa
           balance: currentBalance,
         });
 
+        const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_AND_SENT);
+
         return {
           status: 'passed',
-          message: getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_AND_SENT),
+          message: status,
+          tgMessage: `${status} | Amount: ${amountInt}`,
         };
       }
 
@@ -135,7 +138,7 @@ const makeClaimScroll = async (params: TransactionCallbackParams): TransactionCa
       const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_NOT_SENT);
 
       return {
-        status: 'success',
+        status: 'passed',
         message: status,
         tgMessage: `${status} | Amount: ${amountInt}`,
       };

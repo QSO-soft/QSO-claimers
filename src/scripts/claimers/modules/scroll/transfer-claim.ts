@@ -122,34 +122,37 @@ const makeTransferClaimScroll = async (params: TransactionCallbackParams): Trans
       abi: SCROLL_ABI,
       functionName: 'hasClaimed',
       args: [walletAddress],
-    })) as bigint;
+    })) as boolean;
 
     if (!claimed) {
-      if (currentBalance === 0) {
-        await dbRepo.update(walletInDb.id, {
-          status: CLAIM_STATUSES.CLAIMED_AND_SENT,
-          claimAmount: amountInt,
-          nativeBalance,
-          balance: currentBalance,
-        });
-
-        return {
-          status: 'passed',
-          message: getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_AND_SENT),
-        };
-      }
-
       await dbRepo.update(walletInDb.id, {
-        status: CLAIM_STATUSES.CLAIMED_NOT_SENT,
+        status: CLAIM_STATUSES.NOT_CLAIMED,
         claimAmount: amountInt,
         nativeBalance,
         balance: currentBalance,
       });
 
-      const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_NOT_SENT);
+      const status = getCheckClaimMessage(CLAIM_STATUSES.NOT_CLAIMED);
 
       return {
-        status: 'success',
+        status: 'passed',
+        message: status,
+        tgMessage: `${status} | Amount: ${amountInt}`,
+      };
+    }
+
+    if (currentBalance === 0) {
+      await dbRepo.update(walletInDb.id, {
+        status: CLAIM_STATUSES.CLAIMED_AND_SENT,
+        claimAmount: amountInt,
+        nativeBalance,
+        balance: currentBalance,
+      });
+
+      const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_AND_SENT);
+
+      return {
+        status: 'passed',
         message: status,
         tgMessage: `${status} | Amount: ${amountInt}`,
       };

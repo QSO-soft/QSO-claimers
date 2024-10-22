@@ -110,7 +110,7 @@ const makeClaimScroll = async (params: TransactionCallbackParams): TransactionCa
       args: [walletAddress],
     })) as bigint;
 
-    if (claimed > 0n) {
+    if (claimed) {
       if (currentBalance === 0) {
         await dbRepo.update(walletInDb.id, {
           status: CLAIM_STATUSES.CLAIMED_AND_SENT,

@@ -7,6 +7,7 @@ import { SECRET_PHRASE } from '../_inputs/settings/global.js';
 import savedLayerZeroModules from '../_outputs/json/layer-zero-saved-modules.json' assert { type: 'json' };
 import savedPolyhedraModules from '../_outputs/json/polyhedra-saved-modules.json' assert { type: 'json' };
 import savedScrollModules from '../_outputs/json/scroll-saved-modules.json' assert { type: 'json' };
+import savedSuperformModules from '../_outputs/json/superform-saved-modules.json' assert { type: 'json' };
 import savedTaikoModules from '../_outputs/json/taiko-saved-modules.json' assert { type: 'json' };
 
 const scripts = {
@@ -14,12 +15,14 @@ const scripts = {
   taiko: 'taiko',
   polyhedra: 'polyhedra',
   layerZero: 'layer-zero',
+  superform: 'superform',
 };
 const aliases = {
   runScroll: '1. Scroll',
   runTaiko: '2. Taiko',
   runPolyhedra: '3. Polyhedra',
   runLayerZero: '4. LayerZero',
+  runSuperform: '5. Superfrom',
 
   exit: '0. Выйти',
 };
@@ -29,6 +32,7 @@ const commandAliases = {
   [aliases.runTaiko]: scripts.taiko,
   [aliases.runPolyhedra]: scripts.polyhedra,
   [aliases.runLayerZero]: scripts.layerZero,
+  [aliases.runSuperform]: scripts.superform,
 
   [aliases.exit]: 'exit',
 };
@@ -50,6 +54,9 @@ const getStartMainCommand = async (projectName) => {
       break;
     case scripts.layerZero:
       currentSavedModulesToUse = savedLayerZeroModules;
+      break;
+    case scripts.superform:
+      currentSavedModulesToUse = savedSuperformModules;
       break;
 
     default:
@@ -145,6 +152,12 @@ const getSecretPhrase = async () => {
     }
     case aliases.runLayerZero: {
       const { command, secret, projectName } = await getStartMainCommand(scripts.layerZero);
+      selectedCommand = command;
+      args = [secret, projectName, projectName];
+      break;
+    }
+    case aliases.runSuperform: {
+      const { command, secret, projectName } = await getStartMainCommand(scripts.superform);
       selectedCommand = command;
       args = [secret, projectName, projectName];
       break;

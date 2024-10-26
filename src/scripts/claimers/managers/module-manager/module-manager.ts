@@ -13,6 +13,7 @@ import {
   execMakeTransferClaimTaiko,
   execMakeCheckClaimTaiko,
   execMakeCheckClaimLayerZero,
+  execMakeSuperfrensClaimNFT,
 } from '../../modules';
 
 export class ModuleManager extends DefaultModuleManager {
@@ -49,6 +50,9 @@ export class ModuleManager extends DefaultModuleManager {
         return execMakeCheckClaimScroll;
       case 'scroll-transfer-claim':
         return execMakeTransferClaimScroll;
+
+      case 'superform-superfrens-claim-NFT':
+        return execMakeSuperfrensClaimNFT;
 
       default:
         return;

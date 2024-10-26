@@ -43,6 +43,17 @@ import { DefaultModuleConfigs } from '../../types';
 // Конфиг, который будет применяться для каждого модуля по умолчанию в случае, если вы пропусили какие-то параметры в роуте
 
 export const defaultModuleConfigs: DefaultModuleConfigs = {
+  // ============== superform ==============
+  'superform-superfrens-claim-NFT': {
+    count: [1, 1],
+    indexGroup: 1,
+
+    stopWalletOnError: true,
+    stopWalletOnPassed: false,
+
+    // Сеть для которой выполнять модуль
+    network: 'base',
+  },
   // ============== layer-zero ==============
   'layer-zero-check-claim': {
     count: [1, 1],

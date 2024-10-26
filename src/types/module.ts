@@ -47,7 +47,8 @@ export type ModuleNames =
   | 'taiko-transfer-claim'
   | 'scroll-claim'
   | 'scroll-check-claim'
-  | 'scroll-transfer-claim';
+  | 'scroll-transfer-claim'
+  | 'superform-superfrens-claim-NFT';
 
 export type SwapModuleNames = Extract<
   ModuleNames,

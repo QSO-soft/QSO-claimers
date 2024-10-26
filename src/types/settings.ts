@@ -92,7 +92,8 @@ export type Route =
   | 'layer-zero'
   | 'check-balances'
   | 'taiko'
-  | 'scroll';
+  | 'scroll'
+  | 'superform';
 
 export type Settings = DefaultSettings;
 

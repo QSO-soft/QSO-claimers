@@ -184,3 +184,33 @@ if [ ! -s src/_outputs/csv/checkers/scroll-claim.csv ]
     echo "\nCreating scroll-claim.csv in src/_outputs/csv/checkers/"
     touch src/_outputs/csv/checkers/scroll-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/scroll-claim.csv
 fi
+
+#SUPERFORM ===============================================================================================================
+if [ ! -s src/_inputs/csv/superform-wallets.csv ]
+  then :
+    echo "\nCreating superform-wallets.csv in src/_inputs/csv/"
+    touch src/_inputs/csv/superform-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/superform-wallets.csv
+fi
+if [ ! -s src/_outputs/json/superform-wallets.json ]
+  then :
+    echo "\nCreating superform-wallets.json in src/_outputs/json/"
+    touch src/_outputs/json/superform-wallets.json && echo "[]" >> src/_outputs/json/superform-wallets.json
+fi
+
+if [ ! -s src/_outputs/csv/superform-failed-wallets.csv ]
+  then :
+    echo "\nCreating superform-failed-wallets.csv in src/_outputs/csv/"
+    touch src/_outputs/csv/superform-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/superform-failed-wallets.csv
+fi
+
+if [ ! -s src/_outputs/json/superform-saved-modules.json ]
+  then :
+    echo "\nCreating superform-saved-modules.json in src/_outputs/json/"
+    touch src/_outputs/json/superform-saved-modules.json && echo "[]" >> src/_outputs/json/superform-saved-modules.json
+fi
+
+if [ ! -s src/_outputs/csv/checkers/superform-superfens-claim-nft.csv ]
+  then :
+    echo "\nCreating superform-superfens-claim-nft.csv in src/_outputs/csv/checkers/"
+    touch src/_outputs/csv/checkers/superform-superfens-claim-nft.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/superform-superfens-claim-nft.csv
+fi

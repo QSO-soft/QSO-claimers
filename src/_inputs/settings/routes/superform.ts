@@ -15,6 +15,25 @@ const modules: UserModuleConfig[] = [
     moduleName: 'superform-superfrens-claim-NFT',
     network: 'base',
     indexGroup: 1,
+
+    // Tournament ID
+    nftId: 3,
+  },
+  {
+    moduleName: 'superform-superfrens-claim-NFT',
+    network: 'base',
+    indexGroup: 1,
+
+    // Tournament ID
+    nftId: 4,
+  },
+  {
+    moduleName: 'superform-superfrens-claim-NFT',
+    network: 'base',
+    indexGroup: 1,
+
+    // Tournament ID
+    nftId: 5,
   },
 ];
 

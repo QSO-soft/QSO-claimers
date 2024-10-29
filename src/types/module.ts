@@ -146,6 +146,8 @@ export interface ExtraModuleParams {
   waitTime?: number;
   waitBalance?: number;
   waitLiquidityAttempts?: number;
+
+  nftId?: number;
 }
 
 export interface DefaultModuleConfig extends ExtraModuleParams {

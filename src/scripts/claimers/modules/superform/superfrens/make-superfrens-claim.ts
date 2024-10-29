@@ -10,7 +10,7 @@ import {
 import { TransformedModuleParams } from '../../../../../types';
 import { SuperfrensNftClaimEntity } from '../../../db/entities';
 import { formatErrMessage, getCheckClaimMessage } from '../../../utils';
-import { CURRENT_TOURNAMENT_ID, HEADERS } from './constants';
+import { CURRENT_TOURNAMENT_ID, getApiHeaders } from './constants';
 import { checkTournamentAvailabilityData, getClaimData, getClaimDataStatuses, getIdData } from './helpers';
 
 export const execMakeSuperfrensClaimNFT = async (params: TransformedModuleParams) =>
@@ -21,7 +21,17 @@ export const execMakeSuperfrensClaimNFT = async (params: TransformedModuleParams
   });
 
 const makeSuperfrensClaimNFT = async (params: TransactionCallbackParams): TransactionCallbackReturn => {
-  const { client, dbSource, gweiRange, gasLimitRange, wallet, network, proxyAgent, logger } = params;
+  const {
+    client,
+    dbSource,
+    gweiRange,
+    gasLimitRange,
+    wallet,
+    network,
+    proxyAgent,
+    logger,
+    nftId = CURRENT_TOURNAMENT_ID,
+  } = params;
 
   const { walletAddress, walletClient, publicClient, explorerLink } = client;
 
@@ -51,13 +61,13 @@ const makeSuperfrensClaimNFT = async (params: TransactionCallbackParams): Transa
     index: wallet.index,
     walletAddress,
     nativeBalance,
-    tournamentId: CURRENT_TOURNAMENT_ID,
+    tournamentId: nftId,
     status: 'New',
   });
   walletInDb = await dbRepo.save(created);
 
   try {
-    const headers = getHeaders(HEADERS);
+    const headers = getHeaders(getApiHeaders(nftId));
     const config = await getAxiosConfig({
       proxyAgent,
       headers,
@@ -68,11 +78,11 @@ const makeSuperfrensClaimNFT = async (params: TransactionCallbackParams): Transa
 
     const claimDataProps = {
       walletAddress,
-      tournamentID: CURRENT_TOURNAMENT_ID,
+      tournamentID: nftId,
       config,
     };
 
-    await checkTournamentAvailabilityData(CURRENT_TOURNAMENT_ID, config);
+    await checkTournamentAvailabilityData(nftId, config);
     await getIdData(config);
 
     const claimStatus = await getClaimDataStatuses(claimDataProps);
@@ -98,7 +108,7 @@ const makeSuperfrensClaimNFT = async (params: TransactionCallbackParams): Transa
       throw new Error('Incorrect claim data');
     }
 
-    logger.info(`Claiming tournament [${CURRENT_TOURNAMENT_ID}] NFT...`);
+    logger.info(`Claiming tournament [${nftId}] NFT...`);
 
     const feeOptions = await getGasOptions({
       gweiRange,
@@ -127,7 +137,7 @@ const makeSuperfrensClaimNFT = async (params: TransactionCallbackParams): Transa
       status: 'success',
       txHash,
       explorerLink,
-      tgMessage: `${status} | Tournament [${CURRENT_TOURNAMENT_ID}] NFT`,
+      tgMessage: `${status} | Tournament [${nftId}] NFT`,
     };
   } catch (err) {
     const errMessage = formatErrMessage(err);

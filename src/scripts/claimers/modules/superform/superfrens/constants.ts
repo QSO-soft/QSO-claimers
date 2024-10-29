@@ -1,7 +1,7 @@
 export const CLAIM_API_URL = 'https://www.superform.xyz/api';
 export const CURRENT_TOURNAMENT_ID = 5;
 
-export const HEADERS = {
+export const getApiHeaders = (tournamentId: number) => ({
   accept: 'application/json, text/plain, */*',
   'cache-control': 'public, s-maxage=1200, stale-while-revalidate=600',
   'content-type': 'application/json',
@@ -10,5 +10,5 @@ export const HEADERS = {
   'sec-fetch-dest': 'empty',
   'sec-fetch-mode': 'cors',
   'sec-fetch-site': 'same-origin',
-  Referer: `https://www.superform.xyz/earn/superfrens/?tournamentId=${CURRENT_TOURNAMENT_ID}&seasonId=1`,
-};
+  Referer: `https://www.superform.xyz/earn/superfrens/?tournamentId=${tournamentId}&seasonId=1`,
+});

@@ -141,6 +141,19 @@ const makeSuperfrensClaimNFT = async (params: TransactionCallbackParams): Transa
     };
   } catch (err) {
     const errMessage = formatErrMessage(err);
+
+    if (errMessage.includes(`Tournament with id ${nftId} is not finished yet`)) {
+      await dbRepo.update(walletInDb.id, {
+        status: CLAIM_STATUSES.NOT_ELIGIBLE,
+        nativeBalance,
+      });
+
+      return {
+        status: 'success',
+        message: errMessage,
+      };
+    }
+
     if (errMessage.includes('not eligible for superfren claim') || errMessage.includes('tournament user not found')) {
       await dbRepo.update(walletInDb.id, {
         status: CLAIM_STATUSES.NOT_ELIGIBLE,
@@ -150,7 +163,7 @@ const makeSuperfrensClaimNFT = async (params: TransactionCallbackParams): Transa
       const status = getCheckClaimMessage(CLAIM_STATUSES.NOT_ELIGIBLE);
 
       return {
-        status: 'success',
+        status: 'passed',
         message: status,
       };
     }

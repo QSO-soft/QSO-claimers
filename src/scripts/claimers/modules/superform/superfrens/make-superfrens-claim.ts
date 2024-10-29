@@ -82,6 +82,8 @@ const makeSuperfrensClaimNFT = async (params: TransactionCallbackParams): Transa
       config,
     };
 
+    logger.info(`Claiming tournament [${nftId}] NFT...`);
+
     await checkTournamentAvailabilityData(nftId, config);
     await getIdData(config);
 
@@ -107,8 +109,6 @@ const makeSuperfrensClaimNFT = async (params: TransactionCallbackParams): Transa
     if (!claimRes.to || !claimRes.transactionData || !claimRes.value) {
       throw new Error('Incorrect claim data');
     }
-
-    logger.info(`Claiming tournament [${nftId}] NFT...`);
 
     const feeOptions = await getGasOptions({
       gweiRange,

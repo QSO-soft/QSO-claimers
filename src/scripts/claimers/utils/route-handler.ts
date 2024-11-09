@@ -1,4 +1,13 @@
-import { layerZero, polyhedra, taiko, scroll, superform } from '../../../_inputs/settings/routes';
+import {
+  layerZero,
+  polyhedra,
+  taiko,
+  scroll,
+  superform,
+  elixir,
+  symbiotic,
+  swell,
+} from '../../../_inputs/settings/routes';
 import { Route } from '../../../types';
 
 export const routeHandler = (route: Route) => {
@@ -13,6 +22,12 @@ export const routeHandler = (route: Route) => {
       return scroll;
     case 'superform':
       return superform;
+    case 'elixir':
+      return elixir;
+    case 'symbiotic':
+      return symbiotic;
+    case 'swell':
+      return swell;
 
     default:
       throw new Error('Route name is wrong');

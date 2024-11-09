@@ -9,6 +9,7 @@ import {
   PolyhedraClaimEntity,
   ScrollClaimEntity,
   SuperfrensNftClaimEntity,
+  SymbioticPointsEntity,
   TaikoClaimEntity,
 } from '../db/entities';
 
@@ -86,6 +87,7 @@ export const saveResultsFromDb = async (props: SaveResultsFromDb) => {
   }
 
   await saveSuperfensResultsFromDb(props);
+  await saveSymbioticPointsResultsFromDb(props);
 };
 export const saveSuperfensResultsFromDb = async ({ dbSource, walletsWithModules }: SaveResultsFromDb) => {
   const wallets = walletsWithModules.reduce<WalletData[]>((acc, cur) => {
@@ -130,6 +132,53 @@ export const saveSuperfensResultsFromDb = async ({ dbSource, walletsWithModules 
     convertToCsvAndWrite({
       data: uniqueDataToSave as DataForCsv,
       fileName: 'superform-superfens-claim-nft.csv',
+      outputPath: CHECKERS_FOLDER,
+    });
+  }
+};
+export const saveSymbioticPointsResultsFromDb = async ({ dbSource, walletsWithModules }: SaveResultsFromDb) => {
+  const wallets = walletsWithModules.reduce<WalletData[]>((acc, cur) => {
+    const wallet = cur.wallet;
+
+    const moduleWithUpdate = cur.modules.find(({ moduleName }) => moduleName === 'symbiotic-check-points');
+    if (moduleWithUpdate) {
+      return [...acc, wallet];
+    }
+
+    return acc;
+  }, []);
+
+  const projectEntity = SymbioticPointsEntity;
+
+  if (wallets.length) {
+    const dbRepo = dbSource.getRepository(projectEntity);
+    const dbData = await dbRepo.find({
+      order: {
+        walletId: 'ASC',
+      },
+      take: 10000,
+    });
+
+    const dataToSave = dbData.reduce<object[]>((acc, cur) => {
+      const { walletId, index: walletIndex, id, ...data } = cur;
+      const foundWallet = wallets.find(({ id, index }) => walletId === id && index === walletIndex);
+
+      if (foundWallet) {
+        return [
+          ...acc,
+          {
+            id: walletId,
+            ...data,
+          },
+        ];
+      }
+      return acc;
+    }, []);
+
+    const uniqueDataToSave = uniqBy(dataToSave, 'id');
+    convertToCsvAndWrite({
+      data: uniqueDataToSave as DataForCsv,
+      fileName: 'symbiotic-points.csv',
       outputPath: CHECKERS_FOLDER,
     });
   }

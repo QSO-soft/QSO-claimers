@@ -214,3 +214,87 @@ if [ ! -s src/_outputs/csv/checkers/superform-superfens-claim-nft.csv ]
     echo "\nCreating superform-superfens-claim-nft.csv in src/_outputs/csv/checkers/"
     touch src/_outputs/csv/checkers/superform-superfens-claim-nft.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/superform-superfens-claim-nft.csv
 fi
+
+#ELIXIR ===============================================================================================================
+if [ ! -s src/_inputs/csv/elixir-wallets.csv ]
+  then :
+    echo "\nCreating elixir-wallets.csv in src/_inputs/csv/"
+    touch src/_inputs/csv/elixir-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/elixir-wallets.csv
+fi
+if [ ! -s src/_outputs/json/elixir-wallets.json ]
+  then :
+    echo "\nCreating elixir-wallets.json in src/_outputs/json/"
+    touch src/_outputs/json/elixir-wallets.json && echo "[]" >> src/_outputs/json/elixir-wallets.json
+fi
+
+if [ ! -s src/_outputs/csv/elixir-failed-wallets.csv ]
+  then :
+    echo "\nCreating elixir-failed-wallets.csv in src/_outputs/csv/"
+    touch src/_outputs/csv/elixir-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/elixir-failed-wallets.csv
+fi
+
+if [ ! -s src/_outputs/json/elixir-saved-modules.json ]
+  then :
+    echo "\nCreating elixir-saved-modules.json in src/_outputs/json/"
+    touch src/_outputs/json/elixir-saved-modules.json && echo "[]" >> src/_outputs/json/elixir-saved-modules.json
+fi
+
+#SYMBIOTIC ===============================================================================================================
+if [ ! -s src/_inputs/csv/symbiotic-wallets.csv ]
+  then :
+    echo "\nCreating symbiotic-wallets.csv in src/_inputs/csv/"
+    touch src/_inputs/csv/symbiotic-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/symbiotic-wallets.csv
+fi
+if [ ! -s src/_outputs/json/symbiotic-wallets.json ]
+  then :
+    echo "\nCreating symbiotic-wallets.json in src/_outputs/json/"
+    touch src/_outputs/json/symbiotic-wallets.json && echo "[]" >> src/_outputs/json/symbiotic-wallets.json
+fi
+
+if [ ! -s src/_outputs/csv/symbiotic-failed-wallets.csv ]
+  then :
+    echo "\nCreating symbiotic-failed-wallets.csv in src/_outputs/csv/"
+    touch src/_outputs/csv/symbiotic-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/symbiotic-failed-wallets.csv
+fi
+
+if [ ! -s src/_outputs/json/symbiotic-saved-modules.json ]
+  then :
+    echo "\nCreating symbiotic-saved-modules.json in src/_outputs/json/"
+    touch src/_outputs/json/symbiotic-saved-modules.json && echo "[]" >> src/_outputs/json/symbiotic-saved-modules.json
+fi
+
+if [ ! -s src/_outputs/csv/checkers/symbiotic-points.csv ]
+  then :
+    echo "\nCreating symbiotic-points.csv in src/_outputs/csv/checkers/"
+    touch src/_outputs/csv/checkers/symbiotic-points.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/symbiotic-points.csv
+fi
+
+#SWELL ===============================================================================================================
+if [ ! -s src/_inputs/csv/swell-wallets.csv ]
+  then :
+    echo "\nCreating swell-wallets.csv in src/_inputs/csv/"
+    touch src/_inputs/csv/swell-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/swell-wallets.csv
+fi
+if [ ! -s src/_outputs/json/swell-wallets.json ]
+  then :
+    echo "\nCreating swell-wallets.json in src/_outputs/json/"
+    touch src/_outputs/json/swell-wallets.json && echo "[]" >> src/_outputs/json/swell-wallets.json
+fi
+
+if [ ! -s src/_outputs/csv/swell-failed-wallets.csv ]
+  then :
+    echo "\nCreating swell-failed-wallets.csv in src/_outputs/csv/"
+    touch src/_outputs/csv/swell-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/swell-failed-wallets.csv
+fi
+
+if [ ! -s src/_outputs/json/swell-saved-modules.json ]
+  then :
+    echo "\nCreating swell-saved-modules.json in src/_outputs/json/"
+    touch src/_outputs/json/swell-saved-modules.json && echo "[]" >> src/_outputs/json/swell-saved-modules.json
+fi
+
+if [ ! -s src/_outputs/csv/checkers/swell-claim.csv ]
+  then :
+    echo "\nCreating swell-claim.csv in src/_outputs/csv/checkers/"
+    touch src/_outputs/csv/checkers/swell-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/swell-claim.csv
+fi

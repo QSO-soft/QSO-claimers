@@ -11,53 +11,10 @@ const countModules = [0, 0] as NumberRange;
 const groupSettings: GroupSettings = {};
 
 const modules: UserModuleConfig[] = [
-  // {
-  //   moduleName: 'superform-superfrens-claim-NFT',
-  //   network: 'base',
-  //   indexGroup: 1,
-  //
-  //   // Tournament ID
-  //   nftId: 1,
-  // },
-  // {
-  //   moduleName: 'superform-superfrens-claim-NFT',
-  //   network: 'base',
-  //   indexGroup: 1,
-  //
-  //   // Tournament ID
-  //   nftId: 2,
-  // },
-  // {
-  //   moduleName: 'superform-superfrens-claim-NFT',
-  //   network: 'base',
-  //   indexGroup: 1,
-  //
-  //   // Tournament ID
-  //   nftId: 3,
-  // },
-  // {
-  //   moduleName: 'superform-superfrens-claim-NFT',
-  //   network: 'base',
-  //   indexGroup: 1,
-  //
-  //   // Tournament ID
-  //   nftId: 4,
-  // },
-  // {
-  //   moduleName: 'superform-superfrens-claim-NFT',
-  //   network: 'base',
-  //   indexGroup: 1,
-  //
-  //   // Tournament ID
-  //   nftId: 5,
-  // },
   {
-    moduleName: 'superform-superfrens-claim-NFT',
-    network: 'base',
     indexGroup: 1,
 
-    // Tournament ID
-    nftId: 6,
+    moduleName: 'symbiotic-check-points',
   },
 ];
 

@@ -14,6 +14,11 @@ import {
   execMakeCheckClaimTaiko,
   execMakeCheckClaimLayerZero,
   execMakeSuperfrensClaimNFT,
+  execMakeElixirWithdraw,
+  execMakeSymbioticCheckPoints,
+  execMakeClaimSwell,
+  execMakeCheckClaimSwell,
+  execMakeTransferClaimSwell,
 } from '../../modules';
 
 export class ModuleManager extends DefaultModuleManager {
@@ -53,6 +58,19 @@ export class ModuleManager extends DefaultModuleManager {
 
       case 'superform-superfrens-claim-NFT':
         return execMakeSuperfrensClaimNFT;
+
+      case 'elixir-withdraw-eth':
+        return execMakeElixirWithdraw;
+
+      case 'symbiotic-check-points':
+        return execMakeSymbioticCheckPoints;
+
+      case 'swell-claim':
+        return execMakeClaimSwell;
+      case 'swell-check-claim':
+        return execMakeCheckClaimSwell;
+      case 'swell-transfer-claim':
+        return execMakeTransferClaimSwell;
 
       default:
         return;

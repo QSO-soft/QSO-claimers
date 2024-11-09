@@ -93,7 +93,10 @@ export type Route =
   | 'check-balances'
   | 'taiko'
   | 'scroll'
-  | 'superform';
+  | 'superform'
+  | 'elixir'
+  | 'symbiotic'
+  | 'swell';
 
 export type Settings = DefaultSettings;
 

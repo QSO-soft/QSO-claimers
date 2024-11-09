@@ -139,6 +139,7 @@ export const prepareProxyAgent = async (
     // show current IP address
     let currentIp = '';
     if (logger) {
+      const message = 'It can be temporal error or proxy doesn`t work';
       try {
         const response = await axios.get(MY_IP_API_URL, config);
 
@@ -148,16 +149,17 @@ export const prepareProxyAgent = async (
           currentIp = data?.ip;
           logger.info(`Current IP: ${currentIp} | ${data?.country}`);
         } else {
-          logger?.warning(`Unable to check current IP: ${data?.error}. Dont worry, proxy is still in use`);
+          logger?.warning(`Unable to check current IP: ${data?.error}. ${message}`);
         }
       } catch (err) {
         const error = err as Error;
-        logger?.warning(`Unable to check current IP: ${error.message}. Dont worry, proxy is still in use`);
+        logger?.warning(`Unable to check current IP: ${error.message}. ${message}`);
       }
     }
 
     return {
       proxyAgent,
+      url,
       ...restProxyData,
       currentIp,
     };

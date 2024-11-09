@@ -43,6 +43,65 @@ import { DefaultModuleConfigs } from '../../types';
 // Конфиг, который будет применяться для каждого модуля по умолчанию в случае, если вы пропусили какие-то параметры в роуте
 
 export const defaultModuleConfigs: DefaultModuleConfigs = {
+  // ============== taiko ==============
+  'swell-check-claim': {
+    count: [1, 1],
+    indexGroup: 0,
+
+    stopWalletOnError: true,
+    stopWalletOnPassed: false,
+
+    // Сеть для которой выполнять модуль
+    network: 'eth',
+  },
+  'swell-claim': {
+    count: [1, 1],
+    indexGroup: 1,
+
+    stopWalletOnError: true,
+    stopWalletOnPassed: false,
+
+    // Сеть для которой выполнять модуль
+    network: 'eth',
+  },
+  'swell-transfer-claim': {
+    count: [1, 1],
+    indexGroup: 2,
+
+    stopWalletOnError: true,
+    stopWalletOnPassed: false,
+
+    minAndMaxAmount: [100, 100],
+    usePercentBalance: true,
+
+    // Сеть для которой выполнять модуль
+    network: 'eth',
+  },
+
+  // ============== symbiotic ==============
+  'symbiotic-check-points': {
+    count: [1, 1],
+    indexGroup: 1,
+
+    // Сеть для которой выполнять модуль
+    network: 'eth',
+  },
+
+  // ============== elixir ==============
+  'elixir-withdraw-eth': {
+    count: [1, 1],
+    indexGroup: 1,
+
+    minAndMaxAmount: [0, 0],
+    usePercentBalance: false,
+
+    // Минимальный баланс в депозите при котором будет выполнен модуль
+    minTokenBalance: 0,
+
+    // Сеть для которой выполнять модуль
+    network: 'eth',
+  },
+
   // ============== superform ==============
   'superform-superfrens-claim-NFT': {
     count: [1, 1],
@@ -54,6 +113,7 @@ export const defaultModuleConfigs: DefaultModuleConfigs = {
     // Сеть для которой выполнять модуль
     network: 'base',
   },
+
   // ============== layer-zero ==============
   'layer-zero-check-claim': {
     count: [1, 1],
@@ -90,6 +150,7 @@ export const defaultModuleConfigs: DefaultModuleConfigs = {
     // Сеть для которой выполнять модуль
     network: 'arbitrum',
   },
+
   // ============== Polyhedra ==============
   'polyhedra-check-claim': {
     count: [1, 1],
@@ -124,6 +185,7 @@ export const defaultModuleConfigs: DefaultModuleConfigs = {
     // Сеть для которой выполнять модуль
     network: 'bsc',
   },
+
   // ============== taiko ==============
   'taiko-check-claim': {
     count: [1, 1],
@@ -160,6 +222,7 @@ export const defaultModuleConfigs: DefaultModuleConfigs = {
     // Сеть для которой выполнять модуль
     network: 'taiko',
   },
+
   // ============== scroll ==============
   'scroll-check-claim': {
     count: [1, 1],
@@ -196,6 +259,7 @@ export const defaultModuleConfigs: DefaultModuleConfigs = {
     // Сеть для которой выполнять модуль
     network: 'scroll',
   },
+
   // ============== General ==============
   'balance-checker': {
     count: [1, 1],
@@ -271,6 +335,7 @@ export const defaultModuleConfigs: DefaultModuleConfigs = {
     // Это значение не трогайте!
     network: 'zkSync',
   },
+
   // ============== Withdraws ==============
   'binance-withdraw': {
     count: [1, 1],
@@ -420,6 +485,7 @@ export const defaultModuleConfigs: DefaultModuleConfigs = {
     // Время в секундах, которое будет ожидать между проверками баланса
     waitTime: 60 * 10, // 10m
   },
+
   // ============== Bridges ==============
   'relay-bridge': {
     count: [1, 1],
@@ -531,6 +597,7 @@ export const defaultModuleConfigs: DefaultModuleConfigs = {
 
     slippage: 1,
   },
+
   // ============== Swaps ==============
   'izumi-swap': {
     count: [1, 1],

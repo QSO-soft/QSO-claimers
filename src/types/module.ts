@@ -45,11 +45,15 @@ export type ModuleNames =
   | 'taiko-claim'
   | 'taiko-check-claim'
   | 'taiko-transfer-claim'
+  | 'swell-claim'
+  | 'swell-check-claim'
+  | 'swell-transfer-claim'
   | 'scroll-claim'
   | 'scroll-check-claim'
   | 'scroll-transfer-claim'
-  | 'superform-superfrens-claim-NFT';
-
+  | 'superform-superfrens-claim-NFT'
+  | 'elixir-withdraw-eth'
+  | 'symbiotic-check-points';
 export type SwapModuleNames = Extract<
   ModuleNames,
   'odos-swap' | 'izumi-swap' | 'sync-swap' | '1inch-swap' | 'zkSync-mute-swap'

@@ -11,53 +11,28 @@ const countModules = [0, 0] as NumberRange;
 const groupSettings: GroupSettings = {};
 
 const modules: UserModuleConfig[] = [
-  // {
-  //   moduleName: 'superform-superfrens-claim-NFT',
-  //   network: 'base',
-  //   indexGroup: 1,
-  //
-  //   // Tournament ID
-  //   nftId: 1,
-  // },
-  // {
-  //   moduleName: 'superform-superfrens-claim-NFT',
-  //   network: 'base',
-  //   indexGroup: 1,
-  //
-  //   // Tournament ID
-  //   nftId: 2,
-  // },
-  // {
-  //   moduleName: 'superform-superfrens-claim-NFT',
-  //   network: 'base',
-  //   indexGroup: 1,
-  //
-  //   // Tournament ID
-  //   nftId: 3,
-  // },
-  // {
-  //   moduleName: 'superform-superfrens-claim-NFT',
-  //   network: 'base',
-  //   indexGroup: 1,
-  //
-  //   // Tournament ID
-  //   nftId: 4,
-  // },
-  // {
-  //   moduleName: 'superform-superfrens-claim-NFT',
-  //   network: 'base',
-  //   indexGroup: 1,
-  //
-  //   // Tournament ID
-  //   nftId: 5,
-  // },
   {
-    moduleName: 'superform-superfrens-claim-NFT',
-    network: 'base',
     indexGroup: 1,
 
-    // Tournament ID
-    nftId: 6,
+    moduleName: 'elixir-withdraw-eth',
+    minAndMaxAmount: [100, 100],
+    usePercentBalance: true,
+
+    minTokenBalance: 0.0005,
+  },
+
+  {
+    indexGroup: 10,
+
+    moduleName: 'transfer-token',
+    contractAddress: 'native',
+    network: 'eth',
+
+    minTokenBalance: 0.01,
+
+    minAndMaxAmount: [0, 0],
+    usePercentBalance: false,
+    balanceToLeft: [0.0072, 0.0079],
   },
 ];
 

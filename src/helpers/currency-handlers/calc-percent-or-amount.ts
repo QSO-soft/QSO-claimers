@@ -4,7 +4,7 @@ import { BinanceNetworks, NumberRange, OkxNetworks, SupportedNetworks, TokenCont
 import { ClientType, getClientByNetwork } from '../clients';
 import { addNumberPercentage, getRandomNumber } from '../utils';
 import { CryptoCompareResult } from './coin-price';
-import { decimalToInt, intToDecimal } from './wei-converter';
+import { decimalToInt, ETH_DECIMAL, intToDecimal } from './wei-converter';
 
 interface ICalculateAmount {
   minAndMaxAmount: NumberRange;
@@ -23,7 +23,7 @@ export function calculateAmount({
   minAndMaxAmount,
   usePercentBalance,
   isBigInt,
-  decimals,
+  decimals = ETH_DECIMAL,
 }: NumberCalculateAmount | BigIntCalculateAmount): number | bigint {
   let amount = getRandomNumber(minAndMaxAmount);
 

@@ -4,10 +4,13 @@ import { spawn } from 'child_process';
 import inquirer from 'inquirer';
 
 import { SECRET_PHRASE } from '../_inputs/settings/global.js';
+import savedElixirModules from '../_outputs/json/elixir-saved-modules.json' assert { type: 'json' };
 import savedLayerZeroModules from '../_outputs/json/layer-zero-saved-modules.json' assert { type: 'json' };
 import savedPolyhedraModules from '../_outputs/json/polyhedra-saved-modules.json' assert { type: 'json' };
 import savedScrollModules from '../_outputs/json/scroll-saved-modules.json' assert { type: 'json' };
 import savedSuperformModules from '../_outputs/json/superform-saved-modules.json' assert { type: 'json' };
+import savedSwellModules from '../_outputs/json/swell-saved-modules.json' assert { type: 'json' };
+import savedSymbioticModules from '../_outputs/json/symbiotic-saved-modules.json' assert { type: 'json' };
 import savedTaikoModules from '../_outputs/json/taiko-saved-modules.json' assert { type: 'json' };
 
 const scripts = {
@@ -16,6 +19,9 @@ const scripts = {
   polyhedra: 'polyhedra',
   layerZero: 'layer-zero',
   superform: 'superform',
+  elixir: 'elixir',
+  symbiotic: 'symbiotic',
+  swell: 'swell',
 };
 const aliases = {
   runScroll: '1. Scroll',
@@ -23,6 +29,9 @@ const aliases = {
   runPolyhedra: '3. Polyhedra',
   runLayerZero: '4. LayerZero',
   runSuperform: '5. Superfrom',
+  runElixir: '6. Elixir',
+  runSymbiotic: '7. Symbiotic',
+  runSwell: '8. Swell',
 
   exit: '0. Выйти',
 };
@@ -33,6 +42,9 @@ const commandAliases = {
   [aliases.runPolyhedra]: scripts.polyhedra,
   [aliases.runLayerZero]: scripts.layerZero,
   [aliases.runSuperform]: scripts.superform,
+  [aliases.runElixir]: scripts.elixir,
+  [aliases.runSymbiotic]: scripts.symbiotic,
+  [aliases.runSwell]: scripts.swell,
 
   [aliases.exit]: 'exit',
 };
@@ -57,6 +69,15 @@ const getStartMainCommand = async (projectName) => {
       break;
     case scripts.superform:
       currentSavedModulesToUse = savedSuperformModules;
+      break;
+    case scripts.elixir:
+      currentSavedModulesToUse = savedElixirModules;
+      break;
+    case scripts.symbiotic:
+      currentSavedModulesToUse = savedSymbioticModules;
+      break;
+    case scripts.swell:
+      currentSavedModulesToUse = savedSwellModules;
       break;
 
     default:
@@ -158,6 +179,24 @@ const getSecretPhrase = async () => {
     }
     case aliases.runSuperform: {
       const { command, secret, projectName } = await getStartMainCommand(scripts.superform);
+      selectedCommand = command;
+      args = [secret, projectName, projectName];
+      break;
+    }
+    case aliases.runElixir: {
+      const { command, secret, projectName } = await getStartMainCommand(scripts.elixir);
+      selectedCommand = command;
+      args = [secret, projectName, projectName];
+      break;
+    }
+    case aliases.runSymbiotic: {
+      const { command, secret, projectName } = await getStartMainCommand(scripts.symbiotic);
+      selectedCommand = command;
+      args = [secret, projectName, projectName];
+      break;
+    }
+    case aliases.runSwell: {
+      const { command, secret, projectName } = await getStartMainCommand(scripts.swell);
       selectedCommand = command;
       args = [secret, projectName, projectName];
       break;

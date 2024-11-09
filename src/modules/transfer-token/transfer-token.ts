@@ -3,17 +3,15 @@ import { Hex } from 'viem';
 import { defaultTokenAbi } from '../../clients/abi';
 import { SECOND_ADDRESS_EMPTY_ERROR } from '../../constants';
 import {
-  addNumberPercentage,
   calculateAmount,
   decimalToInt,
   getCurrentBalanceByContract,
+  getCurrentSymbolByContract,
   getGasOptions,
-  getRandomNetwork,
   getRandomNumber,
   getTrimmedLogsAmount,
   intToDecimal,
   TransactionCallbackParams,
-  TransactionCallbackResponse,
   TransactionCallbackReturn,
   transactionWorker,
 } from '../../helpers';
@@ -33,10 +31,8 @@ export const makeTransferToken = async (params: TransactionCallbackParams): Tran
     minTokenBalance,
     balanceToLeft,
     minAmount,
-    randomNetworks,
-    useUsd,
-    nativePrices,
   } = params;
+  const { walletClient, explorerLink, publicClient, walletAddress } = client;
   const { transferAddress } = wallet;
 
   if (!transferAddress) {
@@ -48,61 +44,23 @@ export const makeTransferToken = async (params: TransactionCallbackParams): Tran
 
   logger.info(`Transfer tokens to transferAddress [${transferAddress}]`);
 
-  let currentNetwork = network;
-  let currentClient = client;
-
-  const isNativeContract = contractAddress === 'native';
-  const contractInfo = isNativeContract
-    ? undefined
-    : {
-      name: contractAddress,
-      address: contractAddress,
-      abi: defaultTokenAbi,
-    };
-  const srcTokenSymbol = await currentClient.getNativeOrContractSymbol(isNativeContract, contractInfo);
-
-  let currentToken = srcTokenSymbol as Tokens;
-
-  const randomNetworksLength = randomNetworks?.length || 0;
-  if (randomNetworksLength) {
-    const res = await getRandomNetwork({
-      wallet,
-      randomNetworks,
-      logger,
-      useUsd,
-      nativePrices,
-      tokenContractInfo: contractInfo,
-      minTokenBalance,
-      client: currentClient,
-      network: currentNetwork,
-      token: currentToken as Tokens,
-      isNativeToken: isNativeContract,
-      isWithdrawal: false,
-    });
-
-    if ('status' in res) {
-      return res as TransactionCallbackResponse;
-    }
-    currentClient = res.client;
-    currentNetwork = res.network;
-    currentToken = res.token;
-  }
-
-  const { walletClient, explorerLink, publicClient, walletAddress } = currentClient;
-
   const {
     wei: weiBalance,
     int: intBalance,
     decimals,
-  } = await getCurrentBalanceByContract({ client: currentClient, contractAddress });
+    isNativeContract,
+  } = await getCurrentBalanceByContract({ client, contractAddress });
+
+  const { symbol } = await getCurrentSymbolByContract({ client, contractAddress });
+  const tokenSymbol = symbol as Tokens;
 
   if (intBalance < minTokenBalance) {
     return {
       status: 'passed',
       message: `Balance ${getTrimmedLogsAmount(
         intBalance,
-        currentToken
-      )} in ${currentNetwork} is lower than minTokenBalance ${minTokenBalance}`,
+        tokenSymbol
+      )} in ${network} is lower than minTokenBalance ${minTokenBalance}`,
     };
   }
 
@@ -129,8 +87,8 @@ export const makeTransferToken = async (params: TransactionCallbackParams): Tran
         status: 'warning',
         message: `Balance is ${getTrimmedLogsAmount(
           intBalance,
-          currentToken
-        )}  that is lower than balance to left ${getTrimmedLogsAmount(balanceToLeftInt, currentToken)}`,
+          tokenSymbol
+        )}  that is lower than balance to left ${getTrimmedLogsAmount(balanceToLeftInt, tokenSymbol)}`,
       };
     }
   }
@@ -140,7 +98,7 @@ export const makeTransferToken = async (params: TransactionCallbackParams): Tran
       amount,
       decimals,
     }),
-    currentToken
+    tokenSymbol
   )}`;
 
   if (minAmount && amount < minAmount) {
@@ -155,40 +113,34 @@ export const makeTransferToken = async (params: TransactionCallbackParams): Tran
   const feeOptions = await getGasOptions({
     gweiRange,
     gasLimitRange,
-    network: currentNetwork,
+    network,
     publicClient,
   });
 
-  const transferMsg = `Transferring [${logCalculatedAmount}] in ${currentNetwork} to [${transferAddress}]...`;
+  const transferMsg = `Transferring [${logCalculatedAmount}] in ${network} to [${transferAddress}]...`;
   if (isNativeContract) {
     const gasPrice = await publicClient.getGasPrice();
 
-    const reversedFee = getRandomNumber([20, 25]);
+    const { maxFeePerGas } = await publicClient.estimateFeesPerGas();
     const gasLimit = await publicClient.estimateGas({
       account: walletAddress,
       to: transferAddress as Hex,
       value: amount,
       data: '0x',
-      ...feeOptions,
+      // ...feeOptions,
     });
 
-    const fee = gasPrice * gasLimit;
+    let value = amount - (gasLimit * maxFeePerGas * 15n) / 10n;
 
-    const feeWithPercent = BigInt(+addNumberPercentage(Number(fee), reversedFee).toFixed(0));
-    let value = amount - feeWithPercent;
+    if (network === 'eth') {
+      value = amount - gasLimit * maxFeePerGas;
+    }
+    if (network === 'optimism') {
+      value = amount - gasPrice * maxFeePerGas;
+    }
 
     if (value <= 0n) {
       value = amount;
-      // return {
-      //   status: 'passed',
-      //   message: `Fee of transaction [${getTrimmedLogsAmount(
-      //     decimalToInt({
-      //       amount: feeWithPercent,
-      //       decimals,
-      //     }),
-      //     tokenSymbol
-      //   )}] is bigger than current balance [${getTrimmedLogsAmount(intBalance, tokenSymbol)}]`,
-      // };
     }
 
     logger.info(transferMsg);
@@ -211,13 +163,13 @@ export const makeTransferToken = async (params: TransactionCallbackParams): Tran
     });
   }
 
-  await currentClient.waitTxReceipt(txHash);
+  await client.waitTxReceipt(txHash);
 
   return {
     txHash,
     explorerLink,
     status: 'success',
-    tgMessage: `Transferred ${logCalculatedAmount} in ${currentNetwork} to ${transferAddress}...`,
+    tgMessage: `Transferred ${logCalculatedAmount} in ${network} to ${transferAddress}...`,
   };
 };
 

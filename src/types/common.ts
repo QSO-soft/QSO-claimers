@@ -51,6 +51,7 @@ export type ProxyObject = {
   proxyPort: string;
   proxyLogin: string;
   proxyPass: string;
+  url: string;
 };
 export type OptionalProxyObject =
   | (ProxyObject & {

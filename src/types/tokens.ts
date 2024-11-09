@@ -180,7 +180,8 @@ const ALL_TOKENS = [
   'ZK',
   'iZi',
   'TAIKO',
-  'SCR'
+  'SCR',
+  'SWELL',
 ] as const;
 
 export type Tokens = (typeof ALL_TOKENS)[number];

@@ -10,7 +10,7 @@
     "module": "ESNext",
     "target": "ESNext",
     "allowJs": true,
-    "checkJs": true,
+    "checkJs": false,
     "outDir": "./dist",
     "strict": true,
     "alwaysStrict": true,

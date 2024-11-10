@@ -43,7 +43,7 @@ const formatWithColors = (value: string, levelName: string, message: any) => {
       return `${timestamp} | ${formattedLevel}   | ${formattedMessage}`;
     }
 
-    return message;
+    return `${message}`;
   };
 
 export const initLogger = () =>

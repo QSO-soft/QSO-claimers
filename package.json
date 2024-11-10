@@ -4,8 +4,7 @@
   "description": "",
   "type": "module",
   "engines": {
-    "node": "20.8.1",
-    "npm": "10.1.0"
+    "node": "=20"
   },
   "scripts": {
     "start": "node src/scripts/runner.js",

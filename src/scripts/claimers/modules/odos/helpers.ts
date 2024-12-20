@@ -31,7 +31,7 @@ interface SignIn {
 export const signIn = async ({ walletAddress, walletClient, config }: SignIn): Promise<string> => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let nonce = '';
-  for (let i = 0; i < length; i++) {
+  for (let i = 0; i < chars.length; i++) {
     nonce += chars.charAt(Math.floor(Math.random() * chars.length));
   }
 

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { encodeFunctionData } from 'viem';
 
 import settings from '../../../../_inputs/settings/settings';
@@ -17,7 +18,7 @@ import { TransformedModuleParams } from '../../../../types';
 import { OdosClaimEntity } from '../../db/entities';
 import { formatErrMessage, getCheckClaimMessage } from '../../utils';
 import { ABI, CLAIM_CONTRACT, HEADERS } from './constants';
-import { getBalance, getProofData } from './helpers';
+import { getBalance, getProofData, signIn } from './helpers';
 
 export const execMakeClaimOdos = async (params: TransformedModuleParams) =>
   transactionWorker({
@@ -82,23 +83,6 @@ const makeClaimOdos = async (params: TransactionCallbackParams): TransactionCall
     const { int } = await client.getNativeBalance();
     nativeBalance = +int.toFixed(6);
 
-    // const token = await signIn({
-    //   walletAddress,
-    //   walletClient,
-    //   config,
-    // });
-    // const headers = getHeaders(HEADERS);
-    // const authConfig = await getAxiosConfig({
-    //   proxyAgent,
-    //   headers,
-    //   token,
-    // });
-
-    // dataProps = {
-    //   ...dataProps,
-    //   config: authConfig,
-    // };
-
     const proofRes = await getProofData(dataProps);
     if (!proofRes?.claim.amount || !proofRes?.signature) {
       await dbRepo.update(walletInDb.id, {
@@ -119,6 +103,20 @@ const makeClaimOdos = async (params: TransactionCallbackParams): TransactionCall
     const { currentBalance: currentBalanceInt } = await getBalance(client);
     currentBalance = currentBalanceInt;
 
+    const token = await signIn({
+      walletAddress,
+      walletClient,
+      config,
+    });
+    const headers = getHeaders(HEADERS);
+    const authConfig = await getAxiosConfig({
+      proxyAgent,
+      headers,
+      token,
+    });
+
+    const { data: claimData } = await axios.get('https://api.odos.xyz/loyalty/me', authConfig);
+
     // const claimed = (await publicClient.readContract({
     //   address: CLAIM_CONTRACT,
     //   abi: ABI,
@@ -126,39 +124,39 @@ const makeClaimOdos = async (params: TransactionCallbackParams): TransactionCall
     //   args: [walletAddress],
     // })) as boolean;
 
-    // if (claimed) {
-    //   if (currentBalance === 0) {
-    //     await dbRepo.update(walletInDb.id, {
-    //       status: CLAIM_STATUSES.CLAIMED_AND_SENT,
-    //       claimAmount: amountInt,
-    //       nativeBalance,
-    //       balance: currentBalance,
-    //     });
-    //
-    //     const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_AND_SENT);
-    //
-    //     return {
-    //       status: 'passed',
-    //       message: status,
-    //       tgMessage: `${status} | Amount: ${amountInt}`,
-    //     };
-    //   }
-    //
-    //   await dbRepo.update(walletInDb.id, {
-    //     status: CLAIM_STATUSES.CLAIMED_NOT_SENT,
-    //     claimAmount: amountInt,
-    //     nativeBalance,
-    //     balance: currentBalance,
-    //   });
-    //
-    //   const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_NOT_SENT);
-    //
-    //   return {
-    //     status: 'passed',
-    //     message: status,
-    //     tgMessage: `${status} | Amount: ${amountInt}`,
-    //   };
-    // }
+    if (!+claimData.claimableTokenBalance) {
+      if (currentBalance === 0) {
+        await dbRepo.update(walletInDb.id, {
+          status: CLAIM_STATUSES.CLAIMED_AND_SENT,
+          claimAmount: amountInt,
+          nativeBalance,
+          balance: currentBalance,
+        });
+
+        const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_AND_SENT);
+
+        return {
+          status: 'passed',
+          message: status,
+          tgMessage: `${status} | Amount: ${amountInt}`,
+        };
+      }
+
+      await dbRepo.update(walletInDb.id, {
+        status: CLAIM_STATUSES.CLAIMED_NOT_SENT,
+        claimAmount: amountInt,
+        nativeBalance,
+        balance: currentBalance,
+      });
+
+      const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_NOT_SENT);
+
+      return {
+        status: 'passed',
+        message: status,
+        tgMessage: `${status} | Amount: ${amountInt}`,
+      };
+    }
 
     const feeOptions = await getGasOptions({
       gweiRange,

@@ -15,8 +15,17 @@ const modules: UserModuleConfig[] = [
     moduleName: 'odos-claim',
     stopWalletOnError: true,
 
+    // delay: [60, 120],
+
     indexGroup: 5,
   },
+
+  // {
+  //   moduleName: 'bitget-collect',
+  //   collectTokens: ['ETH', 'SCR'],
+  //
+  //   indexGroup: 100,
+  // },
 ];
 
 // Выполнит скрипт на указанном количестве кошельков

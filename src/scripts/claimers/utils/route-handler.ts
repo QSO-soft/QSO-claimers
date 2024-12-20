@@ -7,6 +7,7 @@ import {
   elixir,
   symbiotic,
   swell,
+  odos,
 } from '../../../_inputs/settings/routes';
 import { Route } from '../../../types';
 
@@ -28,6 +29,8 @@ export const routeHandler = (route: Route) => {
       return symbiotic;
     case 'swell':
       return swell;
+    case 'odos':
+      return odos;
 
     default:
       throw new Error('Route name is wrong');

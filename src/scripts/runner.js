@@ -6,6 +6,7 @@ import inquirer from 'inquirer';
 import { SECRET_PHRASE } from '../_inputs/settings/global.js';
 import savedElixirModules from '../_outputs/json/elixir-saved-modules.json' assert { type: 'json' };
 import savedLayerZeroModules from '../_outputs/json/layer-zero-saved-modules.json' assert { type: 'json' };
+import savedOdosModules from '../_outputs/json/odos-saved-modules.json' assert { type: 'json' };
 import savedPolyhedraModules from '../_outputs/json/polyhedra-saved-modules.json' assert { type: 'json' };
 import savedScrollModules from '../_outputs/json/scroll-saved-modules.json' assert { type: 'json' };
 import savedSuperformModules from '../_outputs/json/superform-saved-modules.json' assert { type: 'json' };
@@ -14,6 +15,7 @@ import savedSymbioticModules from '../_outputs/json/symbiotic-saved-modules.json
 import savedTaikoModules from '../_outputs/json/taiko-saved-modules.json' assert { type: 'json' };
 
 const scripts = {
+  odos: 'odos',
   scroll: 'scroll',
   taiko: 'taiko',
   polyhedra: 'polyhedra',
@@ -24,19 +26,21 @@ const scripts = {
   swell: 'swell',
 };
 const aliases = {
-  runScroll: '1. Scroll',
-  runTaiko: '2. Taiko',
-  runPolyhedra: '3. Polyhedra',
-  runLayerZero: '4. LayerZero',
-  runSuperform: '5. Superfrom',
-  runElixir: '6. Elixir',
-  runSymbiotic: '7. Symbiotic',
-  runSwell: '8. Swell',
+  runOdos: '1. Odos',
+  runScroll: '2. Scroll',
+  runTaiko: '3. Taiko',
+  runPolyhedra: '4. Polyhedra',
+  runLayerZero: '5. LayerZero',
+  runSuperform: '6. Superfrom',
+  runElixir: '7. Elixir',
+  runSymbiotic: '8. Symbiotic',
+  runSwell: '9. Swell',
 
   exit: '0. Выйти',
 };
 
 const commandAliases = {
+  [aliases.runOdos]: scripts.odos,
   [aliases.runScroll]: scripts.scroll,
   [aliases.runTaiko]: scripts.taiko,
   [aliases.runPolyhedra]: scripts.polyhedra,
@@ -55,6 +59,9 @@ const getStartMainCommand = async (projectName) => {
 
   let currentSavedModulesToUse;
   switch (projectName) {
+    case scripts.odos:
+      currentSavedModulesToUse = savedOdosModules;
+      break;
     case scripts.scroll:
       currentSavedModulesToUse = savedScrollModules;
       break;
@@ -153,6 +160,12 @@ const getSecretPhrase = async () => {
   let args = [];
 
   switch (selectedAlias) {
+    case aliases.runOdos: {
+      const { command, secret, projectName } = await getStartMainCommand(scripts.odos);
+      selectedCommand = command;
+      args = [secret, projectName, projectName];
+      break;
+    }
     case aliases.runScroll: {
       const { command, secret, projectName } = await getStartMainCommand(scripts.scroll);
       selectedCommand = command;

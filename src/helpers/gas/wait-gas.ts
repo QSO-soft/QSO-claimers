@@ -35,7 +35,6 @@ export const waitGas = async ({ maxGas, logger, wallet, sleepSeconds }: WaitGas)
       logger.warning(
         `Gwei is too high. Current Gwei [${currentGas}] in ${network} > Max Gwei [${maxGasValue}]. Wait [${sleepSeconds}] sec`,
         {
-          status: 'in progress',
           action: 'checkGasPrice',
         }
       );
@@ -72,7 +71,6 @@ export const waitGasMultiple = async ({ maxGas, logger, wallet, sleepSeconds }: 
         logger.warning(
           `Gwei is too high. Current Gwei [${currentGas}] in ${network} > Max Gwei [${value}]. Wait [${sleepSeconds}] sec`,
           {
-            status: 'in progress',
             action: 'checkGasPrice',
           }
         );

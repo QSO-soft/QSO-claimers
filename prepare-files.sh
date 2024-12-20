@@ -298,3 +298,33 @@ if [ ! -s src/_outputs/csv/checkers/swell-claim.csv ]
     echo "\nCreating swell-claim.csv in src/_outputs/csv/checkers/"
     touch src/_outputs/csv/checkers/swell-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/swell-claim.csv
 fi
+
+#ODOS ===============================================================================================================
+if [ ! -s src/_inputs/csv/odos-wallets.csv ]
+  then :
+    echo "\nCreating odos-wallets.csv in src/_inputs/csv/"
+    touch src/_inputs/csv/odos-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/odos-wallets.csv
+fi
+if [ ! -s src/_outputs/json/odos-wallets.json ]
+  then :
+    echo "\nCreating odos-wallets.json in src/_outputs/json/"
+    touch src/_outputs/json/odos-wallets.json && echo "[]" >> src/_outputs/json/odos-wallets.json
+fi
+
+if [ ! -s src/_outputs/csv/odos-failed-wallets.csv ]
+  then :
+    echo "\nCreating odos-failed-wallets.csv in src/_outputs/csv/"
+    touch src/_outputs/csv/odos-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/odos-failed-wallets.csv
+fi
+
+if [ ! -s src/_outputs/json/odos-saved-modules.json ]
+  then :
+    echo "\nCreating odos-saved-modules.json in src/_outputs/json/"
+    touch src/_outputs/json/odos-saved-modules.json && echo "[]" >> src/_outputs/json/odos-saved-modules.json
+fi
+
+if [ ! -s src/_outputs/csv/checkers/odos-claim.csv ]
+  then :
+    echo "\nCreating odos-claim.csv in src/_outputs/csv/checkers/"
+    touch src/_outputs/csv/checkers/odos-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/odos-claim.csv
+fi

@@ -51,6 +51,9 @@ export type ModuleNames =
   | 'scroll-claim'
   | 'scroll-check-claim'
   | 'scroll-transfer-claim'
+  | 'odos-claim'
+  | 'odos-check-claim'
+  | 'odos-transfer-claim'
   | 'superform-superfrens-claim-NFT'
   | 'elixir-withdraw-eth'
   | 'symbiotic-check-points';
@@ -116,6 +119,7 @@ export interface ExtraModuleParams {
   randomTokens?: TokensArray;
   withdrawNetwork?: string;
   randomCex?: [Cex, ...Cex[]];
+  skipDelaysOnPassed?: boolean;
 
   // Amounts
   reverseMinAndMaxAmount?: NumberRange;

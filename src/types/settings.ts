@@ -96,7 +96,8 @@ export type Route =
   | 'superform'
   | 'elixir'
   | 'symbiotic'
-  | 'swell';
+  | 'swell'
+  | 'odos';
 
 export type Settings = DefaultSettings;
 

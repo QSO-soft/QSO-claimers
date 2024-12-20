@@ -19,6 +19,9 @@ import {
   execMakeClaimSwell,
   execMakeCheckClaimSwell,
   execMakeTransferClaimSwell,
+  execMakeClaimOdos,
+  execMakeCheckClaimOdos,
+  execMakeTransferClaimOdos,
 } from '../../modules';
 
 export class ModuleManager extends DefaultModuleManager {
@@ -71,6 +74,13 @@ export class ModuleManager extends DefaultModuleManager {
         return execMakeCheckClaimSwell;
       case 'swell-transfer-claim':
         return execMakeTransferClaimSwell;
+
+      case 'odos-claim':
+        return execMakeClaimOdos;
+      case 'odos-check-claim':
+        return execMakeCheckClaimOdos;
+      case 'odos-transfer-claim':
+        return execMakeTransferClaimOdos;
 
       default:
         return;

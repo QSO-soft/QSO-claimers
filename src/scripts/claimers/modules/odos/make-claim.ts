@@ -124,7 +124,7 @@ const makeClaimOdos = async (params: TransactionCallbackParams): TransactionCall
     //   args: [walletAddress],
     // })) as boolean;
 
-    if (!+claimData.claimableTokenBalance) {
+    if (claimData.isRegistered) {
       if (currentBalance === 0) {
         await dbRepo.update(walletInDb.id, {
           status: CLAIM_STATUSES.CLAIMED_AND_SENT,

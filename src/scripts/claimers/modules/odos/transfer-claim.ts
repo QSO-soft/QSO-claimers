@@ -130,7 +130,7 @@ const makeTransferClaimOdos = async (params: TransactionCallbackParams): Transac
 
     const { data: claimData } = await axios.get('https://api.odos.xyz/loyalty/me', authConfig);
 
-    if (+claimData.claimableTokenBalance) {
+    if (!claimData.isRegistered) {
       await dbRepo.update(walletInDb.id, {
         status: CLAIM_STATUSES.NOT_CLAIMED,
         claimAmount: amountInt,

@@ -19,7 +19,7 @@ interface ProofRes {
   value: string;
 }
 export const getProofData = async ({ walletAddress, config }: GetData): Promise<ProofRes> => {
-  const { data } = await axios.get(`${API_URL}/claim/proof?address=${walletAddress}`, config);
+  const { data } = await axios.get(`${API_URL}/s2/claim/proof?address=${walletAddress}`, config);
 
   return data;
 };

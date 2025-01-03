@@ -12,7 +12,7 @@ import { TransformedModuleParams } from '../../../../types';
 import { TaikoClaimEntity } from '../../db/entities';
 import { formatErrMessage, getCheckClaimMessage } from '../../utils';
 import { CLAIM_TAIKO_CONTRACT, HEADERS, TAIKO_ABI } from './constants';
-import { getBalance, getFinalData, getProofData } from './helpers';
+import { getBalance, getProofData } from './helpers';
 
 export const execMakeClaimTaiko = async (params: TransformedModuleParams) =>
   transactionWorker({
@@ -61,7 +61,7 @@ const makeClaimTaiko = async (params: TransactionCallbackParams): TransactionCal
     chainId: client.chainData.id,
   };
 
-  const finalRes = await getFinalData(dataProps);
+  // const finalRes = await getFinalData(dataProps);
 
   const created = dbRepo.create({
     walletId: wallet.id,
@@ -70,7 +70,7 @@ const makeClaimTaiko = async (params: TransactionCallbackParams): TransactionCal
     network,
     nativeBalance,
     status: 'New',
-    score: finalRes.total,
+    // score: finalRes.total,
   });
   walletInDb = await dbRepo.save(created);
 

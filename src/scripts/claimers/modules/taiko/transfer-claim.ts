@@ -23,7 +23,7 @@ import { TransformedModuleParams } from '../../../../types';
 import { TaikoClaimEntity } from '../../db/entities';
 import { formatErrMessage, getCheckClaimMessage } from '../../utils';
 import { CLAIM_TAIKO_CONTRACT, HEADERS, TAIKO_ABI, TAIKO_TOKEN_CONTRACT } from './constants';
-import { getBalance, getFinalData, getProofData } from './helpers';
+import { getBalance, getProofData } from './helpers';
 
 export const execMakeTransferClaimTaiko = async (params: TransformedModuleParams) =>
   transactionWorker({
@@ -82,7 +82,7 @@ const makeTransferClaimTaiko = async (params: TransactionCallbackParams): Transa
     chainId: client.chainData.id,
   };
 
-  const finalRes = await getFinalData(dataProps);
+  // const finalRes = await getFinalData(dataProps);
 
   const created = dbRepo.create({
     walletId: wallet.id,
@@ -91,7 +91,7 @@ const makeTransferClaimTaiko = async (params: TransactionCallbackParams): Transa
     network,
     nativeBalance,
     status: 'New',
-    score: finalRes.total,
+    // score: finalRes.total,
   });
   walletInDb = await dbRepo.save(created);
 

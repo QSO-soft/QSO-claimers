@@ -1,6 +1,6 @@
 import { getAddress, Hex } from 'viem';
 
-export const CLAIM_TAIKO_CONTRACT: Hex = getAddress('0x290265ACd21816EE414E64eEC77dd490d8dd9f51');
+export const CLAIM_TAIKO_CONTRACT: Hex = getAddress('0x95345D5A092623D79a56a016001f7878FA9Da3Ef');
 export const TAIKO_TOKEN_CONTRACT: Hex = getAddress('0xA9d23408b9bA935c230493c40C73824Df71A0975');
 
 export const TAIKO_ABI = [

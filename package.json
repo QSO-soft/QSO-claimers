@@ -22,7 +22,8 @@
     "==================== CLAIMER": "====================",
     "claimer:main": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm src/scripts/claimers/main.ts",
     "claimer:restart-last": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm src/scripts/claimers/restart-last.ts",
-    "claimer:migrate-generate": "npm run typeorm -- -d ./src/scripts/claimers/db/index.ts migration:generate ./src/scripts/claimers/db/migrations/$npm_config_name"
+    "claimer:migrate-generate": "npm run typeorm -- -d ./src/scripts/claimers/db/index.ts migration:generate ./src/scripts/claimers/db/migrations/$npm_config_name",
+    "solayer:checker": "node --no-warnings=ExperimentalWarning --experimental-specifier-resolution=node --loader ts-node/esm src/scripts/claimers/modules/solayer/make-solayer-check.ts _"
   },
   "author": "QSO-soft",
   "license": "ISC",

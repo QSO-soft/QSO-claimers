@@ -328,3 +328,16 @@ if [ ! -s src/_outputs/csv/checkers/odos-claim.csv ]
     echo "\nCreating odos-claim.csv in src/_outputs/csv/checkers/"
     touch src/_outputs/csv/checkers/odos-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/odos-claim.csv
 fi
+
+#SOLAYER ===============================================================================================================
+if [ ! -s src/_inputs/csv/solayer-wallets.csv ]
+  then :
+    echo "\nCreating solayer-wallets.csv in src/_inputs/csv/"
+    touch src/_inputs/csv/solayer-wallets.csv && echo "walletAddress" >> src/_inputs/csv/solayer-wallets.csv
+fi
+
+if [ ! -s src/_outputs/csv/checkers/solayer-eligibility.csv ]
+  then :
+    echo "\nCreating solayer-eligibility.csv in src/_outputs/csv/checkers/"
+    touch src/_outputs/csv/checkers/solayer-eligibility.csv && echo "walletAddress,allocation" >> src/_outputs/csv/checkers/solayer-eligibility.csv
+fi

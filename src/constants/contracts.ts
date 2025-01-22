@@ -290,6 +290,8 @@ export const ETH_TOKEN_CONTRACTS: TokenContract[] = [
     abi: defaultTokenAbi,
   },
 ];
+export const SEPOLIA_TOKEN_CONTRACTS: TokenContract[] = [];
+
 export const LINEA_TOKEN_CONTRACTS: TokenContract[] = [
   {
     name: LineaTokens.ETH,

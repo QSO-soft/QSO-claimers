@@ -31,6 +31,10 @@ export enum BlastTokens {
   WETH = 'WETH',
   USDB = 'USDB',
 }
+export enum SepoliaTokens {
+  ETH = 'ETH',
+  WETH = 'WETH',
+}
 export enum AvalancheTokens {
   BNB = 'BNB',
   USDT = 'USDT',
@@ -182,6 +186,9 @@ const ALL_TOKENS = [
   'TAIKO',
   'SCR',
   'SWELL',
+  'POL',
+  'FTM',
+  'xDAI',
 ] as const;
 
 export type Tokens = (typeof ALL_TOKENS)[number];

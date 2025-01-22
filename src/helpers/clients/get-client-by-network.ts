@@ -16,6 +16,7 @@ import {
   PolygonClient,
   PolygonZkEvmClient,
   ScrollClient,
+  SepoliaClient,
   TaikoClient,
   ZkFairClient,
   ZkSyncClient,
@@ -37,6 +38,8 @@ export const getClientByNetwork = (networkName: SupportedNetworks, privKey: stri
       return new OpBnbClient(decryptedPrivKey, logger);
     case Networks.ETH:
       return new EthClient(decryptedPrivKey, logger);
+    case Networks.SEPOLIA:
+      return new SepoliaClient(decryptedPrivKey, logger);
 
     case Networks.POLYGON:
       return new PolygonClient(decryptedPrivKey, logger);

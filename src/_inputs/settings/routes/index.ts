@@ -7,3 +7,4 @@ export { flow as elixir } from './elixir';
 export { flow as symbiotic } from './symbiotic';
 export { flow as swell } from './swell';
 export { flow as odos } from './odos';
+export { flow as delegate } from './delegate';

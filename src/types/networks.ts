@@ -5,6 +5,7 @@ export enum Networks {
   BSC = 'bsc',
   OP_BNB = 'opBNB',
   ETH = 'eth',
+  SEPOLIA = 'sepolia',
   TAIKO = 'taiko',
 
   BLAST = 'blast',
@@ -59,6 +60,7 @@ export const SUPPORTED_NETWORKS = [
   'layerZero',
   'blast',
   'taiko',
+  'sepolia',
 ] as const;
 export type SupportedNetworks = (typeof SUPPORTED_NETWORKS)[number];
 

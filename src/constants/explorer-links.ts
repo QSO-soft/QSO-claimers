@@ -5,6 +5,7 @@ export const explorerLinks: NetworksRecord = {
   bsc: 'https://bscscan.com',
   opBNB: 'https://opbnbscan.com',
   eth: 'https://etherscan.io',
+  sepolia: 'https://sepolia.etherscan.io',
 
   polygon: 'https://polygonscan.com',
   arbitrum: 'https://arbiscan.io',

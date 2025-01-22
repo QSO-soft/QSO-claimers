@@ -6,6 +6,11 @@ export const PUBLIC_RPCS: RPCsRecord = {
     // 'https://ethereum.publicnode.com',
     'https://rpc.ankr.com/eth',
   ],
+  sepolia: [
+    'https://eth-sepolia.public.blastapi.io',
+    // 'https://ethereum-sepolia-rpc.publicnode.com',
+    // 'https://1rpc.io/sepolia',
+  ],
 
   arbitrum: [
     // 'https://arbitrum-one.public.blastapi.io',

@@ -56,7 +56,9 @@ export type ModuleNames =
   | 'odos-transfer-claim'
   | 'superform-superfrens-claim-NFT'
   | 'elixir-withdraw-eth'
-  | 'symbiotic-check-points';
+  | 'symbiotic-check-points'
+  | 'delegate-registry';
+
 export type SwapModuleNames = Extract<
   ModuleNames,
   'odos-swap' | 'izumi-swap' | 'sync-swap' | '1inch-swap' | 'zkSync-mute-swap'

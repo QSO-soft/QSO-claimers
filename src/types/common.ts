@@ -17,6 +17,7 @@ export interface WalletData {
   walletAddress: string;
   id: string;
   transferAddress?: string;
+  delegateToAddress?: string;
   bitgetAddress?: string;
   updateProxyLink?: string;
   proxy?: string;

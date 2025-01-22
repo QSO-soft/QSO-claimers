@@ -78,6 +78,8 @@ export const getAnticaptcha = async ({ proxyObject, websiteURL, logger, taskType
     }
 
     if (resultData.solution) {
+      logger?.success('Captcha solved successfully...');
+
       if (isRecaptchaTask(taskType)) {
         return resultData.solution.gRecaptchaResponse;
       }

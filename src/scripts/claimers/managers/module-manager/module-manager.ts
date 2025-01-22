@@ -22,6 +22,7 @@ import {
   execMakeClaimOdos,
   execMakeCheckClaimOdos,
   execMakeTransferClaimOdos,
+  execMakeDelegateRegistry,
 } from '../../modules';
 
 export class ModuleManager extends DefaultModuleManager {
@@ -81,6 +82,9 @@ export class ModuleManager extends DefaultModuleManager {
         return execMakeCheckClaimOdos;
       case 'odos-transfer-claim':
         return execMakeTransferClaimOdos;
+
+      case 'delegate-registry':
+        return execMakeDelegateRegistry;
 
       default:
         return;

@@ -15,6 +15,7 @@ import savedSymbioticModules from '../_outputs/json/symbiotic-saved-modules.json
 import savedTaikoModules from '../_outputs/json/taiko-saved-modules.json' assert { type: 'json' };
 
 const scripts = {
+  delegate: 'delegate',
   odos: 'odos',
   scroll: 'scroll',
   taiko: 'taiko',
@@ -26,15 +27,16 @@ const scripts = {
   swell: 'swell',
 };
 const aliases = {
-  runOdos: '1. Odos',
-  runScroll: '2. Scroll',
-  runTaiko: '3. Taiko',
-  runPolyhedra: '4. Polyhedra',
-  runLayerZero: '5. LayerZero',
-  runSuperform: '6. Superfrom',
-  runElixir: '7. Elixir',
-  runSymbiotic: '8. Symbiotic',
-  runSwell: '9. Swell',
+  runDelegate: '1. Delegate',
+  runOdos: '2. Odos',
+  runScroll: '3. Scroll',
+  runTaiko: '4. Taiko',
+  runPolyhedra: '5. Polyhedra',
+  runLayerZero: '6. LayerZero',
+  runSuperform: '7. Superfrom',
+  runElixir: '8. Elixir',
+  runSymbiotic: '9. Symbiotic',
+  runSwell: '10. Swell',
 
   exit: '0. Выйти',
 };

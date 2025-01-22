@@ -77,6 +77,7 @@ export const RPC = {
   bsc: '',
   opBNB: '',
   eth: '',
+  sepolia: '',
   blast: '',
 
   polygon: '',

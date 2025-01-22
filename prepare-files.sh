@@ -341,3 +341,28 @@ if [ ! -s src/_outputs/csv/checkers/solayer-eligibility.csv ]
     echo "\nCreating solayer-eligibility.csv in src/_outputs/csv/checkers/"
     touch src/_outputs/csv/checkers/solayer-eligibility.csv && echo "walletAddress,allocation" >> src/_outputs/csv/checkers/solayer-eligibility.csv
 fi
+
+#DELEGATE ===============================================================================================================
+if [ ! -s src/_inputs/csv/delegate-wallets.csv ]
+  then :
+    echo "\nCreating delegate-wallets.csv in src/_inputs/csv/"
+    touch src/_inputs/csv/delegate-wallets.csv && echo "id,walletAddress,privKey,transferAddress,delegationAddress,delegationPrivKey,proxy,updateProxyLink" >> src/_inputs/csv/delegate-wallets.csv
+fi
+if [ ! -s src/_outputs/json/delegate-wallets.json ]
+  then :
+    echo "\nCreating delegate-wallets.json in src/_outputs/json/"
+    touch src/_outputs/json/delegate-wallets.json && echo "[]" >> src/_outputs/json/delegate-wallets.json
+fi
+
+if [ ! -s src/_outputs/csv/delegate-failed-wallets.csv ]
+  then :
+    echo "\nCreating delegate-failed-wallets.csv in src/_outputs/csv/"
+    touch src/_outputs/csv/delegate-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/delegate-failed-wallets.csv
+fi
+
+if [ ! -s src/_outputs/json/delegate-saved-modules.json ]
+  then :
+    echo "\nCreating delegate-saved-modules.json in src/_outputs/json/"
+    touch src/_outputs/json/delegate-saved-modules.json && echo "[]" >> src/_outputs/json/delegate-saved-modules.json
+fi
+

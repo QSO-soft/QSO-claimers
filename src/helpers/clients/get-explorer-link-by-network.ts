@@ -11,6 +11,8 @@ export const getExplorerLinkByNetwork = (networkName: Networks) => {
       return explorerLinks.opBNB;
     case Networks.ETH:
       return explorerLinks.eth;
+    case Networks.SEPOLIA:
+      return explorerLinks.sepolia;
 
     case Networks.POLYGON:
       return explorerLinks.polygon;

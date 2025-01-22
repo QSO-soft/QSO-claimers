@@ -97,7 +97,8 @@ export type Route =
   | 'elixir'
   | 'symbiotic'
   | 'swell'
-  | 'odos';
+  | 'odos'
+  | 'delegate';
 
 export type Settings = DefaultSettings;
 

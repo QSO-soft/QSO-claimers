@@ -20,6 +20,7 @@ import {
   klaytn,
   blast,
   taiko,
+  sepolia,
 } from 'viem/chains';
 
 import { Networks, SupportedNetworks } from '../../types';
@@ -34,6 +35,8 @@ export const getNativeTokenByNetwork = (networkName: SupportedNetworks) => {
       return opBNB.nativeCurrency.symbol;
     case Networks.ETH:
       return mainnet.nativeCurrency.symbol;
+    case Networks.SEPOLIA:
+      return sepolia.nativeCurrency.symbol;
 
     case Networks.POLYGON:
       return polygon.nativeCurrency.symbol;

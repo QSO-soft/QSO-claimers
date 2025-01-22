@@ -12,6 +12,7 @@ const groupSettings: GroupSettings = {};
 
 const modules: UserModuleConfig[] = [
   {
+    // Делегирует на delegateToAddress из delegate-wallets.csv
     moduleName: 'delegate-registry',
     network: 'sepolia',
   },

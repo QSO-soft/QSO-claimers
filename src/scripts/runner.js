@@ -4,6 +4,7 @@ import { spawn } from 'child_process';
 import inquirer from 'inquirer';
 
 import { SECRET_PHRASE } from '../_inputs/settings/global.js';
+import savedDelegateModules from '../_outputs/json/delegate-saved-modules.json' assert { type: 'json' };
 import savedElixirModules from '../_outputs/json/elixir-saved-modules.json' assert { type: 'json' };
 import savedLayerZeroModules from '../_outputs/json/layer-zero-saved-modules.json' assert { type: 'json' };
 import savedOdosModules from '../_outputs/json/odos-saved-modules.json' assert { type: 'json' };
@@ -42,6 +43,7 @@ const aliases = {
 };
 
 const commandAliases = {
+  [aliases.runDelegate]: scripts.delegate,
   [aliases.runOdos]: scripts.odos,
   [aliases.runScroll]: scripts.scroll,
   [aliases.runTaiko]: scripts.taiko,
@@ -61,6 +63,9 @@ const getStartMainCommand = async (projectName) => {
 
   let currentSavedModulesToUse;
   switch (projectName) {
+    case scripts.delegate:
+      currentSavedModulesToUse = savedDelegateModules;
+      break;
     case scripts.odos:
       currentSavedModulesToUse = savedOdosModules;
       break;
@@ -162,6 +167,12 @@ const getSecretPhrase = async () => {
   let args = [];
 
   switch (selectedAlias) {
+    case aliases.runDelegate: {
+      const { command, secret, projectName } = await getStartMainCommand(scripts.delegate);
+      selectedCommand = command;
+      args = [secret, projectName, projectName];
+      break;
+    }
     case aliases.runOdos: {
       const { command, secret, projectName } = await getStartMainCommand(scripts.odos);
       selectedCommand = command;

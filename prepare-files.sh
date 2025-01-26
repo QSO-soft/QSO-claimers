@@ -346,7 +346,7 @@ fi
 if [ ! -s src/_inputs/csv/delegate-wallets.csv ]
   then :
     echo "\nCreating delegate-wallets.csv in src/_inputs/csv/"
-    touch src/_inputs/csv/delegate-wallets.csv && echo "id,walletAddress,privKey,transferAddress,delegationAddress,delegationPrivKey,proxy,updateProxyLink" >> src/_inputs/csv/delegate-wallets.csv
+    touch src/_inputs/csv/delegate-wallets.csv && echo "id,walletAddress,privKey,transferAddress,delegateToAddress,proxy,updateProxyLink" >> src/_inputs/csv/delegate-wallets.csv
 fi
 if [ ! -s src/_outputs/json/delegate-wallets.json ]
   then :

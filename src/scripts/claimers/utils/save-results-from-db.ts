@@ -8,6 +8,7 @@ import {
   LayerZeroClaimEntity,
   PolyhedraClaimEntity,
   ScrollClaimEntity,
+  StoryClaimEntity,
   SuperfrensNftClaimEntity,
   SymbioticPointsEntity,
   TaikoClaimEntity,
@@ -45,6 +46,9 @@ export const saveResultsFromDb = async (props: SaveResultsFromDb) => {
     case 'taiko':
       projectEntity = TaikoClaimEntity;
       break;
+    case 'story':
+      projectEntity = StoryClaimEntity;
+      break;
     case 'scroll':
       projectEntity = ScrollClaimEntity;
       break;
@@ -64,7 +68,7 @@ export const saveResultsFromDb = async (props: SaveResultsFromDb) => {
 
     const dataToSave = dbData.reduce<object[]>((acc, cur) => {
       const { walletId, index: walletIndex, id, ...data } = cur;
-      const foundWallet = wallets.find(({ id, index }) => walletId === id && index === walletIndex);
+      const foundWallet = wallets.find(({ id, index }) => walletId === id);
 
       if (foundWallet) {
         return [

@@ -57,6 +57,7 @@ export type ModuleNames =
   | 'superform-superfrens-claim-NFT'
   | 'elixir-withdraw-eth'
   | 'symbiotic-check-points'
+  | 'story-claim'
   | 'delegate-registry';
 
 export type SwapModuleNames = Extract<

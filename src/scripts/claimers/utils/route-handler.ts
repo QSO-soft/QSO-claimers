@@ -9,6 +9,7 @@ import {
   swell,
   odos,
   delegate,
+  story,
 } from '../../../_inputs/settings/routes';
 import { Route } from '../../../types';
 
@@ -34,6 +35,8 @@ export const routeHandler = (route: Route) => {
       return odos;
     case 'delegate':
       return delegate;
+    case 'story':
+      return story;
 
     default:
       throw new Error('Route name is wrong');

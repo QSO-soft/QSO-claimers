@@ -364,3 +364,10 @@ export const SCROLL_TOKEN_CONTRACTS: TokenContract[] = [
     abi: defaultTokenAbi,
   },
 ];
+export const STORY_TOKEN_CONTRACTS: TokenContract[] = [
+  // {
+  //   name: StoryTokens.IP,
+  //   address: '0x',
+  //   abi: defaultTokenAbi,
+  // },
+];

@@ -21,6 +21,7 @@ export const explorerLinks: NetworksRecord = {
   linea: 'https://lineascan.build',
   scroll: 'https://scrollscan.com',
   fantom: 'https://ftmscan.com/',
+  story: 'https://www.storyscan.xyz',
 
   core: 'https://scan.coredao.org/',
   celo: 'https://celoscan.io/',

@@ -76,6 +76,8 @@ export const getNativeTokenByNetwork = (networkName: SupportedNetworks) => {
       return gnosis.nativeCurrency.symbol;
     case Networks.KLAY:
       return klaytn.nativeCurrency.symbol;
+    case Networks.STORY:
+      return 'IP';
 
     default:
       throw new Error(`Native token for ${networkName} network was not found`);

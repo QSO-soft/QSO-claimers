@@ -17,6 +17,7 @@ import {
   PolygonZkEvmClient,
   ScrollClient,
   SepoliaClient,
+  StoryClient,
   TaikoClient,
   ZkFairClient,
   ZkSyncClient,
@@ -79,6 +80,9 @@ export const getClientByNetwork = (networkName: SupportedNetworks, privKey: stri
       return new GnosisClient(decryptedPrivKey, logger);
     case Networks.KLAY:
       return new KlayClient(decryptedPrivKey, logger);
+
+    case Networks.STORY:
+      return new StoryClient(decryptedPrivKey, logger);
 
     default:
       throw new Error(`Client for ${networkName} network was not found`);

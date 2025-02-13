@@ -43,6 +43,14 @@ import { DefaultModuleConfigs } from '../../types';
 // Конфиг, который будет применяться для каждого модуля по умолчанию в случае, если вы пропусили какие-то параметры в роуте
 
 export const defaultModuleConfigs: DefaultModuleConfigs = {
+  // ============== story ==============
+  'story-claim': {
+    count: [1, 1],
+    indexGroup: 0,
+
+    network: 'story',
+  },
+
   // ============== delegate ==============
   'delegate-registry': {
     count: [1, 1],

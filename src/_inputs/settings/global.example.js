@@ -79,6 +79,7 @@ export const RPC = {
   eth: '',
   sepolia: '',
   blast: '',
+  story: '',
 
   polygon: '',
   arbitrum: '',

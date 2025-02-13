@@ -10,12 +10,14 @@ import savedLayerZeroModules from '../_outputs/json/layer-zero-saved-modules.jso
 import savedOdosModules from '../_outputs/json/odos-saved-modules.json' assert { type: 'json' };
 import savedPolyhedraModules from '../_outputs/json/polyhedra-saved-modules.json' assert { type: 'json' };
 import savedScrollModules from '../_outputs/json/scroll-saved-modules.json' assert { type: 'json' };
+import savedStoryModules from '../_outputs/json/story-saved-modules.json' assert { type: 'json' };
 import savedSuperformModules from '../_outputs/json/superform-saved-modules.json' assert { type: 'json' };
 import savedSwellModules from '../_outputs/json/swell-saved-modules.json' assert { type: 'json' };
 import savedSymbioticModules from '../_outputs/json/symbiotic-saved-modules.json' assert { type: 'json' };
 import savedTaikoModules from '../_outputs/json/taiko-saved-modules.json' assert { type: 'json' };
 
 const scripts = {
+  story: 'story',
   delegate: 'delegate',
   odos: 'odos',
   scroll: 'scroll',
@@ -28,21 +30,23 @@ const scripts = {
   swell: 'swell',
 };
 const aliases = {
-  runDelegate: '1. Delegate',
-  runOdos: '2. Odos',
-  runScroll: '3. Scroll',
-  runTaiko: '4. Taiko',
-  runPolyhedra: '5. Polyhedra',
-  runLayerZero: '6. LayerZero',
-  runSuperform: '7. Superfrom',
-  runElixir: '8. Elixir',
-  runSymbiotic: '9. Symbiotic',
-  runSwell: '10. Swell',
+  runStory: '1. Story',
+  runDelegate: '2. Delegate',
+  runOdos: '3. Odos',
+  runScroll: '4. Scroll',
+  runTaiko: '5. Taiko',
+  runPolyhedra: '6. Polyhedra',
+  runLayerZero: '7. LayerZero',
+  runSuperform: '8. Superfrom',
+  runElixir: '9. Elixir',
+  runSymbiotic: '10. Symbiotic',
+  runSwell: '11. Swell',
 
   exit: '0. Выйти',
 };
 
 const commandAliases = {
+  [aliases.runStory]: scripts.story,
   [aliases.runDelegate]: scripts.delegate,
   [aliases.runOdos]: scripts.odos,
   [aliases.runScroll]: scripts.scroll,
@@ -63,6 +67,9 @@ const getStartMainCommand = async (projectName) => {
 
   let currentSavedModulesToUse;
   switch (projectName) {
+    case scripts.story:
+      currentSavedModulesToUse = savedStoryModules;
+      break;
     case scripts.delegate:
       currentSavedModulesToUse = savedDelegateModules;
       break;
@@ -167,6 +174,12 @@ const getSecretPhrase = async () => {
   let args = [];
 
   switch (selectedAlias) {
+    case aliases.runStory: {
+      const { command, secret, projectName } = await getStartMainCommand(scripts.story);
+      selectedCommand = command;
+      args = [secret, projectName, projectName];
+      break;
+    }
     case aliases.runDelegate: {
       const { command, secret, projectName } = await getStartMainCommand(scripts.delegate);
       selectedCommand = command;
@@ -249,7 +262,7 @@ const getSecretPhrase = async () => {
 
       if (errMessage.includes('triggerUncaughtException')) {
         errMessage =
-          'Unknown error occurred: please, call "tsc" command to see the problem or compare global.js with global.example.js';
+          'Произошла неизвестная ошибка: пожалуйста, установите зависимости выполнив "npm i", сравните global.js с global.example.js или вызовите "npm run build", что-бы увидеть ошибку';
       }
       // else {
       //   errMessage = errMessage

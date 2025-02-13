@@ -79,6 +79,10 @@ export enum BaseTokens {
   USDT = 'USDT',
   WETH = 'WETH',
 }
+export enum StoryTokens {
+  IP = 'IP',
+}
+
 export enum LineaTokens {
   ETH = 'ETH',
   USDT = 'USDT',

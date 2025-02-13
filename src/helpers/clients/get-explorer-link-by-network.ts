@@ -56,6 +56,9 @@ export const getExplorerLinkByNetwork = (networkName: Networks) => {
     case Networks.APTOS:
       return explorerLinks.aptos;
 
+    case Networks.STORY:
+      return explorerLinks.story;
+
     default:
       throw new Error(`Explorer link for ${networkName} network was not found`);
   }

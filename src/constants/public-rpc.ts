@@ -80,6 +80,11 @@ export const PUBLIC_RPCS: RPCsRecord = {
   core: ['https://rpc.ankr.com/core'],
   gnosis: ['https://gnosis-mainnet.public.blastapi.io', 'https://rpc.ankr.com/gnosis'],
   zkFair: ['https://rpc.zkfair.io'],
+  story: [
+    // 'https://evmrpc.story.nodestake.org',
+    'https://mainnet.storyrpc.io',
+    // 'https://story-mainnet-jsonrpc.blockhub.id',
+  ],
 
   avalanche: [
     // 'https://ava-mainnet.public.blastapi.io/ext/bc/C/rpc',

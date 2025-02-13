@@ -22,3 +22,4 @@ export * from './polygon-zkevm';
 export * from './blast';
 export * from './taiko';
 export * from './sepolia';
+export * from './story';

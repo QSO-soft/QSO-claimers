@@ -23,6 +23,7 @@ export enum Networks {
   LINEA = 'linea',
   SCROLL = 'scroll',
   FANTOM = 'fantom',
+  STORY = 'story',
 
   CORE = 'core',
   CELO = 'celo',
@@ -61,6 +62,7 @@ export const SUPPORTED_NETWORKS = [
   'blast',
   'taiko',
   'sepolia',
+  'story',
 ] as const;
 export type SupportedNetworks = (typeof SUPPORTED_NETWORKS)[number];
 

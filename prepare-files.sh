@@ -366,3 +366,32 @@ if [ ! -s src/_outputs/json/delegate-saved-modules.json ]
     touch src/_outputs/json/delegate-saved-modules.json && echo "[]" >> src/_outputs/json/delegate-saved-modules.json
 fi
 
+#STORY ===============================================================================================================
+if [ ! -s src/_inputs/csv/story-wallets.csv ]
+  then :
+    echo "\nCreating story-wallets.csv in src/_inputs/csv/"
+    touch src/_inputs/csv/story-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/story-wallets.csv
+fi
+if [ ! -s src/_outputs/json/story-wallets.json ]
+  then :
+    echo "\nCreating story-wallets.json in src/_outputs/json/"
+    touch src/_outputs/json/story-wallets.json && echo "[]" >> src/_outputs/json/story-wallets.json
+fi
+
+if [ ! -s src/_outputs/csv/story-failed-wallets.csv ]
+  then :
+    echo "\nCreating story-failed-wallets.csv in src/_outputs/csv/"
+    touch src/_outputs/csv/story-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/story-failed-wallets.csv
+fi
+
+if [ ! -s src/_outputs/json/story-saved-modules.json ]
+  then :
+    echo "\nCreating story-saved-modules.json in src/_outputs/json/"
+    touch src/_outputs/json/story-saved-modules.json && echo "[]" >> src/_outputs/json/story-saved-modules.json
+fi
+
+if [ ! -s src/_outputs/csv/checkers/story-claim.csv ]
+  then :
+    echo "\nCreating story-claim.csv in src/_outputs/csv/checkers/"
+    touch src/_outputs/csv/checkers/story-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/story-claim.csv
+fi

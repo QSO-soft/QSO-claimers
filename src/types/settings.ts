@@ -98,7 +98,8 @@ export type Route =
   | 'symbiotic'
   | 'swell'
   | 'odos'
-  | 'delegate';
+  | 'delegate'
+  | 'story';
 
 export type Settings = DefaultSettings;
 

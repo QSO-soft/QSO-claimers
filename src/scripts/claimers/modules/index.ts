@@ -8,3 +8,4 @@ export * from './symbiotic';
 export * from './swell';
 export * from './odos';
 export * from './delegate';
+export * from './story';

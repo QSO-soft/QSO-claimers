@@ -58,7 +58,9 @@ export type ModuleNames =
   | 'elixir-withdraw-eth'
   | 'symbiotic-check-points'
   | 'story-claim'
-  | 'delegate-registry';
+  | 'delegate-registry'
+  | 'hyperlane-airdrop-check'
+  | 'hyperlane-airdrop-register';
 
 export type SwapModuleNames = Extract<
   ModuleNames,

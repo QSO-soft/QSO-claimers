@@ -25,6 +25,8 @@ import {
   execMakeDelegateRegistry,
   execMakeStoryClaim,
 } from '../../modules';
+import { execMakeHyperlaneAidropCheck } from '../../modules/hyperlane';
+import { execMakeHyperlaneAidropRegister } from '../../modules/hyperlane/make-airdrop-register';
 
 export class ModuleManager extends DefaultModuleManager {
   constructor(args: IModuleManager) {
@@ -89,6 +91,11 @@ export class ModuleManager extends DefaultModuleManager {
 
       case 'story-claim':
         return execMakeStoryClaim;
+
+      case 'hyperlane-airdrop-check':
+        return execMakeHyperlaneAidropCheck;
+      case 'hyperlane-airdrop-register':
+        return execMakeHyperlaneAidropRegister;
 
       default:
         return;

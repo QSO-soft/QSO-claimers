@@ -3,8 +3,8 @@ import { RPCsRecord } from '../types';
 export const PUBLIC_RPCS: RPCsRecord = {
   eth: [
     // 'https://eth-mainnet.public.blastapi.io',
-    // 'https://ethereum.publicnode.com',
-    'https://rpc.ankr.com/eth',
+    'https://ethereum.publicnode.com',
+    // 'https://rpc.ankr.com/eth',
   ],
   sepolia: [
     'https://eth-sepolia.public.blastapi.io',
@@ -14,20 +14,21 @@ export const PUBLIC_RPCS: RPCsRecord = {
 
   arbitrum: [
     // 'https://arbitrum-one.public.blastapi.io',
-    // 'https://arbitrum-one.publicnode.com',
+    'https://arbitrum-one.publicnode.com',
     'https://arb1.arbitrum.io/rpc',
     // 'https://rpc.ankr.com/arbitrum',
   ],
   optimism: [
     // 'https://optimism-mainnet.public.blastapi.io',
-    // 'https://optimism.publicnode.com',
-    // 'https://mainnet.optimism.io',
-    'https://rpc.ankr.com/optimism',
+    'https://optimism.publicnode.com',
+    'https://mainnet.optimism.io',
+    // 'https://rpc.ankr.com/optimism',
   ],
   base: [
     // 'https://base-mainnet.public.blastapi.io',
-    // 'https://base.publicnode.com',
-    'https://rpc.ankr.com/base',
+    'https://base.publicnode.com',
+    'https://mainnet.base.org',
+    // 'https://rpc.ankr.com/base',
   ],
   polygon: [
     // 'https://polygon-mainnet.public.blastapi.io',

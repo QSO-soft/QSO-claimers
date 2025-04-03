@@ -99,7 +99,8 @@ export type Route =
   | 'swell'
   | 'odos'
   | 'delegate'
-  | 'story';
+  | 'story'
+  | 'hyperlane';
 
 export type Settings = DefaultSettings;
 

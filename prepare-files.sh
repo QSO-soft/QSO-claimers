@@ -395,3 +395,33 @@ if [ ! -s src/_outputs/csv/checkers/story-claim.csv ]
     echo "\nCreating story-claim.csv in src/_outputs/csv/checkers/"
     touch src/_outputs/csv/checkers/story-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/story-claim.csv
 fi
+
+#HYPERLANE ===============================================================================================================
+if [ ! -s src/_inputs/csv/hyperlane-wallets.csv ]
+  then :
+    echo "\nCreating hyperlane-wallets.csv in src/_inputs/csv/"
+    touch src/_inputs/csv/hyperlane-wallets.csv && echo "id,walletAddress,privKey,transferAddress,delegateToAddress,proxy,updateProxyLink" >> src/_inputs/csv/hyperlane-wallets.csv
+fi
+if [ ! -s src/_outputs/json/hyperlane-wallets.json ]
+  then :
+    echo "\nCreating hyperlane-wallets.json in src/_outputs/json/"
+    touch src/_outputs/json/hyperlane-wallets.json && echo "[]" >> src/_outputs/json/hyperlane-wallets.json
+fi
+
+if [ ! -s src/_outputs/csv/hyperlane-failed-wallets.csv ]
+  then :
+    echo "\nCreating hyperlane-failed-wallets.csv in src/_outputs/csv/"
+    touch src/_outputs/csv/hyperlane-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/hyperlane-failed-wallets.csv
+fi
+
+if [ ! -s src/_outputs/json/hyperlane-saved-modules.json ]
+  then :
+    echo "\nCreating hyperlane-saved-modules.json in src/_outputs/json/"
+    touch src/_outputs/json/hyperlane-saved-modules.json && echo "[]" >> src/_outputs/json/hyperlane-saved-modules.json
+fi
+
+if [ ! -s src/_outputs/csv/checkers/hyperlane-claim.csv ]
+  then :
+    echo "\nCreating hyperlane-checker.csv in src/_outputs/csv/checkers/"
+    touch src/_outputs/csv/checkers/hyperlane-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/hyperlane-claim.csv
+fi

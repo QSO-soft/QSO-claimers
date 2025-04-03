@@ -6,57 +6,61 @@ import inquirer from 'inquirer';
 import { SECRET_PHRASE } from '../_inputs/settings/global.js';
 import savedDelegateModules from '../_outputs/json/delegate-saved-modules.json' assert { type: 'json' };
 import savedElixirModules from '../_outputs/json/elixir-saved-modules.json' assert { type: 'json' };
-import savedLayerZeroModules from '../_outputs/json/layer-zero-saved-modules.json' assert { type: 'json' };
-import savedOdosModules from '../_outputs/json/odos-saved-modules.json' assert { type: 'json' };
-import savedPolyhedraModules from '../_outputs/json/polyhedra-saved-modules.json' assert { type: 'json' };
-import savedScrollModules from '../_outputs/json/scroll-saved-modules.json' assert { type: 'json' };
-import savedStoryModules from '../_outputs/json/story-saved-modules.json' assert { type: 'json' };
-import savedSuperformModules from '../_outputs/json/superform-saved-modules.json' assert { type: 'json' };
-import savedSwellModules from '../_outputs/json/swell-saved-modules.json' assert { type: 'json' };
+import savedHyperlaneModules from '../_outputs/json/hyperlane-saved-modules.json' assert { type: 'json' };
+// import savedLayerZeroModules from '../_outputs/json/layer-zero-saved-modules.json' assert { type: 'json' };
+// import savedOdosModules from '../_outputs/json/odos-saved-modules.json' assert { type: 'json' };
+// import savedPolyhedraModules from '../_outputs/json/polyhedra-saved-modules.json' assert { type: 'json' };
+// import savedScrollModules from '../_outputs/json/scroll-saved-modules.json' assert { type: 'json' };
+// import savedStoryModules from '../_outputs/json/story-saved-modules.json' assert { type: 'json' };
+// import savedSuperformModules from '../_outputs/json/superform-saved-modules.json' assert { type: 'json' };
+// import savedSwellModules from '../_outputs/json/swell-saved-modules.json' assert { type: 'json' };
 import savedSymbioticModules from '../_outputs/json/symbiotic-saved-modules.json' assert { type: 'json' };
-import savedTaikoModules from '../_outputs/json/taiko-saved-modules.json' assert { type: 'json' };
+// import savedTaikoModules from '../_outputs/json/taiko-saved-modules.json' assert { type: 'json' };
 
 const scripts = {
-  story: 'story',
+  hyperlane: 'hyperlane',
+  // story: 'story',
   delegate: 'delegate',
-  odos: 'odos',
-  scroll: 'scroll',
-  taiko: 'taiko',
-  polyhedra: 'polyhedra',
-  layerZero: 'layer-zero',
-  superform: 'superform',
+  // odos: 'odos',
+  // scroll: 'scroll',
+  // taiko: 'taiko',
+  // polyhedra: 'polyhedra',
+  // layerZero: 'layer-zero',
+  // superform: 'superform',
   elixir: 'elixir',
   symbiotic: 'symbiotic',
-  swell: 'swell',
+  // swell: 'swell',
 };
 const aliases = {
-  runStory: '1. Story',
+  runHyperlane: '1. Hyperlane',
+  // runStory: '1. Story',
   runDelegate: '2. Delegate',
-  runOdos: '3. Odos',
-  runScroll: '4. Scroll',
-  runTaiko: '5. Taiko',
-  runPolyhedra: '6. Polyhedra',
-  runLayerZero: '7. LayerZero',
-  runSuperform: '8. Superfrom',
-  runElixir: '9. Elixir',
-  runSymbiotic: '10. Symbiotic',
-  runSwell: '11. Swell',
+  // runOdos: '3. Odos',
+  // runScroll: '4. Scroll',
+  // runTaiko: '5. Taiko',
+  // runPolyhedra: '6. Polyhedra',
+  // runLayerZero: '7. LayerZero',
+  // runSuperform: '8. Superfrom',
+  runElixir: '3. Elixir',
+  runSymbiotic: '4. Symbiotic',
+  // runSwell: '11. Swell',
 
   exit: '0. Выйти',
 };
 
 const commandAliases = {
-  [aliases.runStory]: scripts.story,
+  [aliases.runHyperlane]: scripts.hyperlane,
+  // [aliases.runStory]: scripts.story,
   [aliases.runDelegate]: scripts.delegate,
-  [aliases.runOdos]: scripts.odos,
-  [aliases.runScroll]: scripts.scroll,
-  [aliases.runTaiko]: scripts.taiko,
-  [aliases.runPolyhedra]: scripts.polyhedra,
-  [aliases.runLayerZero]: scripts.layerZero,
-  [aliases.runSuperform]: scripts.superform,
+  // [aliases.runOdos]: scripts.odos,
+  // [aliases.runScroll]: scripts.scroll,
+  // [aliases.runTaiko]: scripts.taiko,
+  // [aliases.runPolyhedra]: scripts.polyhedra,
+  // [aliases.runLayerZero]: scripts.layerZero,
+  // [aliases.runSuperform]: scripts.superform,
   [aliases.runElixir]: scripts.elixir,
   [aliases.runSymbiotic]: scripts.symbiotic,
-  [aliases.runSwell]: scripts.swell,
+  // [aliases.runSwell]: scripts.swell,
 
   [aliases.exit]: 'exit',
 };
@@ -67,39 +71,42 @@ const getStartMainCommand = async (projectName) => {
 
   let currentSavedModulesToUse;
   switch (projectName) {
-    case scripts.story:
-      currentSavedModulesToUse = savedStoryModules;
+    case scripts.hyperlane:
+      currentSavedModulesToUse = savedHyperlaneModules;
       break;
+    // case scripts.story:
+    //   currentSavedModulesToUse = savedStoryModules;
+    //   break;
     case scripts.delegate:
       currentSavedModulesToUse = savedDelegateModules;
       break;
-    case scripts.odos:
-      currentSavedModulesToUse = savedOdosModules;
-      break;
-    case scripts.scroll:
-      currentSavedModulesToUse = savedScrollModules;
-      break;
-    case scripts.taiko:
-      currentSavedModulesToUse = savedTaikoModules;
-      break;
-    case scripts.polyhedra:
-      currentSavedModulesToUse = savedPolyhedraModules;
-      break;
-    case scripts.layerZero:
-      currentSavedModulesToUse = savedLayerZeroModules;
-      break;
-    case scripts.superform:
-      currentSavedModulesToUse = savedSuperformModules;
-      break;
+    // case scripts.odos:
+    //   currentSavedModulesToUse = savedOdosModules;
+    //   break;
+    // case scripts.scroll:
+    //   currentSavedModulesToUse = savedScrollModules;
+    //   break;
+    // case scripts.taiko:
+    //   currentSavedModulesToUse = savedTaikoModules;
+    //   break;
+    // case scripts.polyhedra:
+    //   currentSavedModulesToUse = savedPolyhedraModules;
+    //   break;
+    // case scripts.layerZero:
+    //   currentSavedModulesToUse = savedLayerZeroModules;
+    //   break;
+    // case scripts.superform:
+    //   currentSavedModulesToUse = savedSuperformModules;
+    //   break;
     case scripts.elixir:
       currentSavedModulesToUse = savedElixirModules;
       break;
     case scripts.symbiotic:
       currentSavedModulesToUse = savedSymbioticModules;
       break;
-    case scripts.swell:
-      currentSavedModulesToUse = savedSwellModules;
-      break;
+    // case scripts.swell:
+    //   currentSavedModulesToUse = savedSwellModules;
+    //   break;
 
     default:
       break;
@@ -174,54 +181,60 @@ const getSecretPhrase = async () => {
   let args = [];
 
   switch (selectedAlias) {
-    case aliases.runStory: {
-      const { command, secret, projectName } = await getStartMainCommand(scripts.story);
+    case aliases.runHyperlane: {
+      const { command, secret, projectName } = await getStartMainCommand(scripts.hyperlane);
       selectedCommand = command;
       args = [secret, projectName, projectName];
       break;
     }
+    // case aliases.runStory: {
+    //   const { command, secret, projectName } = await getStartMainCommand(scripts.story);
+    //   selectedCommand = command;
+    //   args = [secret, projectName, projectName];
+    //   break;
+    // }
     case aliases.runDelegate: {
       const { command, secret, projectName } = await getStartMainCommand(scripts.delegate);
       selectedCommand = command;
       args = [secret, projectName, projectName];
       break;
     }
-    case aliases.runOdos: {
-      const { command, secret, projectName } = await getStartMainCommand(scripts.odos);
-      selectedCommand = command;
-      args = [secret, projectName, projectName];
-      break;
-    }
-    case aliases.runScroll: {
-      const { command, secret, projectName } = await getStartMainCommand(scripts.scroll);
-      selectedCommand = command;
-      args = [secret, projectName, projectName];
-      break;
-    }
-    case aliases.runTaiko: {
-      const { command, secret, projectName } = await getStartMainCommand(scripts.taiko);
-      selectedCommand = command;
-      args = [secret, projectName, projectName];
-      break;
-    }
-    case aliases.runPolyhedra: {
-      const { command, secret, projectName } = await getStartMainCommand(scripts.polyhedra);
-      selectedCommand = command;
-      args = [secret, projectName, projectName];
-      break;
-    }
-    case aliases.runLayerZero: {
-      const { command, secret, projectName } = await getStartMainCommand(scripts.layerZero);
-      selectedCommand = command;
-      args = [secret, projectName, projectName];
-      break;
-    }
-    case aliases.runSuperform: {
-      const { command, secret, projectName } = await getStartMainCommand(scripts.superform);
-      selectedCommand = command;
-      args = [secret, projectName, projectName];
-      break;
-    }
+    // case aliases.runOdos: {
+    //   const { command, secret, projectName } = await getStartMainCommand(scripts.odos);
+    //   selectedCommand = command;
+    //   args = [secret, projectName, projectName];
+    //   break;
+    // }
+    // case aliases.runScroll: {
+    //   const { command, secret, projectName } = await getStartMainCommand(scripts.scroll);
+    //   selectedCommand = command;
+    //   args = [secret, projectName, projectName];
+    //   break;
+    // }
+    // case aliases.runTaiko: {
+    //   const { command, secret, projectName } = await getStartMainCommand(scripts.taiko);
+    //   selectedCommand = command;
+    //   args = [secret, projectName, projectName];
+    //   break;
+    // }
+    // case aliases.runPolyhedra: {
+    //   const { command, secret, projectName } = await getStartMainCommand(scripts.polyhedra);
+    //   selectedCommand = command;
+    //   args = [secret, projectName, projectName];
+    //   break;
+    // }
+    // case aliases.runLayerZero: {
+    //   const { command, secret, projectName } = await getStartMainCommand(scripts.layerZero);
+    //   selectedCommand = command;
+    //   args = [secret, projectName, projectName];
+    //   break;
+    // }
+    // case aliases.runSuperform: {
+    //   const { command, secret, projectName } = await getStartMainCommand(scripts.superform);
+    //   selectedCommand = command;
+    //   args = [secret, projectName, projectName];
+    //   break;
+    // }
     case aliases.runElixir: {
       const { command, secret, projectName } = await getStartMainCommand(scripts.elixir);
       selectedCommand = command;
@@ -234,12 +247,12 @@ const getSecretPhrase = async () => {
       args = [secret, projectName, projectName];
       break;
     }
-    case aliases.runSwell: {
-      const { command, secret, projectName } = await getStartMainCommand(scripts.swell);
-      selectedCommand = command;
-      args = [secret, projectName, projectName];
-      break;
-    }
+    // case aliases.runSwell: {
+    //   const { command, secret, projectName } = await getStartMainCommand(scripts.swell);
+    //   selectedCommand = command;
+    //   args = [secret, projectName, projectName];
+    //   break;
+    // }
 
     default:
       break;

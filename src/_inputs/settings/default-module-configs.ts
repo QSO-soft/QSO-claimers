@@ -44,6 +44,20 @@ import { DefaultModuleConfigs } from '../../types';
 
 export const defaultModuleConfigs: DefaultModuleConfigs = {
   // ============== story ==============
+  'hyperlane-airdrop-check': {
+    count: [1, 1],
+    indexGroup: 0,
+
+    network: 'eth',
+  },
+  'hyperlane-airdrop-register': {
+    count: [1, 1],
+    indexGroup: 0,
+
+    network: 'eth',
+  },
+
+  // ============== story ==============
   'story-claim': {
     count: [1, 1],
     indexGroup: 0,

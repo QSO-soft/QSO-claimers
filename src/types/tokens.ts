@@ -108,7 +108,7 @@ export enum Token {
 
 export type DefaultTokens = 'ETH' | 'USDC' | 'USDT' | 'DAI' | 'WETH';
 
-export type AvailableSwapTokens = DefaultTokens | 'MUTE' | 'BUSD' | 'WBTC' | 'rETH' | 'SIS' | 'PEPE' | 'iZi';
+export type AvailableSwapTokens = DefaultTokens | Tokens;
 
 export type AvailableRemainSwapTokens = Exclude<AvailableSwapTokens, 'ETH'>;
 
@@ -193,6 +193,15 @@ const ALL_TOKENS = [
   'POL',
   'FTM',
   'xDAI',
+  'MUTE',
+  'BUSD',
+  'WBTC',
+  'rETH',
+  'SIS',
+  'PEPE',
+  'iZi',
+  'HYPER',
+  'stHYPER',
 ] as const;
 
 export type Tokens = (typeof ALL_TOKENS)[number];

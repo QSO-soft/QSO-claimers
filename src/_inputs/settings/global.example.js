@@ -3,6 +3,8 @@
 // Пример: 'abracadabra209581kdhask'
 export const SECRET_PHRASE = 'abracadabra';
 
+export const SOLVIUM_CAPTCHA_KEY = '';
+
 // Приватные данные от OKX для авто-пополнения
 export const OKX = {
   // Имя аккаунта, который будет использоваться в скриптах

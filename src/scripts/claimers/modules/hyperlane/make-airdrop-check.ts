@@ -3,11 +3,15 @@ import axios from 'axios';
 import { DB_NOT_CONNECTED } from '../../../../constants';
 import {
   getAxiosConfig,
+  getFormattedErrorMessage,
   getHeaders,
+  getSolviumCaptcha,
   TransactionCallbackParams,
   TransactionCallbackReturn,
   transactionWorker,
 } from '../../../../helpers';
+import { CookieManager } from '../../../../helpers/coookie.manager';
+import { parseResponse } from '../../../../helpers/request-parsing/request-parsing';
 import { TransformedModuleParams } from '../../../../types';
 import { HyperlaneAirdropCheckEntity } from '../../db/entities';
 
@@ -19,7 +23,7 @@ export const execMakeHyperlaneAidropCheck = async (params: TransformedModulePara
   });
 
 const makeHyperlaneAidropCheck = async (params: TransactionCallbackParams): TransactionCallbackReturn => {
-  const { client, proxyAgent, dbSource, wallet } = params;
+  const { client, proxyAgent, dbSource, wallet, logger } = params;
 
   const { walletAddress } = client;
 
@@ -56,6 +60,44 @@ const makeHyperlaneAidropCheck = async (params: TransactionCallbackParams): Tran
     proxyAgent,
     headers,
   });
+  const cookieManager = new CookieManager();
+
+  // * Send Request to get challenge token
+  const responseWithChallengeToken = await axios.get('https://claim.hyperlane.foundation/', {
+    ...config,
+    validateStatus: () => true,
+  });
+
+  // * Try to found vercel challenge token
+  const challengeToken = responseWithChallengeToken.headers['x-vercel-challenge-token'];
+  if (!challengeToken && responseWithChallengeToken.status !== 200)
+    throw new Error('Cannot get vercel challenge token');
+
+  // * Solve Vercel Captcha
+  if (challengeToken) {
+    logger?.info('Solving Vercel Captcha...');
+    const solution = await getSolviumCaptcha(proxyAgent, challengeToken).catch((err) => {
+      throw new Error(`Failed Solve Vercel Captcha | ${getFormattedErrorMessage(err, 'eth')}`);
+    });
+
+    const verifyChallengeTokenResponse = await axios
+      .post('https://claim.hyperlane.foundation/.well-known/vercel/security/request-challenge', undefined, {
+        ...config,
+        headers: {
+          ...config.headers,
+          'X-Vercel-Challenge-Solution': solution,
+          'X-Vercel-Challenge-Token': challengeToken,
+          'X-Vercel-Challenge-Version': '2',
+        },
+        validateStatus: () => true,
+      })
+      .then((res) => parseResponse(res));
+
+    cookieManager.editCookie(verifyChallengeTokenResponse.cookies);
+    config.headers['cookie'] = cookieManager.rawCookies;
+    if (verifyChallengeTokenResponse?.status !== 204) throw new Error('Failed Solve Vercel Captcha');
+    logger?.info('Versel Captcha Solved And Verified');
+  }
 
   const { data } = await axios.get(
     `https://claim.hyperlane.foundation/api/check-eligibility?address=${walletAddress}`,

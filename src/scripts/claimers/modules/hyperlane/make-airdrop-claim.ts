@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Hex } from 'viem';
 
 import { DB_NOT_CONNECTED } from '../../../../constants';
 import {
@@ -28,8 +29,6 @@ export const execMakeHyperlaneAidropClaim = async (params: TransformedModulePara
 
 const makeHyperlaneAidropClaim = async (params: TransactionCallbackParams): TransactionCallbackReturn => {
   const { proxyAgent, dbSource, wallet, logger, gweiRange, gasLimitRange } = params;
-
-  const contract = '0x3D115377ec8E55A5c18ad620102286ECD068a36c';
 
   const srcToken = 'HYPER';
 
@@ -141,6 +140,13 @@ const makeHyperlaneAidropClaim = async (params: TransactionCallbackParams): Tran
 
   const amount = registration.amount;
   const claimNetwork = networkByChainId[registration.chainId] || 'eth';
+  const contract = contractByChainId[registration.chainId];
+  if (!contract) {
+    return {
+      status: 'error',
+      message: `Chain id ${registration.chainId} is not supported`,
+    };
+  }
 
   const client = getClientByNetwork(claimNetwork, wallet.privKey, logger);
 
@@ -213,6 +219,13 @@ const networkByChainId: Record<number, SupportedNetworks> = {
   10: 'optimism',
   56: 'bsc',
   1: 'eth',
+};
+const contractByChainId: Record<number, Hex> = {
+  8453: '0x3D115377ec8E55A5c18ad620102286ECD068a36c',
+  42161: '0x3D115377ec8E55A5c18ad620102286ECD068a36c',
+  10: '0x93A2Db22B7c736B341C32Ff666307F4a9ED910F5',
+  56: '0xa7D7422cf603E40854D26aF151043e73c1201563',
+  1: '0xE5d5e5891a11b3948d84307af7651D684b87e730',
 };
 
 const abi = [

@@ -149,7 +149,7 @@ export const makeHyperlaneNexusBridge = async (props: TransactionCallbackParams)
     abi,
     functionName: 'transferRemote',
     value,
-    args: [dstChainId, `0x000000000000000000000000${wallet.walletAddress.slice(2)}`, amountWei],
+    args: [dstChainId, `0x000000000000000000000000${recipientAddress.slice(2)}`, amountWei],
     ...feeOptions,
   });
 

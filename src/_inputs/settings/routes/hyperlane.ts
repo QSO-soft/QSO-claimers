@@ -12,6 +12,7 @@ const groupSettings: GroupSettings = {};
 
 const modules: UserModuleConfig[] = [
   {
+    // Необходим SOLVIUM_CAPTCHA_KEY в global.js
     moduleName: 'hyperlane-airdrop-claim',
 
     indexGroup: 0,

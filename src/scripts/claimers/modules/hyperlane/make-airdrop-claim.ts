@@ -152,24 +152,31 @@ const makeHyperlaneAidropClaim = async (params: TransactionCallbackParams): Tran
     isClaimed: false,
   });
 
-  const { walletClient, publicClient } = client;
+  const { publicClient } = client;
 
-  const isAlreadyClaimed = await publicClient.readContract({
-    address: contract,
-    abi,
-    functionName: 'isClaimed',
-    args: [claim.merkle.index],
-  });
-
-  if (isAlreadyClaimed) {
-    await dbRepo.update(walletInDb.id, {
-      isClaimed: true,
+  try {
+    const isAlreadyClaimed = await publicClient.readContract({
+      address: contract,
+      abi,
+      functionName: 'isClaimed',
+      args: [claim.merkle.index],
     });
 
-    return {
-      status: 'passed',
-      message: 'Already claimed',
-    };
+    if (isAlreadyClaimed) {
+      await dbRepo.update(walletInDb.id, {
+        isClaimed: true,
+      });
+
+      return {
+        status: 'passed',
+        message: 'Already claimed',
+      };
+    }
+  } catch (err) {
+    const msg = getFormattedErrorMessage(err, claimNetwork);
+    if (!msg.includes('returned no data')) {
+      throw err;
+    }
   }
 
   logger.info(`Claiming ${amount} ${srcToken} in ${claimNetwork}...`);

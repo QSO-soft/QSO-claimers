@@ -1,21 +1,22 @@
 /* eslint-disable no-console */
 import { spawn } from 'child_process';
+import fs from 'fs';
 
 import inquirer from 'inquirer';
 
 import { SECRET_PHRASE } from '../_inputs/settings/global.js';
-import savedDelegateModules from '../_outputs/json/delegate-saved-modules.json' assert { type: 'json' };
-import savedElixirModules from '../_outputs/json/elixir-saved-modules.json' assert { type: 'json' };
-import savedHyperlaneModules from '../_outputs/json/hyperlane-saved-modules.json' assert { type: 'json' };
-// import savedLayerZeroModules from '../_outputs/json/layer-zero-saved-modules.json' assert { type: 'json' };
-// import savedOdosModules from '../_outputs/json/odos-saved-modules.json' assert { type: 'json' };
-// import savedPolyhedraModules from '../_outputs/json/polyhedra-saved-modules.json' assert { type: 'json' };
-// import savedScrollModules from '../_outputs/json/scroll-saved-modules.json' assert { type: 'json' };
-// import savedStoryModules from '../_outputs/json/story-saved-modules.json' assert { type: 'json' };
-// import savedSuperformModules from '../_outputs/json/superform-saved-modules.json' assert { type: 'json' };
-// import savedSwellModules from '../_outputs/json/swell-saved-modules.json' assert { type: 'json' };
-import savedSymbioticModules from '../_outputs/json/symbiotic-saved-modules.json' assert { type: 'json' };
-// import savedTaikoModules from '../_outputs/json/taiko-saved-modules.json' assert { type: 'json' };
+const savedDelegateModules = JSON.parse(
+  fs.readFileSync(new URL('../_outputs/json/delegate-saved-modules.json', import.meta.url))
+);
+const savedElixirModules = JSON.parse(
+  fs.readFileSync(new URL('../_outputs/json/elixir-saved-modules.json', import.meta.url))
+);
+const savedHyperlaneModules = JSON.parse(
+  fs.readFileSync(new URL('../_outputs/json/hyperlane-saved-modules.json', import.meta.url))
+);
+const savedSymbioticModules = JSON.parse(
+  fs.readFileSync(new URL('../_outputs/json/symbiotic-saved-modules.json', import.meta.url))
+);
 
 const scripts = {
   hyperlane: 'hyperlane',

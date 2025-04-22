@@ -12,28 +12,27 @@ const groupSettings: GroupSettings = {};
 
 const modules: UserModuleConfig[] = [
   {
-    moduleName: 'hyperlane-airdrop-check',
+    moduleName: 'hyperlane-airdrop-claim',
 
     indexGroup: 0,
   },
 
   {
-    // При указании delegateToAddress, в качестве получателя дропа будет выбран именно этот адресс
-    moduleName: 'hyperlane-airdrop-register',
+    // При указании transferAddress, будет выполнен бридж на данный адресс
+    moduleName: 'hyperlane-nexus-bridge',
 
-    // В каком токене регистрировать дроп
-    // 'HYPER' | 'stHYPER'
-    srcToken: 'HYPER',
+    // Модуль будет смотреть токены HYPER и выполнять бридж из указанных сетей
+    randomNetworks: ['arbitrum', 'optimism', 'base'],
 
-    // Сеть, в которой будет выполнена регистрация дропа
-    // 'eth' | 'base' | 'arbitrum' | 'optimism' | 'bsc'
-    network: 'eth',
+    // Сеть, в которую отправлять токены HYPER
+    destinationNetwork: 'bsc',
 
-    // При указании данного параметра, для регистрации будет выбрана рандомная сеть из указанных
-    // Если не хотите рандомить сеть, просто удалите данный параметр
-    randomNetworks: ['base', 'arbitrum', 'optimism'],
+    minTokenBalance: 1,
 
-    indexGroup: 1,
+    minAndMaxAmount: [100, 100],
+    usePercentBalance: true,
+
+    indexGroup: 10,
   },
 ];
 

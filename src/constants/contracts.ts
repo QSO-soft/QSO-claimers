@@ -70,6 +70,11 @@ export const BNB_TOKEN_CONTRACTS: TokenContract[] = [
     address: getAddress('0xBDA011D7F8EC00F66C1923B049B94c67d148d8b2'),
     abi: defaultTokenAbi,
   },
+  {
+    name: 'HYPER',
+    address: getAddress('0xC9d23ED2ADB0f551369946BD377f8644cE1ca5c4'),
+    abi: defaultTokenAbi,
+  },
 ];
 export const TAIKO_TOKEN_CONTRACTS: TokenContract[] = [
   {
@@ -147,6 +152,11 @@ export const ARBITRUM_TOKEN_CONTRACTS: TokenContract[] = [
     address: getAddress('0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1'),
     abi: defaultTokenAbi,
   },
+  {
+    name: 'HYPER',
+    address: getAddress('0xC9d23ED2ADB0f551369946BD377f8644cE1ca5c4'),
+    abi: defaultTokenAbi,
+  },
 ];
 export const ZORA_TOKEN_CONTRACTS: TokenContract[] = [
   {
@@ -184,6 +194,11 @@ export const OPTIMISM_TOKEN_CONTRACTS: TokenContract[] = [
   {
     name: OptimismTokens.DAI,
     address: getAddress('0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1'),
+    abi: defaultTokenAbi,
+  },
+  {
+    name: 'HYPER',
+    address: getAddress('0x9923DB8d7FBAcC2E69E87fAd19b886C81cd74979'),
     abi: defaultTokenAbi,
   },
 ];
@@ -262,6 +277,11 @@ export const BASE_TOKEN_CONTRACTS: TokenContract[] = [
     address: getAddress('0x50c5725949a6f0c72e6c4a641f24049a917db0cb'),
     abi: defaultTokenAbi,
   },
+  {
+    name: 'HYPER',
+    address: getAddress('0xC9d23ED2ADB0f551369946BD377f8644cE1ca5c4'),
+    abi: defaultTokenAbi,
+  },
 ];
 export const ETH_TOKEN_CONTRACTS: TokenContract[] = [
   {
@@ -287,6 +307,11 @@ export const ETH_TOKEN_CONTRACTS: TokenContract[] = [
   {
     name: EthTokens.DAI,
     address: getAddress('0x6b175474e89094c44da98b954eedeac495271d0f'),
+    abi: defaultTokenAbi,
+  },
+  {
+    name: 'HYPER',
+    address: getAddress('0x93A2Db22B7c736B341C32Ff666307F4a9ED910F5'),
     abi: defaultTokenAbi,
   },
 ];

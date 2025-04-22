@@ -140,10 +140,19 @@ export const getCoinPriceCryptoCompare = async (props: GetPrices): Promise<Crypt
 
 export const getAllNativePrices = async (logger: LoggerType) => {
   // TODO: update later
-  const filteredNetworks = SUPPORTED_NETWORKS.filter((network) => network !== 'aptos' && network !== 'holesky' && network !== 'layerZero');
+  const filteredNetworks = SUPPORTED_NETWORKS.filter(
+    (network) => network !== 'aptos' && network !== 'holesky' && network !== 'layerZero'
+  );
 
   const allUniqueNativeTokens = [
-    ...new Set([...filteredNetworks.map((network) => getNativeTokenByNetwork(network)), 'USDT', 'USDC', 'DAI', 'WETH']),
+    ...new Set([
+      ...filteredNetworks.map((network) => getNativeTokenByNetwork(network)),
+      'USDT',
+      'USDC',
+      'DAI',
+      'WETH',
+      'HYPER',
+    ]),
   ];
 
   return await getCoinPriceCryptoCompare({

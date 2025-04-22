@@ -44,8 +44,8 @@ export const PUBLIC_RPCS: RPCsRecord = {
 
   bsc: [
     // 'https://bsc-mainnet.public.blastapi.io',
-    // 'https://bsc.publicnode.com',
-    'https://rpc.ankr.com/bsc',
+    'https://bsc.publicnode.com',
+    // 'https://rpc.ankr.com/bsc',
   ],
   opBNB: [
     // 'https://opbnb.publicnode.com',

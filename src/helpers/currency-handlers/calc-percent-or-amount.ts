@@ -1,10 +1,20 @@
 import { AMOUNT_IS_TOO_LOW_ERROR } from '../../constants';
 import { LoggerType } from '../../logger';
-import { BinanceNetworks, NumberRange, OkxNetworks, SupportedNetworks, TokenContract, WalletData } from '../../types';
-import { ClientType, getClientByNetwork } from '../clients';
-import { addNumberPercentage, getRandomNumber } from '../utils';
-import { CryptoCompareResult } from './coin-price';
-import { decimalToInt, ETH_DECIMAL, intToDecimal } from './wei-converter';
+import {
+  Balance,
+  BinanceNetworks,
+  NumberRange,
+  OkxNetworks,
+  SupportedNetworks,
+  TokenContract,
+  Tokens,
+  WalletData,
+} from '../../types';
+import { ClientType, getClientByNetwork, getNativeTokenByNetwork } from '../clients';
+import { CryptoCompareResult, decimalToInt, ETH_DECIMAL, intToDecimal } from '../currency-handlers';
+import { getContractData } from '../main';
+import { getTrimmedLogsAmount } from '../show-logs';
+import { addNumberPercentage, getRandomItemFromArray, getRandomNumber } from '../utils';
 
 interface ICalculateAmount {
   minAndMaxAmount: NumberRange;
@@ -14,7 +24,8 @@ interface ICalculateAmount {
 type NumberCalculateAmount = ICalculateAmount & { isBigInt?: false; balance: number };
 type BigIntCalculateAmount = ICalculateAmount & { isBigInt: true; balance: bigint };
 
-const calculatePercentAmount = (balance: number, percent: number) => (balance * percent) / 100;
+export const calculatePercentAmount = (balance: number, percent: number) => (balance * percent) / 100;
+const calculateBigIntPercentAmount = (balance: bigint, percent: bigint) => (balance * percent) / 100n;
 
 export function calculateAmount(args: NumberCalculateAmount): number;
 export function calculateAmount(args: BigIntCalculateAmount): bigint;
@@ -25,32 +36,33 @@ export function calculateAmount({
   isBigInt,
   decimals = ETH_DECIMAL,
 }: NumberCalculateAmount | BigIntCalculateAmount): number | bigint {
-  let amount = getRandomNumber(minAndMaxAmount);
+  let amount: number | bigint = getRandomNumber(minAndMaxAmount);
 
   if (usePercentBalance) {
-    const percentValue = getRandomNumber(minAndMaxAmount, true);
+    const percentValue = getRandomNumber(minAndMaxAmount, false);
 
     if (percentValue === 100) {
       return balance;
     }
 
     if (isBigInt) {
-      const intBalance = decimalToInt({ amount: balance, decimals });
-      amount = calculatePercentAmount(intBalance, percentValue);
+      const amountInt = calculatePercentAmount(Number(balance), percentValue);
+      amount = BigInt(+amountInt.toFixed(0));
     } else {
-      amount = calculatePercentAmount(balance, percentValue);
+      amount = calculatePercentAmount(balance, +percentValue.toFixed(0));
     }
-  }
-
-  if (isBigInt) {
-    return intToDecimal({ amount, decimals });
+  } else {
+    if (isBigInt) {
+      return intToDecimal({ amount, decimals });
+    }
   }
 
   return amount;
 }
 
 export const getExpectedBalance = (expectedBalance?: NumberRange) => {
-  const currentExpectedBalance = !!expectedBalance && getRandomNumber(expectedBalance);
+  const currentExpectedBalance =
+    !!expectedBalance && expectedBalance[0] && expectedBalance[1] && getRandomNumber(expectedBalance);
   const isTopUpByExpectedBalance = !!currentExpectedBalance && currentExpectedBalance > 0;
 
   if (!currentExpectedBalance) {
@@ -67,10 +79,10 @@ export const getExpectedBalance = (expectedBalance?: NumberRange) => {
 };
 
 interface GetTopUpOptions {
+  client: ClientType;
   isTopUpByExpectedBalance: boolean;
   currentExpectedBalance: number;
   tokenToWithdraw: string;
-  client: ClientType;
   wallet: WalletData;
   minAndMaxAmount: NumberRange;
   network: SupportedNetworks | BinanceNetworks | OkxNetworks;
@@ -141,17 +153,19 @@ export const getTopUpOptions = async (props: GetTopUpOptions): Promise<GetTopUpO
     currentExpectedBalance = currentExpectedBalance / tokenPrice;
     currentMinAmount = currentMinAmount ? currentMinAmount / tokenPrice : currentMinAmount;
   }
+  const balance = await client.getNativeOrContractBalance(isNativeTokenToWithdraw, tokenContractInfo);
 
-  const { int: tokenBalance } = await client.getNativeOrContractBalance(isNativeTokenToWithdraw, tokenContractInfo);
-
+  const { int: tokenBalance } = balance;
   const mainTokenBalance = tokenBalance;
 
   let currentAmount: number = 0;
 
   if (mainTokenBalance >= minTokenBalance && minTokenBalance !== 0) {
-    const successMessage = `Balance of ${tokenToWithdraw}=${mainTokenBalance.toFixed(
-      6
-    )} in ${network} network already more than or equals ${minTokenBalance.toFixed(6)}`;
+    const successMessage = `Balance of ${getTrimmedLogsAmount(mainTokenBalance, tokenToWithdraw as Tokens)}
+   in ${network} network already more than or equals ${getTrimmedLogsAmount(
+     minTokenBalance,
+     tokenToWithdraw as Tokens
+   )}`;
 
     return {
       isDone: true,
@@ -160,25 +174,33 @@ export const getTopUpOptions = async (props: GetTopUpOptions): Promise<GetTopUpO
   }
 
   let destTokenBalance;
-  let destClient;
 
   if (expectedBalanceNetwork && expectedBalanceNetwork !== network) {
     const client = getClientByNetwork(expectedBalanceNetwork, wallet.privKey, logger);
 
+    const { tokenContractInfo, isNativeToken: isNativeTokenToWithdraw } = getContractData({
+      nativeToken: client.chainData.nativeCurrency.symbol as Tokens,
+      network: expectedBalanceNetwork,
+      token: tokenToWithdraw as Tokens,
+    });
+
     const { int } = await client.getNativeOrContractBalance(isNativeTokenToWithdraw, tokenContractInfo);
 
-    destClient = client;
     destTokenBalance = int;
   } else {
-    destClient = client;
     destTokenBalance = mainTokenBalance;
   }
 
   if (isTopUpByExpectedBalance) {
     if (currentExpectedBalance <= destTokenBalance) {
-      const successMessage = `Balance of ${destClient.chainData.nativeCurrency.symbol}=${destTokenBalance.toFixed(
-        4
-      )} in ${network} network already more than or equals ${currentExpectedBalance.toFixed(6)}`;
+      const symbol = getNativeTokenByNetwork(network);
+      const successMessage = `Balance of ${getTrimmedLogsAmount(
+        destTokenBalance,
+        symbol as Tokens
+      )} in ${network} network already more than or equals ${getTrimmedLogsAmount(
+        currentExpectedBalance,
+        symbol as Tokens
+      )}`;
 
       return {
         isDone: true,
@@ -210,4 +232,137 @@ export const getTopUpOptions = async (props: GetTopUpOptions): Promise<GetTopUpO
 
 export const calculateAmountWithFee = (amount: number, fee: number, percentToAdd = 0): number => {
   return +addNumberPercentage(amount + fee, percentToAdd);
+};
+
+interface CalculateAdvancedAmount {
+  minAndMaxAmount?: NumberRange;
+  usePercentBalance: boolean;
+  balance: Balance;
+  token: Tokens;
+  destToken?: Tokens;
+  nativePrices: CryptoCompareResult;
+  expectedBalance?: NumberRange;
+  balanceToLeft?: NumberRange;
+  destinationBalance?: Balance;
+  minAmount?: number;
+  maxAmount?: NumberRange;
+  useUsd?: boolean;
+}
+export const calculateAdvancedAmount = ({
+  minAndMaxAmount: minAndMaxAmountProp,
+  usePercentBalance,
+  balanceToLeft: balanceToLeftProp,
+  expectedBalance,
+  balance,
+  token,
+  destinationBalance,
+  destToken,
+  minAmount: minAmountProp,
+  maxAmount: maxAmountProp,
+  useUsd,
+  nativePrices,
+}: CalculateAdvancedAmount) => {
+  const { currentExpectedBalance: currentExpectedBalanceProp, isTopUpByExpectedBalance } =
+    getExpectedBalance(expectedBalance);
+
+  const logBalance = getTrimmedLogsAmount(balance.int, token);
+
+  let balanceToLeft = balanceToLeftProp;
+  let currentExpectedBalance = currentExpectedBalanceProp;
+  let minAndMaxAmount = minAndMaxAmountProp;
+  let minAmount = minAmountProp;
+  let maxAmount = maxAmountProp;
+
+  const tokenPrice = nativePrices[token];
+
+  if (!tokenPrice) {
+    throw new Error(`Unable to get ${token} price`);
+  }
+
+  const destTokenPrice = nativePrices[destToken || token];
+
+  if (!destTokenPrice) {
+    throw new Error(`Unable to get ${destToken} price`);
+  }
+
+  if (useUsd) {
+    currentExpectedBalance = currentExpectedBalance / destTokenPrice;
+    minAmount = (minAmount || 0) / tokenPrice;
+  }
+
+  let amountWei = 0n;
+  if (balanceToLeft && balanceToLeft[0] && balanceToLeft[1]) {
+    if (useUsd) {
+      balanceToLeft = [balanceToLeft[0] / tokenPrice || 0, balanceToLeft[1] / tokenPrice || 0];
+    }
+
+    const balanceToLeftInt = getRandomNumber(balanceToLeft);
+
+    const balanceToLeftWei = intToDecimal({
+      amount: balanceToLeftInt,
+      decimals: balance.decimals,
+    });
+
+    amountWei = balance.wei - balanceToLeftWei;
+
+    if (balance.int - balanceToLeftInt <= 0) {
+      throw new Error(`Balance is ${logBalance} that is lower than balance to left ${balanceToLeftInt}`);
+    }
+  } else if (isTopUpByExpectedBalance && destinationBalance) {
+    // TODO: make it normally
+    const sumBalance = balance.int + destinationBalance.int;
+    if (expectedBalance && sumBalance - currentExpectedBalance <= 0) {
+      if (sumBalance >= expectedBalance[0]) {
+        currentExpectedBalance = getRandomItemFromArray([expectedBalance[0], sumBalance]);
+      } else {
+        throw new Error(`Balance is ${logBalance} that is not enough for expected balance ${currentExpectedBalance}`);
+      }
+    }
+
+    amountWei = intToDecimal({
+      amount: currentExpectedBalance - destinationBalance.int,
+      decimals: destinationBalance.decimals,
+    });
+  } else if (minAndMaxAmount) {
+    if (useUsd) {
+      minAndMaxAmount = [minAndMaxAmount[0] / tokenPrice || 0, minAndMaxAmount[1] / tokenPrice || 0];
+    }
+
+    amountWei = calculateAmount({
+      balance: balance.wei,
+      isBigInt: true,
+      minAndMaxAmount,
+      usePercentBalance,
+      decimals: balance.decimals,
+    });
+  }
+
+  if (maxAmount && maxAmount[0] && maxAmount[1]) {
+    if (useUsd) {
+      maxAmount = [maxAmount[0] / tokenPrice || 0, maxAmount[1] / tokenPrice || 0];
+    }
+
+    const maxAmountWei = intToDecimal({
+      amount: getRandomNumber(maxAmount),
+      decimals: balance.decimals,
+    });
+
+    if (amountWei > maxAmountWei) {
+      amountWei = maxAmountWei;
+    }
+  }
+
+  const amountInt = decimalToInt({
+    amount: amountWei,
+    decimals: balance.decimals,
+  });
+
+  if (amountInt < (minAmount || 0)) {
+    throw new Error(`Amount ${getTrimmedLogsAmount(amountInt, token)} must be more than ${minAmount || 0}`);
+  }
+
+  return {
+    amountInt,
+    amountWei,
+  };
 };

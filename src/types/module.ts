@@ -60,7 +60,9 @@ export type ModuleNames =
   | 'story-claim'
   | 'delegate-registry'
   | 'hyperlane-airdrop-check'
-  | 'hyperlane-airdrop-register';
+  | 'hyperlane-airdrop-register'
+  | 'hyperlane-airdrop-claim'
+  | 'hyperlane-nexus-bridge';
 
 export type SwapModuleNames = Extract<
   ModuleNames,
@@ -103,6 +105,7 @@ export interface ExtraModuleParams {
   contractPairs?: ContractPairs;
   reverse?: boolean;
   slippage?: number;
+  maxAmount?: NumberRange;
   tokenToSupply?: Tokens;
   collateral?: 'disable' | 'enable';
   swapsByToken?: Record<AvailableSwapTokens, [SwapModuleNames, ...SwapModuleNames[]] | 'all'>;

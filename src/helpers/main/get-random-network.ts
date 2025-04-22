@@ -11,14 +11,15 @@ interface GetRandomNetwork {
   randomNetworks: SupportedNetworks[];
   logger: LoggerType;
   nativePrices: CryptoCompareResult;
-  isNativeToken: boolean;
   network: SupportedNetworks;
   client: ClientType;
-  token: Tokens;
+  token?: Tokens;
+  isNativeToken?: boolean;
   tokenContractInfo?: TokenContract;
   minTokenBalance?: number;
   useUsd?: boolean;
   isWithdrawal?: boolean;
+  destinationNetwork?: SupportedNetworks;
 }
 export const getRandomNetwork = async ({
   wallet,
@@ -32,14 +33,19 @@ export const getRandomNetwork = async ({
   token,
   client,
   isNativeToken,
+  destinationNetwork,
   isWithdrawal = true,
 }: GetRandomNetwork) => {
-  const shuffledNetworks = shuffleArray(randomNetworks);
+  let shuffledNetworks = shuffleArray(randomNetworks);
+  if (destinationNetwork) {
+    shuffledNetworks = shuffledNetworks.filter((network) => network !== destinationNetwork);
+  }
 
+  const nativeToken = client.chainData.nativeCurrency.symbol as Tokens;
   let currentNetwork = network;
   let currentToken = token;
   let currentTokenContractInfo = tokenContractInfo;
-  let currentIsNativeToken = isNativeToken;
+  let currentIsNativeToken = isNativeToken === undefined ? true : isNativeToken;
   let currentClient = client;
 
   const availableNetworks = [];
@@ -50,6 +56,7 @@ export const getRandomNetwork = async ({
     const { tokenContractInfo, token, isNativeToken } = getContractData({
       nativeToken,
       network,
+      token: currentToken,
     });
 
     currentNetwork = network;
@@ -94,14 +101,27 @@ export const getRandomNetwork = async ({
   }
 
   if (availableNetworks.length) {
-    return getRandomItemFromArray(availableNetworks);
+    const randomNetwork = getRandomItemFromArray(availableNetworks);
+    return {
+      ...randomNetwork,
+      token: randomNetwork.token || nativeToken,
+    };
   }
 
-  return {
-    network: currentNetwork,
-    token: currentToken,
-    tokenContractInfo: currentTokenContractInfo,
-    isNativeToken: currentIsNativeToken,
-    client: currentClient,
-  };
+  if (isWithdrawal || !minTokenBalance) {
+    return {
+      network: currentNetwork,
+      token: currentToken || nativeToken,
+      tokenContractInfo: currentTokenContractInfo,
+      isNativeToken: currentIsNativeToken,
+      client: currentClient,
+    };
+  } else {
+    const successMessage = `Balances of provided random networks are lower than minBalance ${minTokenBalance}`;
+
+    return {
+      status: 'passed',
+      message: successMessage,
+    };
+  }
 };

@@ -54,7 +54,61 @@ export const defaultModuleConfigs: DefaultModuleConfigs = {
     count: [1, 1],
     indexGroup: 0,
 
+    // В каком токене регистрировать дроп
+    // 'HYPER' | 'stHYPER'
+    srcToken: 'HYPER',
+
+    // Сеть, в которой будет выполнена регистрация дропа
+    // 'eth' | 'base' | 'arbitrum' | 'optimism' | 'bsc'
     network: 'eth',
+
+    // При указании данного параметра, для регистрации будет выбрана рандомная сеть из указанных
+    // randomNetworks: ['base', 'arbitrum', 'optimism'],
+  },
+  'hyperlane-airdrop-claim': {
+    count: [1, 1],
+    indexGroup: 0,
+
+    network: 'eth',
+  },
+  'hyperlane-nexus-bridge': {
+    count: [1, 1],
+    indexGroup: 0,
+
+    // Сеть с которой будет выполнен бридж
+    network: 'arbitrum',
+
+    // При указании данного поля сеть для бриджа будет выбрана та из списка, где будет баланс выше minTokenBalance
+    // Работает только, если useUsd = true
+    randomNetworks: [],
+
+    // Минимальный баланс в сети для того, чтоб быть выбранным через randomNetworks
+    minNativeBalance: 0,
+
+    // Использовать ли USD как значения балансов, amount
+    useUsd: false,
+
+    // Сеть в которую будет выполнен бридж
+    destinationNetwork: 'bsc',
+
+    // Если баланс в сети destinationNetwork кошелька будет ниже этого значения, только тогда будет выполнен модуль
+    // Если вам на балансе нужно всего например 0.005 ETH в сети Ethereum, тогда укажите здесь это количество,
+    // чтобы мы ничего не делали с этим кошельком при повторном запуске!
+    minDestNativeBalance: 0,
+
+    // Количество нативного токена, которые будут использовано для бриджа
+    minAndMaxAmount: [0, 0],
+    usePercentBalance: false,
+
+    // Баланс, который необходимо оставить в сети, с которой выполняется отправка
+    // С данным полем minAndMaxAmount и expectedBalance не учитываются
+    // При этом необходимо закладывать какое-то значением плюсом, которое теоретически уйдет на комиссию
+    balanceToLeft: [0, 0],
+
+    // Бридж будет выполнен только, если высчитанный amount будет больше данного значения
+    minAmount: 0,
+
+    waitTime: 30,
   },
 
   // ============== story ==============

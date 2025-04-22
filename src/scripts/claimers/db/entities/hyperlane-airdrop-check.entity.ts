@@ -19,6 +19,9 @@ export class HyperlaneAirdropCheckEntity extends BaseEntity {
   @Column('varchar', { length: 144, name: 'registration_receiving_address', default: '' })
   registrationReceivingAddress: string;
 
+  @Column({ type: 'boolean', default: false })
+  isClaimed: boolean;
+
   @Column('varchar', { length: 25, name: 'wallet_id' })
   walletId: string;
   @Column('varchar', { length: 144, name: 'wallet_address' })

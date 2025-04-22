@@ -24,9 +24,11 @@ import {
   execMakeTransferClaimOdos,
   execMakeDelegateRegistry,
   execMakeStoryClaim,
+  execMakeHyperlaneAidropCheck,
+  execMakeHyperlaneAidropClaim,
+  execMakeHyperlaneAidropRegister,
+  execMakeHyperlaneNexusBridge,
 } from '../../modules';
-import { execMakeHyperlaneAidropCheck } from '../../modules/hyperlane';
-import { execMakeHyperlaneAidropRegister } from '../../modules/hyperlane/make-airdrop-register';
 
 export class ModuleManager extends DefaultModuleManager {
   constructor(args: IModuleManager) {
@@ -96,6 +98,10 @@ export class ModuleManager extends DefaultModuleManager {
         return execMakeHyperlaneAidropCheck;
       case 'hyperlane-airdrop-register':
         return execMakeHyperlaneAidropRegister;
+      case 'hyperlane-airdrop-claim':
+        return execMakeHyperlaneAidropClaim;
+      case 'hyperlane-nexus-bridge':
+        return execMakeHyperlaneNexusBridge;
 
       default:
         return;

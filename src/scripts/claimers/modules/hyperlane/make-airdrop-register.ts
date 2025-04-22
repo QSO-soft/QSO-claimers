@@ -108,7 +108,7 @@ const makeHyperlaneAidropRegister = async (params: TransactionCallbackParams): T
     cookieManager.editCookie(verifyChallengeTokenResponse.cookies);
     config.headers['cookie'] = cookieManager.rawCookies;
     if (verifyChallengeTokenResponse?.status !== 204) throw new Error('Failed Solve Vercel Captcha');
-    logger?.info('Versel Captcha Solved And Verified');
+    logger?.success('Vercel Captcha Solved And Verified');
   }
 
   const { data } = await axios.get(

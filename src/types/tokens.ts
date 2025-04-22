@@ -202,6 +202,7 @@ const ALL_TOKENS = [
   'iZi',
   'HYPER',
   'stHYPER',
+  'IP',
 ] as const;
 
 export type Tokens = (typeof ALL_TOKENS)[number];

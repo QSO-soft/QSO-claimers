@@ -23,9 +23,9 @@ import {
   sepolia,
 } from 'viem/chains';
 
-import { Networks, SupportedNetworks } from '../../types';
+import { Networks, SupportedNetworks, Tokens } from '../../types';
 
-export const getNativeTokenByNetwork = (networkName: SupportedNetworks) => {
+export const getNativeTokenByNetwork = (networkName: SupportedNetworks): Tokens => {
   switch (networkName) {
     case Networks.TAIKO:
       return taiko.nativeCurrency.symbol;

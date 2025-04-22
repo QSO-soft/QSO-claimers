@@ -114,6 +114,8 @@ const makeDelegateRegistry = async (params: TransactionCallbackParams): Transact
     ...feeOptions,
   });
 
+  await client.waitTxReceipt(txHash);
+
   const resMsg = `Delegated registry ${walletAddress} > ${delegateToAddress} in ${network}`;
 
   return {

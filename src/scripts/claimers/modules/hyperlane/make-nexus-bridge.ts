@@ -60,6 +60,7 @@ export const makeHyperlaneNexusBridge = async (props: TransactionCallbackParams)
     token: tokenToBridge,
   });
   let currentToken = token;
+  let currentTokenContractInfo = tokenContractInfo;
 
   const randomNetworksLength = randomNetworks?.length || 0;
   if (randomNetworksLength) {
@@ -69,7 +70,7 @@ export const makeHyperlaneNexusBridge = async (props: TransactionCallbackParams)
       logger,
       useUsd,
       nativePrices,
-      tokenContractInfo,
+      tokenContractInfo: currentTokenContractInfo,
       minTokenBalance,
       client: currentClient,
       network: currentNetwork,
@@ -85,6 +86,7 @@ export const makeHyperlaneNexusBridge = async (props: TransactionCallbackParams)
     currentClient = res.client;
     currentNetwork = res.network;
     currentToken = res.token;
+    currentTokenContractInfo = res.tokenContractInfo;
   }
 
   const { walletClient, publicClient, explorerLink } = currentClient;
@@ -93,7 +95,7 @@ export const makeHyperlaneNexusBridge = async (props: TransactionCallbackParams)
 
   const dstChainId = destinationClient.chainData.id;
 
-  const balance = await currentClient.getNativeOrContractBalance(isNativeToken, tokenContractInfo);
+  const balance = await currentClient.getNativeOrContractBalance(isNativeToken, currentTokenContractInfo);
 
   const logBal = getTrimmedLogsAmount(balance.int, nativeToken);
   if (!randomNetworksLength && minTokenBalance && balance.int < minTokenBalance) {
@@ -131,7 +133,7 @@ export const makeHyperlaneNexusBridge = async (props: TransactionCallbackParams)
   );
 
   const value = (await publicClient.readContract({
-    address: tokenContractInfo?.address || '0x',
+    address: currentTokenContractInfo?.address || '0x',
     abi,
     functionName: 'quoteGasPayment',
     args: [dstChainId],
@@ -145,7 +147,7 @@ export const makeHyperlaneNexusBridge = async (props: TransactionCallbackParams)
   });
 
   const txHash = await walletClient.writeContract({
-    address: tokenContractInfo?.address || '0x',
+    address: currentTokenContractInfo?.address || '0x',
     abi,
     functionName: 'transferRemote',
     value,

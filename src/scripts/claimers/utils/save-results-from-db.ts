@@ -9,7 +9,6 @@ import {
   LayerZeroClaimEntity,
   PolyhedraClaimEntity,
   ScrollClaimEntity,
-  StoryClaimEntity,
   SuperfrensNftClaimEntity,
   SymbioticPointsEntity,
   TaikoClaimEntity,
@@ -48,9 +47,9 @@ export const saveResultsFromDb = async (props: SaveResultsFromDb) => {
     case 'taiko':
       projectEntity = TaikoClaimEntity;
       break;
-    case 'story':
-      projectEntity = StoryClaimEntity;
-      break;
+    // case 'story':
+    //   projectEntity = StoryClaimEntity;
+    //   break;
     case 'scroll':
       projectEntity = ScrollClaimEntity;
       break;

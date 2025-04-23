@@ -11,6 +11,7 @@ import {
   delegate,
   story,
   hyperlane,
+  zora,
 } from '../../../_inputs/settings/routes';
 import { Route } from '../../../types';
 
@@ -40,6 +41,8 @@ export const routeHandler = (route: Route) => {
       return story;
     case 'hyperlane':
       return hyperlane;
+    case 'zora':
+      return zora;
 
     default:
       throw new Error('Route name is wrong');

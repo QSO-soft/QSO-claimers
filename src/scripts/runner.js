@@ -17,6 +17,9 @@ const savedHyperlaneModules = JSON.parse(
 const savedSymbioticModules = JSON.parse(
   fs.readFileSync(new URL('../_outputs/json/symbiotic-saved-modules.json', import.meta.url))
 );
+const savedZoraModules = JSON.parse(
+  fs.readFileSync(new URL('../_outputs/json/zora-saved-modules.json', import.meta.url))
+);
 
 const scripts = {
   hyperlane: 'hyperlane',
@@ -31,25 +34,28 @@ const scripts = {
   elixir: 'elixir',
   symbiotic: 'symbiotic',
   // swell: 'swell',
+  zora: 'zora',
 };
 const aliases = {
-  runHyperlane: '1. Hyperlane',
+  runZora: '1. Zora',
+  runHyperlane: '2. Hyperlane',
   // runStory: '1. Story',
-  runDelegate: '2. Delegate',
+  runDelegate: '3. Delegate',
   // runOdos: '3. Odos',
   // runScroll: '4. Scroll',
   // runTaiko: '5. Taiko',
   // runPolyhedra: '6. Polyhedra',
   // runLayerZero: '7. LayerZero',
   // runSuperform: '8. Superfrom',
-  runElixir: '3. Elixir',
-  runSymbiotic: '4. Symbiotic',
+  runElixir: '4. Elixir',
+  runSymbiotic: '5. Symbiotic',
   // runSwell: '11. Swell',
 
   exit: '0. Выйти',
 };
 
 const commandAliases = {
+  [aliases.runZora]: scripts.zora,
   [aliases.runHyperlane]: scripts.hyperlane,
   // [aliases.runStory]: scripts.story,
   [aliases.runDelegate]: scripts.delegate,
@@ -72,6 +78,9 @@ const getStartMainCommand = async (projectName) => {
 
   let currentSavedModulesToUse;
   switch (projectName) {
+    case scripts.zora:
+      currentSavedModulesToUse = savedZoraModules;
+      break;
     case scripts.hyperlane:
       currentSavedModulesToUse = savedHyperlaneModules;
       break;
@@ -182,6 +191,12 @@ const getSecretPhrase = async () => {
   let args = [];
 
   switch (selectedAlias) {
+    case aliases.runZora: {
+      const { command, secret, projectName } = await getStartMainCommand(scripts.zora);
+      selectedCommand = command;
+      args = [secret, projectName, projectName];
+      break;
+    }
     case aliases.runHyperlane: {
       const { command, secret, projectName } = await getStartMainCommand(scripts.hyperlane);
       selectedCommand = command;

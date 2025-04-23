@@ -29,6 +29,7 @@ import {
   execMakeHyperlaneAidropRegister,
   execMakeHyperlaneNexusBridge,
 } from '../../modules';
+import { execMakeClaimZora, execMakeTransferClaimZora } from '../../modules/zora';
 
 export class ModuleManager extends DefaultModuleManager {
   constructor(args: IModuleManager) {
@@ -102,6 +103,11 @@ export class ModuleManager extends DefaultModuleManager {
         return execMakeHyperlaneAidropClaim;
       case 'hyperlane-nexus-bridge':
         return execMakeHyperlaneNexusBridge;
+
+      case 'zora-claim':
+        return execMakeClaimZora;
+      case 'zora-transfer-claim':
+        return execMakeTransferClaimZora;
 
       default:
         return;

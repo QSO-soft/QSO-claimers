@@ -45,6 +45,8 @@ export type ModuleNames =
   | 'taiko-claim'
   | 'taiko-check-claim'
   | 'taiko-transfer-claim'
+  | 'zora-claim'
+  | 'zora-transfer-claim'
   | 'swell-claim'
   | 'swell-check-claim'
   | 'swell-transfer-claim'

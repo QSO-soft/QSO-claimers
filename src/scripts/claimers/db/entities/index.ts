@@ -8,3 +8,4 @@ export * from './swell-claim.entity';
 export * from './odos-claim.entity';
 export * from './story-claim.entity';
 export * from './hyperlane-airdrop-check.entity';
+export * from './zora-claim.entity';

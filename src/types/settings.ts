@@ -100,7 +100,8 @@ export type Route =
   | 'odos'
   | 'delegate'
   | 'story'
-  | 'hyperlane';
+  | 'hyperlane'
+  | 'zora';
 
 export type Settings = DefaultSettings;
 

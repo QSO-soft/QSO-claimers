@@ -425,3 +425,33 @@ if [ ! -s src/_outputs/csv/checkers/hyperlane-claim.csv ]
     echo "\nCreating hyperlane-checker.csv in src/_outputs/csv/checkers/"
     touch src/_outputs/csv/checkers/hyperlane-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/hyperlane-claim.csv
 fi
+
+#ZORA ===============================================================================================================
+if [ ! -s src/_inputs/csv/zora-wallets.csv ]
+  then :
+    echo "\nCreating zora-wallets.csv in src/_inputs/csv/"
+    touch src/_inputs/csv/zora-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/zora-wallets.csv
+fi
+if [ ! -s src/_outputs/json/zora-wallets.json ]
+  then :
+    echo "\nCreating zora-wallets.json in src/_outputs/json/"
+    touch src/_outputs/json/zora-wallets.json && echo "[]" >> src/_outputs/json/zora-wallets.json
+fi
+
+if [ ! -s src/_outputs/csv/zora-failed-wallets.csv ]
+  then :
+    echo "\nCreating zora-failed-wallets.csv in src/_outputs/csv/"
+    touch src/_outputs/csv/zora-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/zora-failed-wallets.csv
+fi
+
+if [ ! -s src/_outputs/json/zora-saved-modules.json ]
+  then :
+    echo "\nCreating zora-saved-modules.json in src/_outputs/json/"
+    touch src/_outputs/json/zora-saved-modules.json && echo "[]" >> src/_outputs/json/zora-saved-modules.json
+fi
+
+if [ ! -s src/_outputs/csv/checkers/zora-claim.csv ]
+  then :
+    echo "\nCreating zora-claim.csv in src/_outputs/csv/checkers/"
+    touch src/_outputs/csv/checkers/zora-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/zora-claim.csv
+fi

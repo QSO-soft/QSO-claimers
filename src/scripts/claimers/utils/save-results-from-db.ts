@@ -13,6 +13,7 @@ import {
   SuperfrensNftClaimEntity,
   SymbioticPointsEntity,
   TaikoClaimEntity,
+  ZoraClaimEntity,
 } from '../db/entities';
 
 interface SaveResultsFromDb {
@@ -55,6 +56,9 @@ export const saveResultsFromDb = async (props: SaveResultsFromDb) => {
       break;
     case 'hyperlane':
       projectEntity = HyperlaneAirdropCheckEntity;
+      break;
+    case 'zora':
+      projectEntity = ZoraClaimEntity;
       break;
 
     default:

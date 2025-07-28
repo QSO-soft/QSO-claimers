@@ -12,29 +12,58 @@ const groupSettings: GroupSettings = {};
 
 const modules: UserModuleConfig[] = [
   {
-    // Необходим SOLVIUM_CAPTCHA_KEY в global.js
-    moduleName: 'hyperlane-airdrop-claim',
+    moduleName: 'hyperlane-airdrop-check',
 
     indexGroup: 0,
   },
 
   {
-    // При указании transferAddress, будет выполнен бридж на данный адресс
-    moduleName: 'hyperlane-nexus-bridge',
+    moduleName: 'hyperlane-airdrop-register',
 
-    // Модуль будет смотреть токены HYPER и выполнять бридж из указанных сетей
-    randomNetworks: ['arbitrum', 'optimism', 'base'],
+    indexGroup: 1,
 
-    // Сеть, в которую отправлять токены HYPER
-    destinationNetwork: 'bsc',
+    // В каком токене регистрировать дроп
+    // 'HYPER' | 'stHYPER'
+    srcToken: 'HYPER',
 
-    minTokenBalance: 1,
+    // Сеть, в которой будет выполнена регистрация дропа
+    // 'eth' | 'bsc'
+    network: 'bsc',
 
-    minAndMaxAmount: [100, 100],
-    usePercentBalance: true,
-
-    indexGroup: 10,
+    // При указании данного параметра, для регистрации будет выбрана рандомная сеть из указанных
+    // randomNetworks: ['eth', 'bsc'],
   },
+
+  // {
+  //   moduleName: 'transfer-token',
+  //
+  //   minAndMaxAmount: [0.00254, 0.00254],
+  //   usePercentBalance: false,
+  //
+  //   contractAddress: 'native',
+  //
+  //   minTokenBalance: 0.003,
+  //
+  //   network: 'bsc',
+  // },
+
+  // {
+  //   // При указании transferAddress, будет выполнен бридж на данный адресс
+  //   moduleName: 'hyperlane-nexus-bridge',
+  //
+  //   // Модуль будет смотреть токены HYPER и выполнять бридж из указанных сетей
+  //   randomNetworks: ['arbitrum', 'optimism', 'base'],
+  //
+  //   // Сеть, в которую отправлять токены HYPER
+  //   destinationNetwork: 'bsc',
+  //
+  //   minTokenBalance: 1,
+  //
+  //   minAndMaxAmount: [100, 100],
+  //   usePercentBalance: true,
+  //
+  //   indexGroup: 10,
+  // },
 ];
 
 // Выполнит скрипт на указанном количестве кошельков

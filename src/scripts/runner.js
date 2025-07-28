@@ -17,11 +17,23 @@ const savedHyperlaneModules = JSON.parse(
 const savedSymbioticModules = JSON.parse(
   fs.readFileSync(new URL('../_outputs/json/symbiotic-saved-modules.json', import.meta.url))
 );
-const savedZoraModules = JSON.parse(
-  fs.readFileSync(new URL('../_outputs/json/zora-saved-modules.json', import.meta.url))
-);
+// const savedZoraModules = JSON.parse(
+//   fs.readFileSync(new URL('../_outputs/json/zora-saved-modules.json', import.meta.url))
+// );
+// const savedPrivaseaModules = JSON.parse(
+//   fs.readFileSync(new URL('../_outputs/json/privasea-saved-modules.json', import.meta.url))
+// );
+// const savedMovementModules = JSON.parse(
+//   fs.readFileSync(new URL('../_outputs/json/movement-saved-modules.json', import.meta.url))
+// );
+// const savedCalderaModules = JSON.parse(
+//   fs.readFileSync(new URL('../_outputs/json/caldera-saved-modules.json', import.meta.url))
+// );
 
 const scripts = {
+  // movement: 'movement',
+  // privasea: 'privasea',
+  // caldera: 'caldera',
   hyperlane: 'hyperlane',
   // story: 'story',
   delegate: 'delegate',
@@ -37,25 +49,31 @@ const scripts = {
   zora: 'zora',
 };
 const aliases = {
-  runZora: '1. Zora',
-  runHyperlane: '2. Hyperlane',
+  // runCaldera: '1. Caldera',
+  // runMovement: '1. Movement',
+  // runPrivasea: '2. PrivaSea',
+  // runZora: '2. Zora',
+  runHyperlane: '1. Hyperlane',
   // runStory: '1. Story',
-  runDelegate: '3. Delegate',
+  runDelegate: '2. Delegate',
   // runOdos: '3. Odos',
   // runScroll: '4. Scroll',
   // runTaiko: '5. Taiko',
   // runPolyhedra: '6. Polyhedra',
   // runLayerZero: '7. LayerZero',
   // runSuperform: '8. Superfrom',
-  runElixir: '4. Elixir',
-  runSymbiotic: '5. Symbiotic',
+  runElixir: '3. Elixir',
+  runSymbiotic: '4. Symbiotic',
   // runSwell: '11. Swell',
 
   exit: '0. Выйти',
 };
 
 const commandAliases = {
-  [aliases.runZora]: scripts.zora,
+  // [aliases.runCaldera]: scripts.caldera,
+  // [aliases.runMovement]: scripts.movement,
+  // [aliases.runPrivasea]: scripts.privasea,
+  // [aliases.runZora]: scripts.zora,
   [aliases.runHyperlane]: scripts.hyperlane,
   // [aliases.runStory]: scripts.story,
   [aliases.runDelegate]: scripts.delegate,
@@ -78,9 +96,18 @@ const getStartMainCommand = async (projectName) => {
 
   let currentSavedModulesToUse;
   switch (projectName) {
-    case scripts.zora:
-      currentSavedModulesToUse = savedZoraModules;
-      break;
+    // case scripts.caldera:
+    //   currentSavedModulesToUse = savedCalderaModules;
+    //   break;
+    // case scripts.movement:
+    //   currentSavedModulesToUse = savedMovementModules;
+    //   break;
+    // case scripts.privasea:
+    //   currentSavedModulesToUse = savedPrivaseaModules;
+    //   break;
+    // case scripts.zora:
+    //   currentSavedModulesToUse = savedZoraModules;
+    //   break;
     case scripts.hyperlane:
       currentSavedModulesToUse = savedHyperlaneModules;
       break;
@@ -191,12 +218,30 @@ const getSecretPhrase = async () => {
   let args = [];
 
   switch (selectedAlias) {
-    case aliases.runZora: {
-      const { command, secret, projectName } = await getStartMainCommand(scripts.zora);
-      selectedCommand = command;
-      args = [secret, projectName, projectName];
-      break;
-    }
+    // case aliases.runCaldera: {
+    //   const { command, secret, projectName } = await getStartMainCommand(scripts.caldera);
+    //   selectedCommand = command;
+    //   args = [secret, projectName, projectName];
+    //   break;
+    // }
+    // case aliases.runMovement: {
+    //   const { command, secret, projectName } = await getStartMainCommand(scripts.movement);
+    //   selectedCommand = command;
+    //   args = [secret, projectName, projectName];
+    //   break;
+    // }
+    // case aliases.runPrivasea: {
+    //   const { command, secret, projectName } = await getStartMainCommand(scripts.privasea);
+    //   selectedCommand = command;
+    //   args = [secret, projectName, projectName];
+    //   break;
+    // }
+    // case aliases.runZora: {
+    //   const { command, secret, projectName } = await getStartMainCommand(scripts.zora);
+    //   selectedCommand = command;
+    //   args = [secret, projectName, projectName];
+    //   break;
+    // }
     case aliases.runHyperlane: {
       const { command, secret, projectName } = await getStartMainCommand(scripts.hyperlane);
       selectedCommand = command;

@@ -6,9 +6,9 @@ import { getAxiosConfig, getHeaders, sleep } from '../utils';
 
 const SOLVIUM_API_URL = 'https://captcha.solvium.io/api/v1/task';
 
-export async function getSolviumCaptcha(proxyAgent: ProxyAgent | undefined, token: string) {
+export async function getSolviumCaptcha(proxyAgent: ProxyAgent | undefined, token: string, siteKye: string) {
   try {
-    const taskId = await requestSolving(proxyAgent, token);
+    const taskId = await requestSolving(proxyAgent, token, siteKye);
     return getResult(proxyAgent, taskId);
   } catch (err) {
     const error = err as Error;
@@ -16,7 +16,7 @@ export async function getSolviumCaptcha(proxyAgent: ProxyAgent | undefined, toke
   }
 }
 
-async function requestSolving(proxyAgent: ProxyAgent | undefined, token: string): Promise<string> {
+async function requestSolving(proxyAgent: ProxyAgent | undefined, token: string, siteKey: string): Promise<string> {
   try {
     const headers = {
       ...getHeaders(),
@@ -26,13 +26,15 @@ async function requestSolving(proxyAgent: ProxyAgent | undefined, token: string)
       ...(await getAxiosConfig({
         proxyAgent,
         headers,
+        withoutAbort: true,
+        timeout: 120_000,
       })),
       validateStatus: () => true,
     };
 
     const response = await axios.get(`${SOLVIUM_API_URL}/vercel`, {
       ...config,
-      params: { challengeToken: token },
+      params: { challengeToken: token, sitekey: siteKey },
     });
 
     const taskId = response.data.task_id;
@@ -59,16 +61,15 @@ async function getResult(proxyAgent: ProxyAgent | undefined, taskId: string): Pr
     ...(await getAxiosConfig({
       proxyAgent,
       headers,
+      withoutAbort: true,
+      timeout: 120_000,
     })),
     validateStatus: () => true,
   };
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     try {
-      const response = await axios.get(
-        `${SOLVIUM_API_URL}/status/${taskId}`,
-        config
-      );
+      const response = await axios.get(`${SOLVIUM_API_URL}/status/${taskId}`, config);
       const { status, result } = response.data;
 
       if (status === 'completed') {

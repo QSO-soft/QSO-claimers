@@ -14,9 +14,9 @@ export const calculateMinAmountOut = async (minAmountOut: bigint, slippage: numb
   return Number(Number(intMinAmount - (intMinAmount / 100) * slippage).toFixed(0));
 };
 
-export const getDeadline = () => {
+export const getDeadline = (mins = 60) => {
   const timestamp = Math.floor(Date.now() / 1000);
-  return timestamp + 60 * 60;
+  return timestamp + mins * 60;
 };
 
 export const getModuleForSwap = (swapModuleName: SwapModuleNames) => {

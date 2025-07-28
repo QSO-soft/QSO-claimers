@@ -8,7 +8,7 @@ import {
   getHeaders,
   getRandomItemFromArray,
   getSolviumCaptcha,
-  sleep,
+  sleepByRange,
   TransactionCallbackParams,
   TransactionCallbackReturn,
   transactionWorker,
@@ -17,6 +17,7 @@ import { CookieManager } from '../../../../helpers/coookie.manager';
 import { parseResponse } from '../../../../helpers/request-parsing/request-parsing';
 import { TransformedModuleParams } from '../../../../types';
 import { HyperlaneAirdropCheckEntity } from '../../db/entities';
+import { SITEKYE } from './constants';
 
 export const execMakeHyperlaneAidropRegister = async (params: TransformedModuleParams) =>
   transactionWorker({
@@ -88,7 +89,7 @@ const makeHyperlaneAidropRegister = async (params: TransactionCallbackParams): T
   // * Solve Vercel Captcha
   if (challengeToken) {
     logger?.info('Solving Vercel Captcha...');
-    const solution = await getSolviumCaptcha(proxyAgent, challengeToken).catch((err) => {
+    const solution = await getSolviumCaptcha(proxyAgent, challengeToken, SITEKYE).catch((err) => {
       throw new Error(`Failed Solve Vercel Captcha | ${getFormattedErrorMessage(err, 'eth')}`);
     });
 
@@ -111,12 +112,22 @@ const makeHyperlaneAidropRegister = async (params: TransactionCallbackParams): T
     logger?.success('Vercel Captcha Solved And Verified');
   }
 
+  await sleepByRange([3, 6]);
+  const { data: boostDataMainWallet } = await axios.get(
+    `https://claim.hyperlane.foundation/api/streak?address=${wallet.walletAddress}`,
+    config
+  );
+
+  let streakMultiplier = +(boostDataMainWallet?.response?.currentBoost || '0');
+
+  await sleepByRange([3, 6]);
+
   const { data } = await axios.get(
     `https://claim.hyperlane.foundation/api/check-eligibility?address=${walletAddress}`,
     config
   );
 
-  await sleep(0.5);
+  await sleepByRange([3, 6]);
 
   const isEligible = data?.response?.isEligible;
 
@@ -150,12 +161,24 @@ const makeHyperlaneAidropRegister = async (params: TransactionCallbackParams): T
       'Next-Router-State-Tree':
         '%5B%22%22%2C%7B%22children%22%3A%5B%22(home)%22%2C%7B%22children%22%3A%5B%22__PAGE__%22%2C%7B%7D%2C%22%2F%22%2C%22refresh%22%5D%7D%5D%7D%2Cnull%2Cnull%2Ctrue%5D',
       'Next-Url': '/airdrop-registration',
+      'X-Deployment-Id': 'dpl_3SdNHJbazreUrTZBNsT16mwmomtE',
     },
   });
+  await sleepByRange([3, 6]);
+
+  if (wallet.delegateToAddress) {
+    const { data: boostData } = await axios.get(
+      `https://claim.hyperlane.foundation/api/streak?address=${wallet.delegateToAddress}`,
+      config
+    );
+
+    streakMultiplier = +(boostData?.response?.currentBoost || '0');
+  }
+
+  await sleepByRange([3, 6]);
 
   const msgData = {
     eligibleAddress: walletAddress,
-    amount: `${amount}`,
     chainId: BigInt(client.chainData.id),
     receivingAddress,
     tokenType: srcToken,
@@ -172,10 +195,10 @@ const makeHyperlaneAidropRegister = async (params: TransactionCallbackParams): T
           name: 'chainId',
           type: 'uint256',
         },
-        {
-          name: 'amount',
-          type: 'string',
-        },
+        // {
+        //   name: 'amount',
+        //   type: 'string',
+        // },
         {
           name: 'receivingAddress',
           type: 'string',
@@ -199,15 +222,21 @@ const makeHyperlaneAidropRegister = async (params: TransactionCallbackParams): T
     {
       wallets: [
         {
-          ...msgData,
+          // amount: `${amount}`,
+          amount: '0',
           chainId: client.chainData.id,
+          eligibleAddress: walletAddress,
           eligibleAddressType: 'ethereum',
+          hyperstreakChainId: client.chainData.id,
+          receivingAddress,
           signature,
+          tokenType: srcToken,
         },
       ],
     },
     config
   );
+  await sleepByRange([3, 6]);
 
   if (!registerData?.validationResult?.success) {
     return {
@@ -223,6 +252,7 @@ const makeHyperlaneAidropRegister = async (params: TransactionCallbackParams): T
     registrationToken: srcToken,
     registrationReceivingAddress: receivingAddress,
     isRegistered: true,
+    streakMultiplier,
   });
 
   await axios.get('https://claim.hyperlane.foundation/?openRegistrationCompletePopup=&_rsc=2uyiw', {
@@ -232,8 +262,10 @@ const makeHyperlaneAidropRegister = async (params: TransactionCallbackParams): T
       'Next-Router-State-Tree':
         '%5B%22%22%2C%7B%22children%22%3A%5B%22airdrop-registration%22%2C%7B%22children%22%3A%5B%22__PAGE__%22%2C%7B%7D%2C%22%2Fairdrop-registration%22%2C%22refresh%22%5D%7D%5D%7D%2Cnull%2Cnull%2Ctrue%5D',
       'Next-Url': '/airdrop-registration',
+      'X-Deployment-Id': 'dpl_3SdNHJbazreUrTZBNsT16mwmomtE',
     },
   });
+  await sleepByRange([3, 6]);
 
   await axios.get(
     `https://claim.hyperlane.foundation/api/get-registration-for-address?address=${walletAddress}`,
@@ -241,7 +273,8 @@ const makeHyperlaneAidropRegister = async (params: TransactionCallbackParams): T
   );
 
   const receiverMsg = wallet.delegateToAddress ? `| Receiver: ${wallet.delegateToAddress}` : '';
-  const message = `Amount: ${amount} ${srcToken} | Registered in ${network} ${receiverMsg}`;
+  // const message = `Amount: ${amount} ${srcToken} | Registered in ${network} ${receiverMsg}`;
+  const message = `Registered for ${srcToken} in ${network} ${receiverMsg}`;
   return {
     status: 'success',
     message,

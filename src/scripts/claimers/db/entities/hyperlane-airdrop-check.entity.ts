@@ -18,6 +18,8 @@ export class HyperlaneAirdropCheckEntity extends BaseEntity {
   registrationToken: string;
   @Column('varchar', { length: 144, name: 'registration_receiving_address', default: '' })
   registrationReceivingAddress: string;
+  @Column({ type: 'float', default: 0 })
+  streakMultiplier: number;
 
   @Column({ type: 'boolean', default: false })
   isClaimed: boolean;

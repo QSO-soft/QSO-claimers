@@ -6,6 +6,7 @@ import {
   getFormattedErrorMessage,
   getHeaders,
   getSolviumCaptcha,
+  sleepByRange,
   TransactionCallbackParams,
   TransactionCallbackReturn,
   transactionWorker,
@@ -14,6 +15,7 @@ import { CookieManager } from '../../../../helpers/coookie.manager';
 import { parseResponse } from '../../../../helpers/request-parsing/request-parsing';
 import { TransformedModuleParams } from '../../../../types';
 import { HyperlaneAirdropCheckEntity } from '../../db/entities';
+import { SITEKYE } from './constants';
 
 export const execMakeHyperlaneAidropCheck = async (params: TransformedModuleParams) =>
   transactionWorker({
@@ -76,7 +78,7 @@ const makeHyperlaneAidropCheck = async (params: TransactionCallbackParams): Tran
   // * Solve Vercel Captcha
   if (challengeToken) {
     logger?.info('Solving Vercel Captcha...');
-    const solution = await getSolviumCaptcha(proxyAgent, challengeToken).catch((err) => {
+    const solution = await getSolviumCaptcha(proxyAgent, challengeToken, SITEKYE).catch((err) => {
       throw new Error(`Failed Solve Vercel Captcha | ${getFormattedErrorMessage(err, 'eth')}`);
     });
 
@@ -99,6 +101,16 @@ const makeHyperlaneAidropCheck = async (params: TransactionCallbackParams): Tran
     logger?.success('Vercel Captcha Solved And Verified');
   }
 
+  await sleepByRange([3, 6]);
+  const { data: boostDataMainWallet } = await axios.get(
+    `https://claim.hyperlane.foundation/api/streak?address=${wallet.walletAddress}`,
+    config
+  );
+
+  const streakMultiplier = +(boostDataMainWallet?.response?.currentBoost || '0');
+
+  await sleepByRange([3, 6]);
+
   const { data } = await axios.get(
     `https://claim.hyperlane.foundation/api/check-eligibility?address=${walletAddress}`,
     config
@@ -114,9 +126,11 @@ const makeHyperlaneAidropCheck = async (params: TransactionCallbackParams): Tran
   await dbRepo.update(walletInDb.id, {
     isEligible,
     amount,
+    streakMultiplier,
   });
 
-  const message = `Eligible: ${isEligible} | Amount: ${amount}`;
+  const message = `Eligible: ${isEligible}`;
+  // const message = `Eligible: ${isEligible} | Amount: ${amount}`;
   return {
     status: 'success',
     message,

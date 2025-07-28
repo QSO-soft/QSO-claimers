@@ -19,6 +19,7 @@ import { CookieManager } from '../../../../helpers/coookie.manager';
 import { parseResponse } from '../../../../helpers/request-parsing/request-parsing';
 import { SupportedNetworks, TransformedModuleParams } from '../../../../types';
 import { HyperlaneAirdropCheckEntity } from '../../db/entities';
+import { SITEKYE } from './constants';
 
 export const execMakeHyperlaneAidropClaim = async (params: TransformedModuleParams) =>
   transactionWorker({
@@ -91,7 +92,7 @@ const makeHyperlaneAidropClaim = async (params: TransactionCallbackParams): Tran
   // * Solve Vercel Captcha
   if (challengeToken) {
     logger?.info('Solving Vercel Captcha...');
-    const solution = await getSolviumCaptcha(proxyAgent, challengeToken).catch((err) => {
+    const solution = await getSolviumCaptcha(proxyAgent, challengeToken, SITEKYE).catch((err) => {
       throw new Error(`Failed Solve Vercel Captcha | ${getFormattedErrorMessage(err, 'eth')}`);
     });
 

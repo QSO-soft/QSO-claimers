@@ -43,7 +43,7 @@ import { DefaultModuleConfigs } from '../../types';
 // Конфиг, который будет применяться для каждого модуля по умолчанию в случае, если вы пропусили какие-то параметры в роуте
 
 export const defaultModuleConfigs: DefaultModuleConfigs = {
-  // ============== taiko ==============
+  // ============== zora ==============
   'zora-claim': {
     count: [1, 1],
     indexGroup: 1,
@@ -84,11 +84,11 @@ export const defaultModuleConfigs: DefaultModuleConfigs = {
     srcToken: 'HYPER',
 
     // Сеть, в которой будет выполнена регистрация дропа
-    // 'eth' | 'base' | 'arbitrum' | 'optimism' | 'bsc'
+    // 'eth' | 'bsc'
     network: 'eth',
 
     // При указании данного параметра, для регистрации будет выбрана рандомная сеть из указанных
-    // randomNetworks: ['base', 'arbitrum', 'optimism'],
+    // randomNetworks: ['eth', 'bsc'],
   },
   'hyperlane-airdrop-claim': {
     count: [1, 1],

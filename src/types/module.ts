@@ -64,7 +64,10 @@ export type ModuleNames =
   | 'hyperlane-airdrop-check'
   | 'hyperlane-airdrop-register'
   | 'hyperlane-airdrop-claim'
-  | 'hyperlane-nexus-bridge';
+  | 'hyperlane-nexus-bridge'
+  | 'gaia-claim'
+  | 'gaia-check-claim'
+  | 'gaia-transfer-claim';
 
 export type SwapModuleNames = Extract<
   ModuleNames,

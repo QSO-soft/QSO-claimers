@@ -10,3 +10,4 @@ export * from './odos';
 export * from './delegate';
 export * from './story';
 export * from './hyperlane';
+export * from './gaia';

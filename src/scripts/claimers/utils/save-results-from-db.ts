@@ -5,14 +5,11 @@ import { CHECKERS_FOLDER } from '../../../constants';
 import { convertToCsvAndWrite, DataForCsv } from '../../../helpers';
 import { WalletData, WalletWithModules } from '../../../types';
 import {
+  GaiaClaimEntity,
   HyperlaneAirdropCheckEntity,
-  LayerZeroClaimEntity,
   PolyhedraClaimEntity,
-  ScrollClaimEntity,
   SuperfrensNftClaimEntity,
   SymbioticPointsEntity,
-  TaikoClaimEntity,
-  ZoraClaimEntity,
 } from '../db/entities';
 
 interface SaveResultsFromDb {
@@ -41,23 +38,26 @@ export const saveResultsFromDb = async (props: SaveResultsFromDb) => {
 
   let projectEntity;
   switch (projectName) {
-    case 'layer-zero':
-      projectEntity = LayerZeroClaimEntity;
-      break;
-    case 'taiko':
-      projectEntity = TaikoClaimEntity;
-      break;
+    // case 'layer-zero':
+    //   projectEntity = LayerZeroClaimEntity;
+    //   break;
+    // case 'taiko':
+    //   projectEntity = TaikoClaimEntity;
+    //   break;
     // case 'story':
     //   projectEntity = StoryClaimEntity;
     //   break;
-    case 'scroll':
-      projectEntity = ScrollClaimEntity;
-      break;
-    case 'hyperlane':
-      projectEntity = HyperlaneAirdropCheckEntity;
-      break;
-    case 'zora':
-      projectEntity = ZoraClaimEntity;
+    // case 'scroll':
+    //   projectEntity = ScrollClaimEntity;
+    //   break;
+    // case 'hyperlane':
+    //   projectEntity = HyperlaneAirdropCheckEntity;
+    //   break;
+    // case 'zora':
+    //   projectEntity = ZoraClaimEntity;
+    //   break;
+    case 'gaia':
+      projectEntity = GaiaClaimEntity;
       break;
 
     default:

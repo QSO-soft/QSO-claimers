@@ -43,6 +43,41 @@ import { DefaultModuleConfigs } from '../../types';
 // Конфиг, который будет применяться для каждого модуля по умолчанию в случае, если вы пропусили какие-то параметры в роуте
 
 export const defaultModuleConfigs: DefaultModuleConfigs = {
+  // ============== taiko ==============
+  'gaia-check-claim': {
+    count: [1, 1],
+    indexGroup: 0,
+
+    stopWalletOnError: true,
+    stopWalletOnPassed: false,
+
+    // Сеть для которой выполнять модуль
+    network: 'eth',
+  },
+  'gaia-claim': {
+    count: [1, 1],
+    indexGroup: 1,
+
+    stopWalletOnError: true,
+    stopWalletOnPassed: false,
+
+    // Сеть для которой выполнять модуль
+    network: 'eth',
+  },
+  'gaia-transfer-claim': {
+    count: [1, 1],
+    indexGroup: 2,
+
+    stopWalletOnError: true,
+    stopWalletOnPassed: false,
+
+    minAndMaxAmount: [100, 100],
+    usePercentBalance: true,
+
+    // Сеть для которой выполнять модуль
+    network: 'eth',
+  },
+
   // ============== zora ==============
   'zora-claim': {
     count: [1, 1],

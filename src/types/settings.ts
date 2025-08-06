@@ -101,7 +101,8 @@ export type Route =
   | 'delegate'
   | 'story'
   | 'hyperlane'
-  | 'zora';
+  | 'zora'
+  | 'gaia';
 
 export type Settings = DefaultSettings;
 

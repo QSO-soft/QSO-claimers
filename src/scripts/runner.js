@@ -29,11 +29,15 @@ const savedSymbioticModules = JSON.parse(
 // const savedCalderaModules = JSON.parse(
 //   fs.readFileSync(new URL('../_outputs/json/caldera-saved-modules.json', import.meta.url))
 // );
+const savedGaiaModules = JSON.parse(
+  fs.readFileSync(new URL('../_outputs/json/gaia-saved-modules.json', import.meta.url))
+);
 
 const scripts = {
   // movement: 'movement',
   // privasea: 'privasea',
   // caldera: 'caldera',
+  gaia: 'gaia',
   hyperlane: 'hyperlane',
   // story: 'story',
   delegate: 'delegate',
@@ -53,23 +57,25 @@ const aliases = {
   // runMovement: '1. Movement',
   // runPrivasea: '2. PrivaSea',
   // runZora: '2. Zora',
-  runHyperlane: '1. Hyperlane',
+  runGaia: '1. Gaia',
+  runHyperlane: '2. Hyperlane',
   // runStory: '1. Story',
-  runDelegate: '2. Delegate',
+  runDelegate: '3. Delegate',
   // runOdos: '3. Odos',
   // runScroll: '4. Scroll',
   // runTaiko: '5. Taiko',
   // runPolyhedra: '6. Polyhedra',
   // runLayerZero: '7. LayerZero',
   // runSuperform: '8. Superfrom',
-  runElixir: '3. Elixir',
-  runSymbiotic: '4. Symbiotic',
+  runElixir: '4. Elixir',
+  runSymbiotic: '5. Symbiotic',
   // runSwell: '11. Swell',
 
   exit: '0. Выйти',
 };
 
 const commandAliases = {
+  [aliases.runGaia]: scripts.gaia,
   // [aliases.runCaldera]: scripts.caldera,
   // [aliases.runMovement]: scripts.movement,
   // [aliases.runPrivasea]: scripts.privasea,
@@ -96,6 +102,9 @@ const getStartMainCommand = async (projectName) => {
 
   let currentSavedModulesToUse;
   switch (projectName) {
+    case scripts.gaia:
+      currentSavedModulesToUse = savedGaiaModules;
+      break;
     // case scripts.caldera:
     //   currentSavedModulesToUse = savedCalderaModules;
     //   break;
@@ -218,6 +227,12 @@ const getSecretPhrase = async () => {
   let args = [];
 
   switch (selectedAlias) {
+    case aliases.runGaia: {
+      const { command, secret, projectName } = await getStartMainCommand(scripts.gaia);
+      selectedCommand = command;
+      args = [secret, projectName, projectName];
+      break;
+    }
     // case aliases.runCaldera: {
     //   const { command, secret, projectName } = await getStartMainCommand(scripts.caldera);
     //   selectedCommand = command;

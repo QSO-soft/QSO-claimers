@@ -172,6 +172,7 @@ const ALL_TOKENS = [
   'NEO',
   'OP',
   'SHIB',
+  'XDAI',
   'SPELL',
   'STORJ',
   'STRK',

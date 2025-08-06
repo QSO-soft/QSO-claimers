@@ -2,7 +2,11 @@ import { RPCsRecord } from '../types';
 
 export const PUBLIC_RPCS: RPCsRecord = {
   eth: [
-    // 'https://eth-mainnet.public.blastapi.io',
+    'https://eth.llamarpc.com',
+    'https://eth-pokt.nodies.app',
+    'https://rpc.mevblocker.io',
+    'https://eth.blockrazor.xyz',
+    'https://eth-mainnet.public.blastapi.io',
     'https://ethereum.publicnode.com',
     // 'https://rpc.ankr.com/eth',
   ],
@@ -43,9 +47,11 @@ export const PUBLIC_RPCS: RPCsRecord = {
   ],
 
   bsc: [
-    // 'https://bsc-mainnet.public.blastapi.io',
+    'https://bsc-mainnet.public.blastapi.io',
     'https://bsc.publicnode.com',
+    // 'https://binance.llamarpc.com',
     // 'https://rpc.ankr.com/bsc',
+    // 'https://bsc-pokt.nodies.app',
   ],
   opBNB: [
     // 'https://opbnb.publicnode.com',

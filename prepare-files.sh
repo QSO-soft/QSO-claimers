@@ -455,3 +455,93 @@ if [ ! -s src/_outputs/csv/checkers/zora-claim.csv ]
     echo "\nCreating zora-claim.csv in src/_outputs/csv/checkers/"
     touch src/_outputs/csv/checkers/zora-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/zora-claim.csv
 fi
+
+##MOVEMENT ===============================================================================================================
+#if [ ! -s src/_inputs/csv/movement-wallets.csv ]
+#  then :
+#    echo "\nCreating movement-wallets.csv in src/_inputs/csv/"
+#    touch src/_inputs/csv/movement-wallets.csv && echo "id,walletAddress,privKey,aptosMnemonic,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/movement-wallets.csv
+#fi
+#if [ ! -s src/_outputs/json/movement-wallets.json ]
+#  then :
+#    echo "\nCreating movement-wallets.json in src/_outputs/json/"
+#    touch src/_outputs/json/movement-wallets.json && echo "[]" >> src/_outputs/json/movement-wallets.json
+#fi
+#
+#if [ ! -s src/_outputs/csv/movement-failed-wallets.csv ]
+#  then :
+#    echo "\nCreating movement-failed-wallets.csv in src/_outputs/csv/"
+#    touch src/_outputs/csv/movement-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/movement-failed-wallets.csv
+#fi
+#
+#if [ ! -s src/_outputs/json/movement-saved-modules.json ]
+#  then :
+#    echo "\nCreating movement-saved-modules.json in src/_outputs/json/"
+#    touch src/_outputs/json/movement-saved-modules.json && echo "[]" >> src/_outputs/json/movement-saved-modules.json
+#fi
+#
+#if [ ! -s src/_outputs/csv/checkers/movement-claim.csv ]
+#  then :
+#    echo "\nCreating movement-claim.csv in src/_outputs/csv/checkers/"
+#    touch src/_outputs/csv/checkers/movement-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/movement-claim.csv
+#fi
+
+##PRIVASEA ===============================================================================================================
+#if [ ! -s src/_inputs/csv/privasea-wallets.csv ]
+#  then :
+#    echo "\nCreating privasea-wallets.csv in src/_inputs/csv/"
+#    touch src/_inputs/csv/privasea-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/privasea-wallets.csv
+#fi
+#if [ ! -s src/_outputs/json/privasea-wallets.json ]
+#  then :
+#    echo "\nCreating privasea-wallets.json in src/_outputs/json/"
+#    touch src/_outputs/json/privasea-wallets.json && echo "[]" >> src/_outputs/json/privasea-wallets.json
+#fi
+#
+#if [ ! -s src/_outputs/csv/privasea-failed-wallets.csv ]
+#  then :
+#    echo "\nCreating privasea-failed-wallets.csv in src/_outputs/csv/"
+#    touch src/_outputs/csv/privasea-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/privasea-failed-wallets.csv
+#fi
+#
+#if [ ! -s src/_outputs/json/privasea-saved-modules.json ]
+#  then :
+#    echo "\nCreating privasea-saved-modules.json in src/_outputs/json/"
+#    touch src/_outputs/json/privasea-saved-modules.json && echo "[]" >> src/_outputs/json/privasea-saved-modules.json
+#fi
+#
+#if [ ! -s src/_outputs/csv/checkers/privasea-claim.csv ]
+#  then :
+#    echo "\nCreating privasea-claim.csv in src/_outputs/csv/checkers/"
+#    touch src/_outputs/csv/checkers/privasea-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/privasea-claim.csv
+#fi
+
+#GAIA ===============================================================================================================
+if [ ! -s src/_inputs/csv/gaia-wallets.csv ]
+  then :
+    echo "\nCreating gaia-wallets.csv in src/_inputs/csv/"
+    touch src/_inputs/csv/gaia-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/gaia-wallets.csv
+fi
+if [ ! -s src/_outputs/json/gaia-wallets.json ]
+  then :
+    echo "\nCreating gaia-wallets.json in src/_outputs/json/"
+    touch src/_outputs/json/gaia-wallets.json && echo "[]" >> src/_outputs/json/gaia-wallets.json
+fi
+
+if [ ! -s src/_outputs/csv/gaia-failed-wallets.csv ]
+  then :
+    echo "\nCreating gaia-failed-wallets.csv in src/_outputs/csv/"
+    touch src/_outputs/csv/gaia-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/gaia-failed-wallets.csv
+fi
+
+if [ ! -s src/_outputs/json/gaia-saved-modules.json ]
+  then :
+    echo "\nCreating gaia-saved-modules.json in src/_outputs/json/"
+    touch src/_outputs/json/gaia-saved-modules.json && echo "[]" >> src/_outputs/json/gaia-saved-modules.json
+fi
+
+if [ ! -s src/_outputs/csv/checkers/gaia-claim.csv ]
+  then :
+    echo "\nCreating gaia-claim.csv in src/_outputs/csv/checkers/"
+    touch src/_outputs/csv/checkers/gaia-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/gaia-claim.csv
+fi

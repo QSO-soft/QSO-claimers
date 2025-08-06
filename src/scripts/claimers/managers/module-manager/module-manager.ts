@@ -28,6 +28,9 @@ import {
   execMakeHyperlaneAidropClaim,
   execMakeHyperlaneAidropRegister,
   execMakeHyperlaneNexusBridge,
+  execMakeCheckClaimGaia,
+  execMakeClaimGaia,
+  execMakeTransferClaimGaia,
 } from '../../modules';
 import { execMakeClaimZora, execMakeTransferClaimZora } from '../../modules/zora';
 
@@ -108,6 +111,13 @@ export class ModuleManager extends DefaultModuleManager {
         return execMakeClaimZora;
       case 'zora-transfer-claim':
         return execMakeTransferClaimZora;
+
+      case 'gaia-check-claim':
+        return execMakeCheckClaimGaia;
+      case 'gaia-claim':
+        return execMakeClaimGaia;
+      case 'gaia-transfer-claim':
+        return execMakeTransferClaimGaia;
 
       default:
         return;

@@ -75,6 +75,13 @@ export class EligibilityCheckerService {
 
     const airdropAmount = truncateToDecimal(Number(accountResponse.allocation.total), 2);
 
+    if (airdropAmount === 0)
+      return {
+        status: 'passed',
+        message: 'Wallet is not eligible for airdrop',
+        tgMessage: 'Wallet is not eligible for airdrop',
+      };
+
     // * Check if already registered
     if (accountResponse.confirmSocialRegistered) {
       this.accountInfo = await this.entityManager.updateAccountInfo(

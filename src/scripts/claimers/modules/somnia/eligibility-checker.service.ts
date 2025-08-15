@@ -79,7 +79,6 @@ export class EligibilityCheckerService {
       this.accountInfo = await this.entityManager.updateAccountInfo(
         {
           airdropAmount,
-          airdropRegistered: true,
         },
         true
       );

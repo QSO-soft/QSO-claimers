@@ -396,3 +396,5 @@ export const STORY_TOKEN_CONTRACTS: TokenContract[] = [
   //   abi: defaultTokenAbi,
   // },
 ];
+
+export const SOMNIA_TOKEN_CONTRACTS: TokenContract[] = [];

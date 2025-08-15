@@ -11,4 +11,7 @@ export * from './cryptography-handlers';
 export * from './main';
 export * from './captcha';
 export * from './gas';
+export * from './coookie.manager';
+export * from './entity-manager.helper';
+export * from './request-parsing';
 export * from './clients';

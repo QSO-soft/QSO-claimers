@@ -25,7 +25,7 @@ export interface PrepareWallets {
   delayBetweenTransactions: NumberRange;
   shouldShuffleModules: boolean;
   nativePrices: CryptoCompareResult;
-  dbSource?: DataSource;
+  dbSource: DataSource;
   filterWalletsCallback?: FilterWalletsCb;
 }
 

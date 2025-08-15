@@ -106,6 +106,7 @@ export const RPC = {
 
   aptos: '',
   starknet: '',
+  somnia: '',
 };
 
 // Приватные данные для экстренных telegram уведомлений

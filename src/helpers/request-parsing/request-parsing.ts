@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import type { Response } from 'got';
 
 export interface Cookie {
   name: string;
@@ -14,6 +15,17 @@ export interface Cookie {
   raw?: string;
   unparsed?: string[];
 }
+
+export type ParsedResponse = AxiosResponse & {
+  body?: any;
+  cookies?: Cookie[];
+  redirectLocation?: string;
+};
+
+export type ParsedGotScrapingResponse = Response<any> & {
+  cookies?: Cookie[];
+  redirectLocation?: string;
+};
 
 export function parseCookie(cookieString: string): Cookie {
   if (!cookieString || cookieString.trim() === '') {
@@ -97,11 +109,7 @@ export function parseCookie(cookieString: string): Cookie {
   return cookie;
 }
 
-export function parseResponse(response: AxiosResponse): AxiosResponse & {
-  body?: any;
-  cookies?: Cookie[];
-  redirectLocation?: string;
-} {
+export function parseResponse(response: AxiosResponse): ParsedResponse {
   const result: {
     body?: any;
     cookies?: Cookie[];
@@ -114,8 +122,8 @@ export function parseResponse(response: AxiosResponse): AxiosResponse & {
     result.body = '';
   }
 
-  if (response.headers['location']) result.redirectLocation = response.headers['location'];
-  if (response.headers['set-cookie']) result.cookies = response.headers['set-cookie'].map(parseCookie);
+  if (response.headers?.['location']) result.redirectLocation = response.headers?.['location'];
+  if (response.headers?.['set-cookie']) result.cookies = response.headers['set-cookie'].map(parseCookie);
   try {
     if (typeof result.body === 'string' && result.body) result.body = JSON.parse(result.body);
   } catch (e) {
@@ -123,6 +131,18 @@ export function parseResponse(response: AxiosResponse): AxiosResponse & {
   }
 
   return { ...response, ...result };
+}
+
+export function parseGotScrapingResponse(response: Response<any>): ParsedGotScrapingResponse {
+  const result: {
+    cookies?: Cookie[];
+    redirectLocation?: string;
+  } = {};
+
+  if (response.headers?.['location']) result.redirectLocation = response.headers?.['location'];
+  if (response.headers?.['set-cookie']) result.cookies = response.headers['set-cookie'].map(parseCookie);
+
+  return { ...response, ...result } as ParsedGotScrapingResponse;
 }
 
 export function parseUrlParams(url: string): Record<string, string> {

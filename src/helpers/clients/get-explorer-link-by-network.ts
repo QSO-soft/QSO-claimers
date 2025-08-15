@@ -58,6 +58,8 @@ export const getExplorerLinkByNetwork = (networkName: Networks) => {
 
     case Networks.STORY:
       return explorerLinks.story;
+    case Networks.SOMNIA:
+      return explorerLinks.somnia;
 
     default:
       throw new Error(`Explorer link for ${networkName} network was not found`);

@@ -9,6 +9,7 @@ export enum Networks {
   TAIKO = 'taiko',
 
   BLAST = 'blast',
+  SOMNIA = 'somnia',
   POLYGON = 'polygon',
   AVALANCHE = 'avalanche',
   ARBITRUM = 'arbitrum',
@@ -63,6 +64,7 @@ export const SUPPORTED_NETWORKS = [
   'taiko',
   'sepolia',
   'story',
+  'somnia',
 ] as const;
 export type SupportedNetworks = (typeof SUPPORTED_NETWORKS)[number];
 

@@ -1,4 +1,4 @@
-import { Cookie } from './request-parsing/request-parsing';
+import { Cookie } from './request-parsing';
 
 interface CookieManagerCookies {
   name: string;
@@ -59,6 +59,9 @@ export class CookieManager {
   }
 
   public getCookieValueByName(name: string): string {
-    return this._cookies.find((el) => el.name === name)?.value || '';
+    return this.getCookieByName(name)?.value || '';
+  }
+  public getCookieByName(name: string): CookieManagerCookies | null {
+    return this._cookies.find((el) => el.name === name) || null;
   }
 }

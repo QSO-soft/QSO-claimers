@@ -29,6 +29,7 @@
   "license": "ISC",
   "dependencies": {
     "@scure/bip39": "1.2.1",
+    "@types/got": "^9.6.12",
     "axios": "1.6.7",
     "ccxt": "4.0.109",
     "cloudscraper": "^4.6.0",

@@ -67,7 +67,9 @@ export type ModuleNames =
   | 'hyperlane-nexus-bridge'
   | 'gaia-claim'
   | 'gaia-check-claim'
-  | 'gaia-transfer-claim';
+  | 'gaia-transfer-claim'
+  | 'somnia-check-claim'
+  | 'somnia-register-claim';
 
 export type SwapModuleNames = Extract<
   ModuleNames,
@@ -202,7 +204,7 @@ export type TransformedModuleParams = Omit<ModuleParams, 'count'> & {
   projectName: string;
   nativePrices: CryptoCompareResult;
 
-  dbSource?: DataSource;
+  dbSource: DataSource;
 };
 
 export type TransformedModuleConfig = Omit<ModuleConfig, 'count'> & {

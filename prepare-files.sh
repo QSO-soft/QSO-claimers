@@ -545,3 +545,33 @@ if [ ! -s src/_outputs/csv/checkers/gaia-claim.csv ]
     echo "\nCreating gaia-claim.csv in src/_outputs/csv/checkers/"
     touch src/_outputs/csv/checkers/gaia-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/gaia-claim.csv
 fi
+
+#SOMNIA ===============================================================================================================
+if [ ! -s src/_inputs/csv/somnia-wallets.csv ]
+  then :
+    echo "\nCreating somnia-wallets.csv in src/_inputs/csv/"
+    touch src/_inputs/csv/somnia-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/somnia-wallets.csv
+fi
+if [ ! -s src/_outputs/json/somnia-wallets.json ]
+  then :
+    echo "\nCreating somnia-wallets.json in src/_outputs/json/"
+    touch src/_outputs/json/somnia-wallets.json && echo "[]" >> src/_outputs/json/somnia-wallets.json
+fi
+
+if [ ! -s src/_outputs/csv/somnia-failed-wallets.csv ]
+  then :
+    echo "\nCreating somnia-failed-wallets.csv in src/_outputs/csv/"
+    touch src/_outputs/csv/somnia-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/somnia-failed-wallets.csv
+fi
+
+if [ ! -s src/_outputs/json/somnia-saved-modules.json ]
+  then :
+    echo "\nCreating somnia-saved-modules.json in src/_outputs/json/"
+    touch src/_outputs/json/somnia-saved-modules.json && echo "[]" >> src/_outputs/json/somnia-saved-modules.json
+fi
+
+if [ ! -s src/_outputs/csv/checkers/somnia-claim.csv ]
+  then :
+    echo "\nCreating somnia-claim.csv in src/_outputs/csv/checkers/"
+    touch src/_outputs/csv/checkers/somnia-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/somnia-claim.csv
+fi

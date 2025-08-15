@@ -2,10 +2,10 @@ import { RPCsRecord } from '../types';
 
 export const PUBLIC_RPCS: RPCsRecord = {
   eth: [
-    'https://eth.llamarpc.com',
-    'https://eth-pokt.nodies.app',
-    'https://rpc.mevblocker.io',
-    'https://eth.blockrazor.xyz',
+    // 'https://eth.llamarpc.com',
+    // 'https://eth-pokt.nodies.app',
+    // 'https://rpc.mevblocker.io',
+    // 'https://eth.blockrazor.xyz',
     'https://eth-mainnet.public.blastapi.io',
     'https://ethereum.publicnode.com',
     // 'https://rpc.ankr.com/eth',
@@ -99,4 +99,5 @@ export const PUBLIC_RPCS: RPCsRecord = {
   ],
   aptos: ['https://rpc.ankr.com/http/aptos/v1'],
   starknet: ['https://starknet-mainnet.public.blastapi.io'],
+  somnia: ['https://dream-rpc.somnia.network'],
 };

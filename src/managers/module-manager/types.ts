@@ -8,7 +8,7 @@ export interface IModuleManager {
   walletsTotalCount: number;
   projectName: string;
   baseNetwork: SupportedNetworks;
-  dbSource?: DataSource;
+  dbSource: DataSource;
 }
 export interface StartModule {
   logsFolderName: string;

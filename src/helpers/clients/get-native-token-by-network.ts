@@ -78,6 +78,8 @@ export const getNativeTokenByNetwork = (networkName: SupportedNetworks): Tokens 
       return klaytn.nativeCurrency.symbol;
     case Networks.STORY:
       return 'IP';
+    case Networks.SOMNIA:
+      return 'STT';
 
     default:
       throw new Error(`Native token for ${networkName} network was not found`);

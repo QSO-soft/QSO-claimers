@@ -3,6 +3,7 @@ import duration from 'dayjs/plugin/duration';
 
 import settings from '../../_inputs/settings/settings';
 import { Moralis } from '../../managers/moralis';
+import { clearSomniaAirdropStatistic } from '../../scripts/claimers/modules/somnia/eligibility-checker.service';
 import { saveResultsFromDb } from '../../scripts/claimers/utils';
 import { WalletWithModules } from '../../types';
 import { getAllNativePrices } from '../currency-handlers';
@@ -55,6 +56,8 @@ export const runMainScript = async (props: MainScriptArgs) => {
   for (const route of routes) {
     const logger = initLocalLogger(logsFolderName, `${route}`);
     logger.setLoggerMeta({ moduleName: 'Main' });
+
+    await clearSomniaAirdropStatistic(dbSource, jsonWallets);
 
     try {
       const routeSettings = routeHandler(route);

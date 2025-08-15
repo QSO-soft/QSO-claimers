@@ -8,6 +8,7 @@ import {
   GaiaClaimEntity,
   HyperlaneAirdropCheckEntity,
   PolyhedraClaimEntity,
+  SomniaAirdropEntity,
   SuperfrensNftClaimEntity,
   SymbioticPointsEntity,
 } from '../db/entities';
@@ -27,7 +28,8 @@ export const saveResultsFromDb = async (props: SaveResultsFromDb) => {
       ({ moduleName }) =>
         moduleName === `${projectName}-check-claim` ||
         moduleName === `${projectName}-claim` ||
-        moduleName === `${projectName}-transfer-claim`
+        moduleName === `${projectName}-transfer-claim` ||
+        moduleName === `${projectName}-register-claim`
     );
     if (moduleWithUpdate) {
       return [...acc, wallet];
@@ -56,6 +58,9 @@ export const saveResultsFromDb = async (props: SaveResultsFromDb) => {
     // case 'zora':
     //   projectEntity = ZoraClaimEntity;
     //   break;
+    case 'somnia':
+      projectEntity = SomniaAirdropEntity;
+      break;
     case 'gaia':
       projectEntity = GaiaClaimEntity;
       break;
@@ -74,7 +79,7 @@ export const saveResultsFromDb = async (props: SaveResultsFromDb) => {
     });
 
     const dataToSave = dbData.reduce<object[]>((acc, cur) => {
-      const { walletId, index: walletIndex, id, ...data } = cur;
+      const { walletId, id, ...data } = cur;
       const foundWallet = wallets.find(({ id, index }) => walletId === id);
 
       if (foundWallet) {

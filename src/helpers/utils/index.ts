@@ -12,3 +12,5 @@ export * from './get-axios-config';
 export * from './check-multiplication-of';
 export * from './get-headers';
 export * from './format-filters';
+export * from './numbers';
+export * from './objects';

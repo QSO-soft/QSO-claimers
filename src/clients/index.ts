@@ -23,3 +23,4 @@ export * from './blast';
 export * from './taiko';
 export * from './sepolia';
 export * from './story';
+export * from './somnia';

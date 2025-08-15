@@ -11,7 +11,7 @@ interface StartWithThreads<T> {
   callback: (arrayItem: T, logger: LoggerType, currentItemIndex: number) => Promise<any>;
   logger: LoggerType;
   projectName: string;
-  dbSource?: DataSource;
+  dbSource: DataSource;
   walletsWithModules: WalletWithModules[];
 }
 export const startWithThreads = async <T>({

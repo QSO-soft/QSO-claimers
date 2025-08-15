@@ -13,6 +13,7 @@ import {
   hyperlane,
   zora,
   gaia,
+  somnia,
 } from '../../../_inputs/settings/routes';
 import { Route } from '../../../types';
 
@@ -46,6 +47,8 @@ export const routeHandler = (route: Route) => {
       return zora;
     case 'gaia':
       return gaia;
+    case 'somnia':
+      return somnia;
 
     default:
       throw new Error('Route name is wrong');

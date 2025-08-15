@@ -37,7 +37,7 @@ export abstract class ModuleManager {
   private baseNetwork: SupportedNetworks;
   private projectName: string;
   private walletsTotalCount: number;
-  private dbSource?: DataSource;
+  private dbSource: DataSource;
 
   constructor({ walletWithModules, walletsTotalCount, baseNetwork, projectName, dbSource }: IModuleManager) {
     this.wallet = walletWithModules.wallet;

@@ -50,7 +50,7 @@ export type StartModulesCallbackArgs = {
   currentWalletIndex: number;
   projectName: string;
   baseNetwork: SupportedNetworks;
-  dbSource?: DataSource;
+  dbSource: DataSource;
 };
 
 type StartModulesCallback = (args: StartModulesCallbackArgs) => Promise<any>;
@@ -61,7 +61,7 @@ export type BaseMainScriptArgs = {
   startModulesCallback: StartModulesCallback;
   projectName: string;
   baseNetwork: SupportedNetworks;
-  dbSource?: DataSource;
+  dbSource: DataSource;
 };
 export interface RestartLastArgs extends BaseMainScriptArgs {
   savedModules?: SavedModules;

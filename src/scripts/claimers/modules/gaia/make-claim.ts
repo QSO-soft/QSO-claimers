@@ -98,6 +98,9 @@ const makeClaimGaia = async (params: TransactionCallbackParams): TransactionCall
       };
     }
 
+    const { currentBalance: currentBalanceInt } = await getBalance(client);
+    currentBalance = currentBalanceInt;
+
     const notClaimedProofs: (ProofRes & { campaignId: Hex })[] = [];
     for (const proof of allProofResults) {
       const campaignId = bytesToHex(uuidParse(proof.uuid));
@@ -166,12 +169,9 @@ const makeClaimGaia = async (params: TransactionCallbackParams): TransactionCall
       );
     }, 0);
 
-    const { currentBalance: currentBalanceInt } = await getBalance(client);
-    currentBalance = currentBalanceInt;
-
     const randomDelegator = getRandomItemFromArray(DELEGATORS);
 
-    logger.info(`Claiming ${amountInt} GAIA with delegating to ${randomDelegator.account.name}...`);
+    logger.info(`Claiming ${amountInt / 3} GAIA with delegating to ${randomDelegator.account.name}...`);
 
     const nonce = await publicClient.readContract({
       abi: defaultTokenAbi,
@@ -286,7 +286,7 @@ const makeClaimGaia = async (params: TransactionCallbackParams): TransactionCall
     });
 
     return {
-      tgMessage: `Claimed ${amountInt} GAIA`,
+      tgMessage: `Claimed ${amountInt / 3}/${amountInt} GAIA`,
       status: 'success',
       txHash,
       explorerLink,

@@ -32,6 +32,7 @@ import {
   execMakeClaimGaia,
   execMakeTransferClaimGaia,
 } from '../../modules';
+import { execMakeSomniaEligibilityChecker, execMakeSomniaEligibilityRegister } from '../../modules/somnia';
 import { execMakeClaimZora, execMakeTransferClaimZora } from '../../modules/zora';
 
 export class ModuleManager extends DefaultModuleManager {
@@ -118,6 +119,11 @@ export class ModuleManager extends DefaultModuleManager {
         return execMakeClaimGaia;
       case 'gaia-transfer-claim':
         return execMakeTransferClaimGaia;
+
+      case 'somnia-check-claim':
+        return execMakeSomniaEligibilityChecker;
+      case 'somnia-register-claim':
+        return execMakeSomniaEligibilityRegister;
 
       default:
         return;

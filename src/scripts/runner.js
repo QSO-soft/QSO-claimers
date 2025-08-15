@@ -32,11 +32,15 @@ const savedSymbioticModules = JSON.parse(
 const savedGaiaModules = JSON.parse(
   fs.readFileSync(new URL('../_outputs/json/gaia-saved-modules.json', import.meta.url))
 );
+const savedSomniaModules = JSON.parse(
+  fs.readFileSync(new URL('../_outputs/json/somnia-saved-modules.json', import.meta.url))
+);
 
 const scripts = {
   // movement: 'movement',
   // privasea: 'privasea',
   // caldera: 'caldera',
+  somnia: 'somnia',
   gaia: 'gaia',
   hyperlane: 'hyperlane',
   // story: 'story',
@@ -57,24 +61,26 @@ const aliases = {
   // runMovement: '1. Movement',
   // runPrivasea: '2. PrivaSea',
   // runZora: '2. Zora',
-  runGaia: '1. Gaia',
-  runHyperlane: '2. Hyperlane',
+  runSomnia: '1. Somnia',
+  runGaia: '2. Gaia',
+  runHyperlane: '3. Hyperlane',
   // runStory: '1. Story',
-  runDelegate: '3. Delegate',
+  runDelegate: '4. Delegate',
   // runOdos: '3. Odos',
   // runScroll: '4. Scroll',
   // runTaiko: '5. Taiko',
   // runPolyhedra: '6. Polyhedra',
   // runLayerZero: '7. LayerZero',
   // runSuperform: '8. Superfrom',
-  runElixir: '4. Elixir',
-  runSymbiotic: '5. Symbiotic',
+  runElixir: '5. Elixir',
+  runSymbiotic: '6. Symbiotic',
   // runSwell: '11. Swell',
 
   exit: '0. Выйти',
 };
 
 const commandAliases = {
+  [aliases.runSomnia]: scripts.somnia,
   [aliases.runGaia]: scripts.gaia,
   // [aliases.runCaldera]: scripts.caldera,
   // [aliases.runMovement]: scripts.movement,
@@ -102,6 +108,9 @@ const getStartMainCommand = async (projectName) => {
 
   let currentSavedModulesToUse;
   switch (projectName) {
+    case scripts.somnia:
+      currentSavedModulesToUse = savedSomniaModules;
+      break;
     case scripts.gaia:
       currentSavedModulesToUse = savedGaiaModules;
       break;
@@ -227,6 +236,12 @@ const getSecretPhrase = async () => {
   let args = [];
 
   switch (selectedAlias) {
+    case aliases.runSomnia: {
+      const { command, secret, projectName } = await getStartMainCommand(scripts.somnia);
+      selectedCommand = command;
+      args = [secret, projectName, projectName];
+      break;
+    }
     case aliases.runGaia: {
       const { command, secret, projectName } = await getStartMainCommand(scripts.gaia);
       selectedCommand = command;

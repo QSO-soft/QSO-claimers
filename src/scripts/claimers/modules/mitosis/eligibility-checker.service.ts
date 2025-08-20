@@ -112,7 +112,8 @@ export class EligibilityCheckerService {
       true
     );
 
-    const resultMessage = `Registration completed! Airdrop amount: ${+registerResponse.allocation.total} MITO`;
+    const resultMessage = `Registration completed! Airdrop amount: ${+registerResponse.allocation
+      .total} MITO | Option: ${registerResponse.option}`;
 
     return {
       status: 'success',

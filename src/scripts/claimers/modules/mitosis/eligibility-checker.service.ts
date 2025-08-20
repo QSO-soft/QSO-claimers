@@ -100,14 +100,15 @@ export class EligibilityCheckerService {
       };
     }
 
-    const registerResponse = await this.sendWalletRegister();
-
-    await sleepByRange([1, 2]);
-
-    registerInfoResponse = await this.getRegister();
-
+    registerInfoResponse = await this.sendWalletRegister();
     if (!registerInfoResponse.option) {
-      throw new Error('Unable to register successfully');
+      await sleepByRange([1, 2]);
+
+      registerInfoResponse = await this.getRegister();
+
+      if (!registerInfoResponse.option) {
+        throw new Error('Unable to register successfully');
+      }
     }
 
     // * Update account info

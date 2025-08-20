@@ -69,7 +69,9 @@ export type ModuleNames =
   | 'gaia-check-claim'
   | 'gaia-transfer-claim'
   | 'somnia-check-claim'
-  | 'somnia-register-claim';
+  | 'somnia-register-claim'
+  | 'mitosis-check-claim'
+  | 'mitosis-register-claim';
 
 export type SwapModuleNames = Extract<
   ModuleNames,
@@ -171,6 +173,8 @@ export interface ExtraModuleParams {
   waitLiquidityAttempts?: number;
 
   nftId?: number;
+
+  customSettings?: Record<string, any>;
 }
 
 export interface DefaultModuleConfig extends ExtraModuleParams {

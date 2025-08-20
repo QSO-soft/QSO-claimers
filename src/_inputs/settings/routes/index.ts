@@ -13,3 +13,4 @@ export { flow as hyperlane } from './hyperlane';
 export { flow as zora } from './zora';
 export { flow as gaia } from './gaia';
 export { flow as somnia } from './somnia';
+export { flow as mitosis } from './mitosis';

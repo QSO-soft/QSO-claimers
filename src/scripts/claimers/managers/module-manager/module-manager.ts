@@ -31,9 +31,13 @@ import {
   execMakeCheckClaimGaia,
   execMakeClaimGaia,
   execMakeTransferClaimGaia,
+  execMakeMitosisEligibilityRegister,
+  execMakeMitosisEligibilityChecker,
+  execMakeSomniaEligibilityChecker,
+  execMakeSomniaEligibilityRegister,
+  execMakeClaimZora,
+  execMakeTransferClaimZora,
 } from '../../modules';
-import { execMakeSomniaEligibilityChecker, execMakeSomniaEligibilityRegister } from '../../modules/somnia';
-import { execMakeClaimZora, execMakeTransferClaimZora } from '../../modules/zora';
 
 export class ModuleManager extends DefaultModuleManager {
   constructor(args: IModuleManager) {
@@ -124,6 +128,11 @@ export class ModuleManager extends DefaultModuleManager {
         return execMakeSomniaEligibilityChecker;
       case 'somnia-register-claim':
         return execMakeSomniaEligibilityRegister;
+
+      case 'mitosis-check-claim':
+        return execMakeMitosisEligibilityChecker;
+      case 'mitosis-register-claim':
+        return execMakeMitosisEligibilityRegister;
 
       default:
         return;

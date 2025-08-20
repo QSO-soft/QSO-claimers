@@ -3,6 +3,7 @@ import duration from 'dayjs/plugin/duration';
 
 import settings from '../../_inputs/settings/settings';
 import { Moralis } from '../../managers/moralis';
+import { clearMitosisAirdropStatistic } from '../../scripts/claimers/modules/mitosis/eligibility-checker.service';
 import { clearSomniaAirdropStatistic } from '../../scripts/claimers/modules/somnia/eligibility-checker.service';
 import { saveResultsFromDb } from '../../scripts/claimers/utils';
 import { WalletWithModules } from '../../types';
@@ -58,6 +59,7 @@ export const runMainScript = async (props: MainScriptArgs) => {
     logger.setLoggerMeta({ moduleName: 'Main' });
 
     await clearSomniaAirdropStatistic(dbSource, jsonWallets);
+    await clearMitosisAirdropStatistic(dbSource, jsonWallets);
 
     try {
       const routeSettings = routeHandler(route);

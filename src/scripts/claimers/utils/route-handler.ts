@@ -14,6 +14,7 @@ import {
   zora,
   gaia,
   somnia,
+  mitosis,
 } from '../../../_inputs/settings/routes';
 import { Route } from '../../../types';
 
@@ -49,6 +50,8 @@ export const routeHandler = (route: Route) => {
       return gaia;
     case 'somnia':
       return somnia;
+    case 'mitosis':
+      return mitosis;
 
     default:
       throw new Error('Route name is wrong');

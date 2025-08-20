@@ -11,3 +11,4 @@ export * from './hyperlane-airdrop-check.entity';
 export * from './zora-claim.entity';
 export * from './gaia-claim.entity';
 export * from './somnia-airdrop.entity';
+export * from './mitosis-airdrop.entity';

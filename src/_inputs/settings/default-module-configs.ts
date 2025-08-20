@@ -43,6 +43,26 @@ import { DefaultModuleConfigs } from '../../types';
 // Конфиг, который будет применяться для каждого модуля по умолчанию в случае, если вы пропусили какие-то параметры в роуте
 
 export const defaultModuleConfigs: DefaultModuleConfigs = {
+  // ============== mitosis ==============
+  'mitosis-check-claim': {
+    count: [1, 1],
+    indexGroup: 0,
+
+    network: 'eth',
+  },
+  'mitosis-register-claim': {
+    count: [1, 1],
+    indexGroup: 0,
+
+    customSettings: {
+      // Тип регистрации: 'enhanced' | 'instant'
+      registerType: 'instant',
+    },
+
+    network: 'eth',
+  },
+
+  // ============== somnia ==============
   'somnia-check-claim': {
     count: [1, 1],
     indexGroup: 0,

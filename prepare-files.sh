@@ -575,3 +575,34 @@ if [ ! -s src/_outputs/csv/checkers/somnia-claim.csv ]
     echo "\nCreating somnia-claim.csv in src/_outputs/csv/checkers/"
     touch src/_outputs/csv/checkers/somnia-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/somnia-claim.csv
 fi
+
+
+#MITOSIS ===============================================================================================================
+if [ ! -s src/_inputs/csv/mitosis-wallets.csv ]
+  then :
+    echo "\nCreating mitosis-wallets.csv in src/_inputs/csv/"
+    touch src/_inputs/csv/mitosis-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/mitosis-wallets.csv
+fi
+if [ ! -s src/_outputs/json/mitosis-wallets.json ]
+  then :
+    echo "\nCreating mitosis-wallets.json in src/_outputs/json/"
+    touch src/_outputs/json/mitosis-wallets.json && echo "[]" >> src/_outputs/json/mitosis-wallets.json
+fi
+
+if [ ! -s src/_outputs/csv/mitosis-failed-wallets.csv ]
+  then :
+    echo "\nCreating mitosis-failed-wallets.csv in src/_outputs/csv/"
+    touch src/_outputs/csv/mitosis-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/mitosis-failed-wallets.csv
+fi
+
+if [ ! -s src/_outputs/json/mitosis-saved-modules.json ]
+  then :
+    echo "\nCreating mitosis-saved-modules.json in src/_outputs/json/"
+    touch src/_outputs/json/mitosis-saved-modules.json && echo "[]" >> src/_outputs/json/mitosis-saved-modules.json
+fi
+
+if [ ! -s src/_outputs/csv/checkers/mitosis-claim.csv ]
+  then :
+    echo "\nCreating mitosis-claim.csv in src/_outputs/csv/checkers/"
+    touch src/_outputs/csv/checkers/mitosis-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/mitosis-claim.csv
+fi

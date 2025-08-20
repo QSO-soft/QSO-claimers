@@ -103,7 +103,8 @@ export type Route =
   | 'hyperlane'
   | 'zora'
   | 'gaia'
-  | 'somnia';
+  | 'somnia'
+  | 'mitosis';
 
 export type Settings = DefaultSettings;
 

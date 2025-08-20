@@ -7,6 +7,7 @@ import { WalletData, WalletWithModules } from '../../../types';
 import {
   GaiaClaimEntity,
   HyperlaneAirdropCheckEntity,
+  MitosisAirdropEntity,
   PolyhedraClaimEntity,
   SomniaAirdropEntity,
   SuperfrensNftClaimEntity,
@@ -60,6 +61,9 @@ export const saveResultsFromDb = async (props: SaveResultsFromDb) => {
     //   break;
     case 'somnia':
       projectEntity = SomniaAirdropEntity;
+      break;
+    case 'mitosis':
+      projectEntity = MitosisAirdropEntity;
       break;
     case 'gaia':
       projectEntity = GaiaClaimEntity;

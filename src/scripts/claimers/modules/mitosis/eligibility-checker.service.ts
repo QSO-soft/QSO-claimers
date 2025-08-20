@@ -211,6 +211,7 @@ export class EligibilityCheckerService {
 
     this.logger.info(
       `Registering with "${registerType}" option${
+        this.wallet.delegateToAddress &&
         this.wallet.delegateToAddress?.toLowerCase() !== this.wallet.walletAddress.toLowerCase()
           ? ` and delegating drop to delegateToAddress "${this.wallet.delegateToAddress}"`
           : ''

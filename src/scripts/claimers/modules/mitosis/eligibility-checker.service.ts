@@ -112,7 +112,7 @@ export class EligibilityCheckerService {
       true
     );
 
-    const resultMessage = `Registration completed! Airdrop amount: ${+registerResponse.allocation.total} tMITO`;
+    const resultMessage = `Registration completed! Airdrop amount: ${+registerResponse.allocation.total} MITO`;
 
     return {
       status: 'success',
@@ -148,7 +148,7 @@ export class EligibilityCheckerService {
     );
 
     const resultMessage = +registerInfoResponse.allocation.total
-      ? `Airdrop amount: ${+registerInfoResponse.allocation.total} tMITO`
+      ? `Airdrop amount: ${+registerInfoResponse.allocation.total} MITO`
       : 'Not eligible for airdrop';
 
     return {

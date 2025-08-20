@@ -6,6 +6,7 @@ import {
   EntityManager,
   getAxiosConfig,
   getHeaders,
+  sleepByRange,
   TransactionCallbackParams,
   TransactionCallbackReturn,
 } from '../../../../helpers';
@@ -60,7 +61,7 @@ export class EligibilityCheckerService {
     const walletAuthResponse = await this.connectAccount(signature);
     this.jwtToken = walletAuthResponse.jwtToken;
 
-    const registerInfoResponse = await this.getRegister();
+    let registerInfoResponse = await this.getRegister();
 
     if (registerInfoResponse.option) {
       this.accountInfo = await this.entityManager.updateAccountInfo(
@@ -101,19 +102,27 @@ export class EligibilityCheckerService {
 
     const registerResponse = await this.sendWalletRegister();
 
+    await sleepByRange([1, 2]);
+
+    registerInfoResponse = await this.getRegister();
+
+    if (!registerInfoResponse.option) {
+      throw new Error('Unable to register successfully');
+    }
+
     // * Update account info
     this.accountInfo = await this.entityManager.updateAccountInfo(
       {
-        airdropAmount: +registerResponse.allocation.total,
+        airdropAmount: +registerInfoResponse.allocation.total,
         airdropRegistered: true,
-        airdropRegisterType: registerResponse.option,
-        airdropRegisterAddress: registerResponse.airdropAddress,
+        airdropRegisterType: registerInfoResponse.option,
+        airdropRegisterAddress: registerInfoResponse.airdropAddress,
       },
       true
     );
 
-    const resultMessage = `Registration completed! Airdrop amount: ${+registerResponse.allocation
-      .total} MITO | Option: ${registerResponse.option}`;
+    const resultMessage = `Registration completed! Airdrop amount: ${+registerInfoResponse.allocation
+      .total} MITO | Option: ${registerInfoResponse.option}`;
 
     return {
       status: 'success',

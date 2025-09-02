@@ -46,6 +46,7 @@ const makeTransferClaimSomnia = async (params: TransactionCallbackParams): Trans
     logger,
     proxyAgent,
     balanceToLeft,
+    minTokenBalance,
   } = params;
 
   const { walletClient, walletAddress, publicClient, explorerLink } = client;
@@ -197,6 +198,15 @@ const makeTransferClaimSomnia = async (params: TransactionCallbackParams): Trans
       amount: amountToTransfer,
       decimals: 18,
     });
+    if (amountToTransferInt < minTokenBalance) {
+      return {
+        status: 'passed',
+        message: `Balance [${getTrimmedLogsAmount(
+          amountToTransferInt,
+          'SOMI'
+        )}] in ${network} is lower than minTokenBalance ${minTokenBalance}`,
+      };
+    }
 
     const gasPrice = await publicClient.getGasPrice();
 

@@ -110,6 +110,8 @@ export const defaultModuleConfigs: DefaultModuleConfigs = {
     minAndMaxAmount: [100, 100],
     usePercentBalance: true,
 
+    minTokenBalance: 0,
+
     // Сеть для которой выполнять модуль
     network: 'somnia',
   },

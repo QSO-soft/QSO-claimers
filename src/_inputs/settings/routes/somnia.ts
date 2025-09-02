@@ -11,23 +11,26 @@ const countModules = [0, 0] as NumberRange;
 const groupSettings: GroupSettings = {};
 
 const modules: UserModuleConfig[] = [
-  {
-    moduleName: 'somnia-check-claim',
-    indexGroup: 1,
-  },
+  // {
+  //   moduleName: 'somnia-check-claim',
+  //   indexGroup: 1,
+  // },
   {
     moduleName: 'somnia-claim',
     indexGroup: 2,
   },
-  // {
-  //   moduleName: 'somnia-transfer-claim',
-  //   indexGroup: 3,
-  //
-  //   // Сколько токенов отправлять на transferAddress
-  //   minAndMaxAmount: [100, 100],
-  //   // Использовать ли minAndMaxAmount как значение процента от баланса токенов
-  //   usePercentBalance: true,
-  // },
+  {
+    moduleName: 'somnia-transfer-claim',
+    indexGroup: 3,
+
+    // Сколько токенов отправлять на transferAddress
+    minAndMaxAmount: [100, 100],
+    // Использовать ли minAndMaxAmount как значение процента от баланса токенов
+    usePercentBalance: true,
+
+    // Будет делать трансфер только если баланс выше данного значения
+    minTokenBalance: 1,
+  },
 ];
 
 // Выполнит скрипт на указанном количестве кошельков

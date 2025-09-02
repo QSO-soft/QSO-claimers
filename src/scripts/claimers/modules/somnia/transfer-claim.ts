@@ -119,7 +119,8 @@ const makeTransferClaimSomnia = async (params: TransactionCallbackParams): Trans
     const { int: currentBalanceInt, wei: currentBalanceWei } = await client.getNativeBalance();
     currentBalance = currentBalanceInt;
 
-    if (!results.claim_at) {
+    console.log({ currentBalanceInt });
+    if (!currentBalance) {
       await dbRepo.update(walletInDb.id, {
         status: CLAIM_STATUSES.NOT_CLAIMED,
         claimAmount: amountInt,

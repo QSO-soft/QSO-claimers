@@ -5,6 +5,9 @@ export const HEADERS = {
   Priority: 'u=1, i',
 };
 
+const contract = '0x6dA08697F8Fd58E2f8d9132e3928c21c537D5BAb';
+const abi = [];
+
 const policy = `This Airdrop Policy ("Policy") governs the distribution of SOMI tokens ("Tokens") by Somnia TokenCo Ltd. ("Company," "we," "us," or "our") to eligible participants ("Participants", “you”, “your”) through our token airdrop program ("Airdrop"). By participating in the Airdrop, you agree to be bound by this Policy and our Terms of Service.
 
 ## DISCLAIMER

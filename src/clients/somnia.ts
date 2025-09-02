@@ -15,7 +15,7 @@ export const somniaTestnet = defineChain({
     symbol: 'SOMI',
   },
   rpcUrls: {
-    default: { http: ['https://explorer.somnia.network\n'] },
+    default: { http: ['https://explorer.somnia.network'] },
   },
   blockExplorers: {
     default: {

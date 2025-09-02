@@ -131,7 +131,7 @@ export async function getDebankStatisticFullData(items: DebankCheckerEntity[]): 
       const network = chainKey.replace('chain_', '').replace('_usd', '');
       if (network && network in parsedChainBalances && parsedChainBalances[network]) {
         const balance =
-          (parsedChainBalances[network] as number) < 0.01
+          (parsedChainBalances[network] as number) < 0.01 && (parsedChainBalances[network] as number) > 0
             ? '<0.01'
             : truncateToDecimal(parsedChainBalances[network] as number, 2);
         if (balance) orderedResult[chainKey] = balance;
@@ -152,7 +152,7 @@ export async function getDebankStatisticFullData(items: DebankCheckerEntity[]): 
         const networkBalances = parsedBalances[network]!;
         if (token in networkBalances && networkBalances[token]) {
           const balance =
-            (networkBalances[token] as number) < 0.01
+            (networkBalances[token] as number) < 0.01 && (networkBalances[token] as number) > 0
               ? '<0.01'
               : truncateToDecimal(networkBalances[token] as number, 2);
           if (balance) orderedResult[tokenKey] = balance;
@@ -165,7 +165,7 @@ export async function getDebankStatisticFullData(items: DebankCheckerEntity[]): 
       const protocol = protocolKey.replace('protocol_', '').replace('_usd', '');
       if (protocol && protocol in parsedProtocolBalances && parsedProtocolBalances[protocol]) {
         const balance =
-          (parsedProtocolBalances[protocol] as number) < 0.01
+          (parsedProtocolBalances[protocol] as number) < 0.01 && (parsedProtocolBalances[protocol] as number) > 0
             ? '<0.01'
             : truncateToDecimal(parsedProtocolBalances[protocol] as number, 2);
 
@@ -208,7 +208,7 @@ export async function getDebankStatisticChainsData(items: DebankCheckerEntity[])
       [DebankStatColumnNames.CHAIN]: chain.toUpperCase(),
       [DebankStatColumnNames.WALLETS]: stats.walletsCount,
       [DebankStatColumnNames.BALANCE_USD]:
-        stats.totalBalance < 0.01 ? '<0.01' : truncateToDecimal(stats.totalBalance, 2),
+        stats.totalBalance < 0.01 && stats.totalBalance > 0 ? '<0.01' : truncateToDecimal(stats.totalBalance, 2),
     });
   }
 
@@ -220,7 +220,9 @@ export async function getDebankStatisticChainsData(items: DebankCheckerEntity[])
   resultData.push({
     [DebankStatColumnNames.CHAIN]: `Total: ${totalChains}`,
     [DebankStatColumnNames.WALLETS]: `Total: ${items.length}`,
-    [DebankStatColumnNames.BALANCE_USD]: `Total: ${totalBalance < 0.01 ? '<0.01' : truncateToDecimal(totalBalance, 2)}`,
+    [DebankStatColumnNames.BALANCE_USD]: `Total: ${
+      totalBalance < 0.01 && totalBalance > 0 ? '<0.01' : truncateToDecimal(totalBalance, 2)
+    }`,
   });
 
   return resultData;
@@ -268,9 +270,11 @@ export async function getDebankStatisticTokensData(items: DebankCheckerEntity[])
       [DebankStatColumnNames.TOKEN]: token,
       [DebankStatColumnNames.WALLETS]: stats.walletsCount,
       [DebankStatColumnNames.BALANCE_TOKENS]:
-        stats.totalTokens < 0.000001 ? '<0.000001' : truncateToDecimal(stats.totalTokens, 6),
+        stats.totalTokens < 0.000001 && stats.totalTokens > 0 ? '<0.000001' : truncateToDecimal(stats.totalTokens, 6),
       [DebankStatColumnNames.BALANCE_USD]:
-        stats.totalBalanceUSD < 0.01 ? '<0.01' : truncateToDecimal(stats.totalBalanceUSD, 2),
+        stats.totalBalanceUSD < 0.01 && stats.totalBalanceUSD > 0
+          ? '<0.01'
+          : truncateToDecimal(stats.totalBalanceUSD, 2),
     });
   }
 
@@ -284,7 +288,7 @@ export async function getDebankStatisticTokensData(items: DebankCheckerEntity[])
     [DebankStatColumnNames.WALLETS]: `Total: ${items.length}`,
     [DebankStatColumnNames.BALANCE_TOKENS]: '',
     [DebankStatColumnNames.BALANCE_USD]: `Total: ${
-      totalBalanceUSD < 0.01 ? '<0.01' : truncateToDecimal(totalBalanceUSD, 2)
+      totalBalanceUSD < 0.01 && totalBalanceUSD > 0 ? '<0.01' : truncateToDecimal(totalBalanceUSD, 2)
     }`,
   });
 
@@ -322,7 +326,7 @@ export async function getDebankStatisticProtocolsData(items: DebankCheckerEntity
       [DebankStatColumnNames.PROTOCOL]: protocol.toUpperCase(),
       [DebankStatColumnNames.WALLETS]: stats.walletsCount,
       [DebankStatColumnNames.BALANCE_USD]:
-        stats.totalBalance < 0.01 ? '<0.01' : truncateToDecimal(stats.totalBalance, 2),
+        stats.totalBalance < 0.01 && stats.totalBalance > 0 ? '<0.01' : truncateToDecimal(stats.totalBalance, 2),
     });
   }
 
@@ -334,7 +338,9 @@ export async function getDebankStatisticProtocolsData(items: DebankCheckerEntity
   resultData.push({
     [DebankStatColumnNames.PROTOCOL]: `Total: ${totalProtocols}`,
     [DebankStatColumnNames.WALLETS]: `Total: ${items.length}`,
-    [DebankStatColumnNames.BALANCE_USD]: `Total: ${totalBalance < 0.01 ? '<0.01' : truncateToDecimal(totalBalance, 2)}`,
+    [DebankStatColumnNames.BALANCE_USD]: `Total: ${
+      totalBalance < 0.01 && totalBalance > 0 ? '<0.01' : truncateToDecimal(totalBalance, 2)
+    }`,
   });
 
   return resultData;

@@ -23,7 +23,6 @@ export const somniaTestnet = defineChain({
       url: 'https://api.infra.mainnet.somnia.network',
     },
   },
-  testnet: true,
 });
 
 export class SomniaClient extends DefaultClient {
@@ -36,20 +35,3 @@ export class SomniaClient extends DefaultClient {
     return this.getBalanceByContract(contractInfo);
   }
 }
-const P = [
-  {
-    inputs: [{ internalType: 'address', name: '', type: 'address' }],
-    name: 'rewards',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'address', name: '', type: 'address' }],
-    name: 'claimed',
-    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  { inputs: [], name: 'claim', outputs: [], stateMutability: 'nonpayable', type: 'function' },
-];

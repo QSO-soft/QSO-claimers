@@ -192,7 +192,7 @@ const makeClaimSomnia = async (params: TransactionCallbackParams): TransactionCa
     });
 
     return {
-      tgMessage: `Claimed ${amountInt} SOMI`,
+      tgMessage: `Claimed 20% ${amountInt} SOMI`,
       status: 'success',
       message: getCheckClaimMessage(CLAIM_STATUSES.CLAIM_SUCCESS),
     };

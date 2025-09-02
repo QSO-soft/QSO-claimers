@@ -64,6 +64,10 @@ export interface DefaultSettings {
   txAttemptsToChangeProxy: number;
   useProxy: boolean;
   useRestartFromNotFinished: boolean;
+  showExecution: boolean;
+  playwrightExecutablePath: undefined | string;
+  maxAttempts: number;
+  devMode: boolean;
   useDetailedChecks: boolean;
   useRestartInMain: boolean;
   useSavedModules: boolean;
@@ -104,7 +108,8 @@ export type Route =
   | 'zora'
   | 'gaia'
   | 'somnia'
-  | 'mitosis';
+  | 'mitosis'
+  | 'debank';
 
 export type Settings = DefaultSettings;
 

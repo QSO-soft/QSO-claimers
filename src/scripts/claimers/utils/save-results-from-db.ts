@@ -3,8 +3,15 @@ import { DataSource } from 'typeorm';
 
 import { CHECKERS_FOLDER } from '../../../constants';
 import { convertToCsvAndWrite, DataForCsv } from '../../../helpers';
+import {
+  getDebankStatisticChainsData,
+  getDebankStatisticFullData,
+  getDebankStatisticProtocolsData,
+  getDebankStatisticTokensData,
+} from '../../../helpers/file-handlers/save-debank-result';
 import { WalletData, WalletWithModules } from '../../../types';
 import {
+  DebankCheckerEntity,
   GaiaClaimEntity,
   HyperlaneAirdropCheckEntity,
   MitosisAirdropEntity,
@@ -109,6 +116,7 @@ export const saveResultsFromDb = async (props: SaveResultsFromDb) => {
   await saveSuperfensResultsFromDb(props);
   await saveSymbioticPointsResultsFromDb(props);
   await saveHyperlaneAirdropFromDb(props);
+  await saveDebankStatisticResults(dbSource);
 };
 export const saveSuperfensResultsFromDb = async ({ dbSource, walletsWithModules }: SaveResultsFromDb) => {
   const wallets = walletsWithModules.reduce<WalletData[]>((acc, cur) => {
@@ -247,6 +255,43 @@ export const saveSymbioticPointsResultsFromDb = async ({ dbSource, walletsWithMo
     convertToCsvAndWrite({
       data: uniqueDataToSave as DataForCsv,
       fileName: 'symbiotic-points.csv',
+      outputPath: CHECKERS_FOLDER,
+    });
+  }
+};
+export const saveDebankStatisticResults = async (dbSource: DataSource) => {
+  // * Define statistic configs
+  const statisticConfigs = [
+    {
+      fileName: 'debank-checker-full.csv',
+      getDataCallback: getDebankStatisticFullData,
+    },
+    {
+      fileName: 'debank-checker-chains.csv',
+      getDataCallback: getDebankStatisticChainsData,
+    },
+    {
+      fileName: 'debank-checker-tokens.csv',
+      getDataCallback: getDebankStatisticTokensData,
+    },
+    {
+      fileName: 'debank-checker-protocols.csv',
+      getDataCallback: getDebankStatisticProtocolsData,
+    },
+  ];
+
+  // * Get all items from database
+  const dbRepo = dbSource.getRepository(DebankCheckerEntity);
+
+  const items = await dbRepo.find();
+  if (!items.length) return;
+
+  // * Save statistic data
+  for (const statisticConfig of statisticConfigs) {
+    const statisticData = await statisticConfig.getDataCallback(items);
+    convertToCsvAndWrite({
+      data: statisticData as unknown as DataForCsv,
+      fileName: statisticConfig.fileName,
       outputPath: CHECKERS_FOLDER,
     });
   }

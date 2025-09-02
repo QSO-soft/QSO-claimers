@@ -14,3 +14,4 @@ export * from './gaia';
 export * from './somnia';
 export * from './mitosis';
 export * from './zora';
+export * from './debank';

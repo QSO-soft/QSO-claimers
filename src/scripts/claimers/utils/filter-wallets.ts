@@ -10,7 +10,6 @@ export const filterWallets = async ({ dbSource, wallets, logger }: FilterWallets
     return wallets;
   }
   logger.info(`Filtering wallets by status=${status}`, {
-    status: 'in progress',
     action: 'filterWallets',
   });
 
@@ -33,7 +32,6 @@ export const filterWallets = async ({ dbSource, wallets, logger }: FilterWallets
   }, []);
 
   logger.success(`Got [${res.length}/${wallets.length}] filtered wallets`, {
-    status: 'succeeded',
     action: 'filterWallets',
   });
 

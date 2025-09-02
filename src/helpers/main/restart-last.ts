@@ -87,7 +87,7 @@ export const restartLast = async ({
     updateSavedModulesFinishStatus({ projectName });
     saveFailedWalletsToCSV({ results, logger, projectName });
   } catch (error) {
-    logger.error(`${error}`, { status: 'failed' });
+    logger.error(`${error}`);
   }
 
   return;

@@ -99,5 +99,5 @@ export const PUBLIC_RPCS: RPCsRecord = {
   ],
   aptos: ['https://rpc.ankr.com/http/aptos/v1'],
   starknet: ['https://starknet-mainnet.public.blastapi.io'],
-  somnia: ['https://dream-rpc.somnia.network'],
+  somnia: ['https://api.infra.mainnet.somnia.network'],
 };

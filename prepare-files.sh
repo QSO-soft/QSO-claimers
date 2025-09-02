@@ -576,7 +576,6 @@ if [ ! -s src/_outputs/csv/checkers/somnia-claim.csv ]
     touch src/_outputs/csv/checkers/somnia-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/somnia-claim.csv
 fi
 
-
 #MITOSIS ===============================================================================================================
 if [ ! -s src/_inputs/csv/mitosis-wallets.csv ]
   then :
@@ -605,4 +604,28 @@ if [ ! -s src/_outputs/csv/checkers/mitosis-claim.csv ]
   then :
     echo "\nCreating mitosis-claim.csv in src/_outputs/csv/checkers/"
     touch src/_outputs/csv/checkers/mitosis-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/mitosis-claim.csv
+fi
+
+#DEBANK ===============================================================================================================
+if [ ! -s src/_inputs/csv/debank-wallets.csv ]
+  then :
+    echo "\nCreating debank-wallets.csv in src/_inputs/csv/"
+    touch src/_inputs/csv/debank-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/debank-wallets.csv
+fi
+if [ ! -s src/_outputs/json/debank-wallets.json ]
+  then :
+    echo "\nCreating debank-wallets.json in src/_outputs/json/"
+    touch src/_outputs/json/debank-wallets.json && echo "[]" >> src/_outputs/json/debank-wallets.json
+fi
+
+if [ ! -s src/_outputs/csv/debank-failed-wallets.csv ]
+  then :
+    echo "\nCreating debank-failed-wallets.csv in src/_outputs/csv/"
+    touch src/_outputs/csv/debank-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/debank-failed-wallets.csv
+fi
+
+if [ ! -s src/_outputs/json/debank-saved-modules.json ]
+  then :
+    echo "\nCreating debank-saved-modules.json in src/_outputs/json/"
+    touch src/_outputs/json/debank-saved-modules.json && echo "[]" >> src/_outputs/json/debank-saved-modules.json
 fi

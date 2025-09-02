@@ -11,7 +11,7 @@ export const msgToTemplateTransform = (msg: string, templateData?: TemplateData)
     return msg;
   }
 
-  const { id, moduleName, action, address, status, txId } = templateData;
+  const { id, moduleName, action, address, txId } = templateData;
   const templateString = [];
 
   id && templateString.push(`[${id}]`);
@@ -23,8 +23,6 @@ export const msgToTemplateTransform = (msg: string, templateData?: TemplateData)
   action && templateString.push(`[${action}]`);
 
   txId && templateString.push(`[TX: №${txId}]`);
-
-  status && templateString.push(`[${status}]`);
 
   msg && templateString.push(`- ${msg}`);
 

@@ -43,6 +43,23 @@ import { DefaultModuleConfigs } from '../../types';
 // Конфиг, который будет применяться для каждого модуля по умолчанию в случае, если вы пропусили какие-то параметры в роуте
 
 export const defaultModuleConfigs: DefaultModuleConfigs = {
+  // ============== debank ==============
+  'debank-balance-checker': {
+    count: [1, 1],
+    indexGroup: 0,
+    network: 'eth',
+    customSettings: {
+      // * Запишет в статистику по чейнам только те, где баланс больше чем указано
+      minChainBalance: 0, // USD
+
+      // * Запишет в статистику по токенам только те, где баланс больше чем указано
+      minTokenBalance: 0, // USD
+
+      // * Запишет в статистику по протоколам только те, где баланс больше чем указано
+      minProtocolBalance: 0, // USD
+    },
+  },
+
   // ============== mitosis ==============
   'mitosis-check-claim': {
     count: [1, 1],
@@ -67,14 +84,41 @@ export const defaultModuleConfigs: DefaultModuleConfigs = {
     count: [1, 1],
     indexGroup: 0,
 
-    network: 'somnia',
-  },
-  'somnia-register-claim': {
-    count: [1, 1],
-    indexGroup: 0,
+    stopWalletOnError: true,
+    stopWalletOnPassed: false,
 
+    // Сеть для которой выполнять модуль
     network: 'somnia',
   },
+  'somnia-claim': {
+    count: [1, 1],
+    indexGroup: 1,
+
+    stopWalletOnError: true,
+    stopWalletOnPassed: false,
+
+    // Сеть для которой выполнять модуль
+    network: 'somnia',
+  },
+  'somnia-transfer-claim': {
+    count: [1, 1],
+    indexGroup: 2,
+
+    stopWalletOnError: true,
+    stopWalletOnPassed: false,
+
+    minAndMaxAmount: [100, 100],
+    usePercentBalance: true,
+
+    // Сеть для которой выполнять модуль
+    network: 'somnia',
+  },
+  // 'somnia-register-claim': {
+  //   count: [1, 1],
+  //   indexGroup: 0,
+  //
+  //   network: 'somnia',
+  // },
 
   // ============== taiko ==============
   'gaia-check-claim': {

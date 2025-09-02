@@ -3,8 +3,9 @@ import duration from 'dayjs/plugin/duration';
 
 import settings from '../../_inputs/settings/settings';
 import { Moralis } from '../../managers/moralis';
+import { DebankCheckerEntity } from '../../scripts/claimers/db/entities';
 import { clearMitosisAirdropStatistic } from '../../scripts/claimers/modules/mitosis/eligibility-checker.service';
-import { clearSomniaAirdropStatistic } from '../../scripts/claimers/modules/somnia/eligibility-checker.service';
+// import { clearSomniaAirdropStatistic } from '../../scripts/claimers/modules/somnia/eligibility-checker.service';
 import { saveResultsFromDb } from '../../scripts/claimers/utils';
 import { WalletWithModules } from '../../types';
 import { getAllNativePrices } from '../currency-handlers';
@@ -38,7 +39,7 @@ export const runMainScript = async (props: MainScriptArgs) => {
     ...restProps
   } = props;
 
-  const dbSource = await dbSourceProp?.initialize();
+  const dbSource = await dbSourceProp.initialize();
 
   const jsonWallets = await prepareWalletsData({
     logsFolderName,
@@ -58,8 +59,14 @@ export const runMainScript = async (props: MainScriptArgs) => {
     const logger = initLocalLogger(logsFolderName, `${route}`);
     logger.setLoggerMeta({ moduleName: 'Main' });
 
-    await clearSomniaAirdropStatistic(dbSource, jsonWallets);
+    // await clearSomniaAirdropStatistic(dbSource, jsonWallets);
     await clearMitosisAirdropStatistic(dbSource, jsonWallets);
+
+    const entitiesToClear = [DebankCheckerEntity];
+    for (const entity of entitiesToClear) {
+      const repo = dbSource.getRepository(entity);
+      await repo.clear();
+    }
 
     try {
       const routeSettings = routeHandler(route);
@@ -69,7 +76,7 @@ export const runMainScript = async (props: MainScriptArgs) => {
 
       const areModulesEmpty = routeSettings.modules.length === 0;
       if (areModulesEmpty) {
-        logger.error('Modules can not be empty', { status: 'failed' });
+        logger.error('Modules can not be empty');
         continue;
       }
 
@@ -137,7 +144,7 @@ export const runMainScript = async (props: MainScriptArgs) => {
       }
       saveFailedWalletsToCSV({ results: results.flat(), logger, projectName });
     } catch (error) {
-      logger.error(`${error}`, { status: 'failed' });
+      logger.error(`${error}`);
       continue;
     }
   }

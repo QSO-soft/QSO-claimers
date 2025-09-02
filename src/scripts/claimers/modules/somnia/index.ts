@@ -1,2 +1,3 @@
-export * from './make-somnia-eligibility-checker';
-export * from './make-somnia-eligibility-register';
+export * from './make-check-claim';
+export * from './make-claim';
+export * from './transfer-claim';

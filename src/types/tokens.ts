@@ -205,6 +205,8 @@ const ALL_TOKENS = [
   'stHYPER',
   'IP',
   'STT',
+  'SOMI',
+  'WSOMI',
 ] as const;
 
 export type Tokens = (typeof ALL_TOKENS)[number];

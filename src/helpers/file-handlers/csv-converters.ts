@@ -17,7 +17,6 @@ export const convertAndWriteToJSON = async ({ inputPath, outputPath, logger, wit
   const jsonArray: object[] = [];
   const logTemplate: LoggerData = {
     action: 'convertAndWriteToJSON',
-    status: 'in progress',
   };
 
   logger?.info(`Reading from ${inputPath}...`, logTemplate);
@@ -32,7 +31,6 @@ export const convertAndWriteToJSON = async ({ inputPath, outputPath, logger, wit
         if (error) {
           logger?.error('Error reading CSV file in subscribe block! Probably wrong path or file name', {
             ...logTemplate,
-            status: 'failed',
           });
         }
       }
@@ -41,7 +39,6 @@ export const convertAndWriteToJSON = async ({ inputPath, outputPath, logger, wit
       if (error) {
         logger?.error('Error reading data from subscription CSV file! Probably wrong path or file name', {
           ...logTemplate,
-          status: 'failed',
         });
       }
 
@@ -71,7 +68,6 @@ interface ReadAndParseFromJSON {
 export const readAndParseFromJSON = async ({ inputPath, encode, logger }: ReadAndParseFromJSON): Promise<object> => {
   const logTemplate: LoggerData = {
     action: 'readAndParseFromJSON',
-    status: 'in progress',
   };
 
   logger?.info(`Reading from ${inputPath}...`, logTemplate);

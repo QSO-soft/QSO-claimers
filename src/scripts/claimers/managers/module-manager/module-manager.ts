@@ -33,10 +33,12 @@ import {
   execMakeTransferClaimGaia,
   execMakeMitosisEligibilityRegister,
   execMakeMitosisEligibilityChecker,
-  execMakeSomniaEligibilityChecker,
-  execMakeSomniaEligibilityRegister,
   execMakeClaimZora,
   execMakeTransferClaimZora,
+  execMakeDebankBalanceChecker,
+  execMakeCheckClaimSomnia,
+  execMakeClaimSomnia,
+  execMakeTransferClaimSomnia,
 } from '../../modules';
 
 export class ModuleManager extends DefaultModuleManager {
@@ -125,14 +127,21 @@ export class ModuleManager extends DefaultModuleManager {
         return execMakeTransferClaimGaia;
 
       case 'somnia-check-claim':
-        return execMakeSomniaEligibilityChecker;
-      case 'somnia-register-claim':
-        return execMakeSomniaEligibilityRegister;
+        return execMakeCheckClaimSomnia;
+      case 'somnia-claim':
+        return execMakeClaimSomnia;
+      case 'somnia-transfer-claim':
+        return execMakeTransferClaimSomnia;
+      // case 'somnia-register-claim':
+      //   return execMakeSomniaEligibilityRegister;
 
       case 'mitosis-check-claim':
         return execMakeMitosisEligibilityChecker;
       case 'mitosis-register-claim':
         return execMakeMitosisEligibilityRegister;
+
+      case 'debank-balance-checker':
+        return execMakeDebankBalanceChecker;
 
       default:
         return;

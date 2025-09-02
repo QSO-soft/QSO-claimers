@@ -31,7 +31,6 @@ export const saveFailedWalletsToCSV = <T extends WalletData>({
 }: SaveFailedWalletsArgs<T>) => {
   const logTemplate: LoggerData = {
     action: 'saveFailedWalletsToCSV',
-    status: 'in progress',
   };
 
   const input = getFileNameWithPrefix(projectName, 'failed-wallets.csv');

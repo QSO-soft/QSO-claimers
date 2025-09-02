@@ -397,4 +397,20 @@ export const STORY_TOKEN_CONTRACTS: TokenContract[] = [
   // },
 ];
 
-export const SOMNIA_TOKEN_CONTRACTS: TokenContract[] = [];
+export const SOMNIA_TOKEN_CONTRACTS: TokenContract[] = [
+  {
+    name: 'USDC.e',
+    address: getAddress('0x28BEc7E30E6faee657a03e19Bf1128AaD7632A00'),
+    abi: defaultTokenAbi,
+  },
+  {
+    name: 'SOMI',
+    address: getAddress('0x046EDe9564A72571df6F5e44d0405360c0f4dCab'),
+    abi: defaultTokenAbi,
+  },
+  {
+    name: 'WSOMI',
+    address: getAddress('0x046EDe9564A72571df6F5e44d0405360c0f4dCab'),
+    abi: defaultTokenAbi,
+  },
+];

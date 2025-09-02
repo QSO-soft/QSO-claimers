@@ -7,20 +7,20 @@ import { BlastTokens, Networks } from '../types';
 import { DefaultClient } from './default-client';
 
 export const somniaTestnet = defineChain({
-  id: 50312,
-  name: 'somniaTestnet',
+  id: 5031,
+  name: 'somnia',
   nativeCurrency: {
     decimals: 18,
-    name: 'STT',
-    symbol: 'STT',
+    name: 'SOMI',
+    symbol: 'SOMI',
   },
   rpcUrls: {
-    default: { http: ['https://dream-rpc.somnia.network'] },
+    default: { http: ['https://explorer.somnia.network\n'] },
   },
   blockExplorers: {
     default: {
       name: 'Somnia Testnet Explorer',
-      url: 'https://somnia-devnet.socialscan.io',
+      url: 'https://api.infra.mainnet.somnia.network',
     },
   },
   testnet: true,
@@ -36,3 +36,20 @@ export class SomniaClient extends DefaultClient {
     return this.getBalanceByContract(contractInfo);
   }
 }
+const P = [
+  {
+    inputs: [{ internalType: 'address', name: '', type: 'address' }],
+    name: 'rewards',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: '', type: 'address' }],
+    name: 'claimed',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  { inputs: [], name: 'claim', outputs: [], stateMutability: 'nonpayable', type: 'function' },
+];

@@ -38,6 +38,9 @@ const savedSomniaModules = JSON.parse(
 const savedMitosisModules = JSON.parse(
   fs.readFileSync(new URL('../_outputs/json/mitosis-saved-modules.json', import.meta.url))
 );
+const savedDebankModules = JSON.parse(
+  fs.readFileSync(new URL('../_outputs/json/debank-saved-modules.json', import.meta.url))
+);
 
 const scripts = {
   // movement: 'movement',
@@ -58,33 +61,36 @@ const scripts = {
   elixir: 'elixir',
   symbiotic: 'symbiotic',
   // swell: 'swell',
-  zora: 'zora',
+  // zora: 'zora',
+  debank: 'debank',
 };
 const aliases = {
   // runCaldera: '1. Caldera',
   // runMovement: '1. Movement',
   // runPrivasea: '2. PrivaSea',
   // runZora: '2. Zora',
-  runMitosis: '1. Mitosis',
-  runSomnia: '2. Somnia',
-  runGaia: '3. Gaia',
-  runHyperlane: '4. Hyperlane',
+  runDebank: '1. Debank',
+  runMitosis: '2. Mitosis',
+  runSomnia: '3. Somnia',
+  runGaia: '4. Gaia',
+  runHyperlane: '5. Hyperlane',
   // runStory: '1. Story',
-  runDelegate: '5. Delegate',
+  runDelegate: '6. Delegate',
   // runOdos: '3. Odos',
   // runScroll: '4. Scroll',
   // runTaiko: '5. Taiko',
   // runPolyhedra: '6. Polyhedra',
   // runLayerZero: '7. LayerZero',
   // runSuperform: '8. Superfrom',
-  runElixir: '6. Elixir',
-  runSymbiotic: '7. Symbiotic',
+  runElixir: '7. Elixir',
+  runSymbiotic: '8. Symbiotic',
   // runSwell: '11. Swell',
 
   exit: '0. Выйти',
 };
 
 const commandAliases = {
+  [aliases.runDebank]: scripts.debank,
   [aliases.runMitosis]: scripts.mitosis,
   [aliases.runSomnia]: scripts.somnia,
   [aliases.runGaia]: scripts.gaia,
@@ -114,6 +120,9 @@ const getStartMainCommand = async (projectName) => {
 
   let currentSavedModulesToUse;
   switch (projectName) {
+    case scripts.debank:
+      currentSavedModulesToUse = savedDebankModules;
+      break;
     case scripts.mitosis:
       currentSavedModulesToUse = savedMitosisModules;
       break;
@@ -245,6 +254,12 @@ const getSecretPhrase = async () => {
   let args = [];
 
   switch (selectedAlias) {
+    case aliases.runDebank: {
+      const { command, secret, projectName } = await getStartMainCommand(scripts.debank);
+      selectedCommand = command;
+      args = [secret, projectName, projectName];
+      break;
+    }
     case aliases.runMitosis: {
       const { command, secret, projectName } = await getStartMainCommand(scripts.mitosis);
       selectedCommand = command;

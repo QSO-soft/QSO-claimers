@@ -16,9 +16,18 @@ const modules: UserModuleConfig[] = [
     indexGroup: 1,
   },
   {
-    moduleName: 'somnia-register-claim',
+    moduleName: 'somnia-claim',
     indexGroup: 2,
   },
+  // {
+  //   moduleName: 'somnia-transfer-claim',
+  //   indexGroup: 3,
+  //
+  //   // Сколько токенов отправлять на transferAddress
+  //   minAndMaxAmount: [100, 100],
+  //   // Использовать ли minAndMaxAmount как значение процента от баланса токенов
+  //   usePercentBalance: true,
+  // },
 ];
 
 // Выполнит скрипт на указанном количестве кошельков

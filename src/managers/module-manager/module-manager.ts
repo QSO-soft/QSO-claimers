@@ -55,7 +55,6 @@ export abstract class ModuleManager {
     const logger = initLocalLogger(logsFolderName, walletId);
     logger.setLoggerMeta({ wallet: this.wallet, moduleName: 'Module Manager' });
     const logTemplate: LoggerData = {
-      status: 'in progress',
       action: 'startModules',
     };
 

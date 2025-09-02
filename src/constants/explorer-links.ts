@@ -22,7 +22,7 @@ export const explorerLinks: NetworksRecord = {
   scroll: 'https://scrollscan.com',
   fantom: 'https://ftmscan.com/',
   story: 'https://www.storyscan.xyz',
-  somnia: 'https://shannon-explorer.somnia.network',
+  somnia: 'https://explorer.somnia.network',
 
   core: 'https://scan.coredao.org/',
   celo: 'https://celoscan.io/',

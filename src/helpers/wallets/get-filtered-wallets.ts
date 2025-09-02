@@ -79,7 +79,6 @@ export const getRangedByIdWallets = (wallets: WalletData[], filters: RangeByIdFi
   const logTemplate: TemplateData = {
     moduleName: 'Wallets',
     action: 'getRangedByIdWallets',
-    status: 'in progress',
   };
 
   const isFiltersEmpty = !filters.length;

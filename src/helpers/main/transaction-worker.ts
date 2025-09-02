@@ -55,7 +55,6 @@ export const transactionWorker = async (props: TransactionWorkerPropsWithCallbac
     const logTemplate: LoggerData = {
       txId: txIndex + 1,
       action: 'transactionWorker',
-      status: 'in progress',
     };
 
     workerResponse = {

@@ -61,7 +61,7 @@ export const prepareWalletsWithModules = async (params: PrepareWallets) => {
   const wallets = await prepareWallets(params);
 
   if (!wallets?.length) {
-    params.logger.error('Wallets not found', { status: 'failed' });
+    params.logger.error('Wallets not found');
     return;
   }
 

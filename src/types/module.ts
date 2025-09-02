@@ -69,9 +69,12 @@ export type ModuleNames =
   | 'gaia-check-claim'
   | 'gaia-transfer-claim'
   | 'somnia-check-claim'
-  | 'somnia-register-claim'
+  | 'somnia-claim'
+  | 'somnia-transfer-claim'
+  // | 'somnia-register-claim'
   | 'mitosis-check-claim'
-  | 'mitosis-register-claim';
+  | 'mitosis-register-claim'
+  | 'debank-balance-checker';
 
 export type SwapModuleNames = Extract<
   ModuleNames,

@@ -154,6 +154,37 @@ const makeClaimSomnia = async (params: TransactionCallbackParams): TransactionCa
       throw new Error(data.error);
     }
 
+    const signObj = {
+      amount: results.allocation,
+      batch: 'default',
+      extra: '',
+      onBehalfOf: walletAddress,
+      proof: results.extra.proof,
+      released: data.released,
+      signature: data.sig,
+    };
+    const signature2 = await walletClient.signMessage({
+      message: JSON.stringify(signObj),
+    });
+
+    const { data: data2 } = await axios.post(
+      'https://acs.clique.tech/relay/native_distributor/v2_0_0',
+      {
+        method: 'Claim',
+        params: {
+          ...signObj,
+          authority: signature2,
+          appId: 'somnia',
+        },
+        appId: 'somnia',
+      },
+      config
+    );
+
+    if (data2.error) {
+      throw new Error(data2.error);
+    }
+
     await dbRepo.update(walletInDb.id, {
       status: CLAIM_STATUSES.CLAIM_SUCCESS,
       claimAmount: amountInt,

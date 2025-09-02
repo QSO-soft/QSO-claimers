@@ -1,4 +1,5 @@
 import { Hex } from 'viem';
+import { english, generateMnemonic, mnemonicToAccount } from 'viem/accounts';
 
 import { defaultTokenAbi } from '../../clients/abi';
 import { SECOND_ADDRESS_EMPTY_ERROR } from '../../constants';
@@ -8,6 +9,7 @@ import {
   getCurrentBalanceByContract,
   getCurrentSymbolByContract,
   getGasOptions,
+  getRandomItemFromArray,
   getRandomNumber,
   getTrimmedLogsAmount,
   intToDecimal,
@@ -31,18 +33,50 @@ export const makeTransferToken = async (params: TransactionCallbackParams): Tran
     minTokenBalance,
     balanceToLeft,
     minAmount,
+    dbSource,
   } = params;
   const { walletClient, explorerLink, publicClient, walletAddress } = client;
-  const { transferAddress } = wallet;
+  const { transferAddress: transferAddressProp } = wallet;
+  const transferMode: string = 'default';
+  const transferAmount = 0;
 
-  if (!transferAddress) {
-    return {
-      status: 'critical',
-      message: SECOND_ADDRESS_EMPTY_ERROR,
-    };
+  let transferAddress = transferAddressProp;
+
+  if (transferMode === 'self') {
+    transferAddress = wallet.walletAddress;
+
+    logger.info('Transfer tokens to myself');
+  } else if (transferMode === 'random') {
+    const mnemonic = generateMnemonic(english);
+    const account = mnemonicToAccount(mnemonic);
+
+    transferAddress = account.address;
+
+    logger.info(`Transfer tokens to random address [${transferAddress}]`);
+  } else {
+    if (!transferAddressProp) {
+      return {
+        status: 'critical',
+        message: SECOND_ADDRESS_EMPTY_ERROR,
+      };
+    }
+    if (transferAddressProp.includes('|')) {
+      const transferAddresses = transferAddressProp
+        .split('|')
+        .filter((transferAddress) => transferAddress && transferAddress.toLowerCase() !== walletAddress.toLowerCase());
+
+      if (!transferAddresses.length) {
+        return {
+          status: 'critical',
+          message: SECOND_ADDRESS_EMPTY_ERROR,
+        };
+      }
+
+      transferAddress = getRandomItemFromArray(transferAddresses);
+    }
+
+    logger.info(`Transfer tokens to transferAddress [${transferAddress}]`);
   }
-
-  logger.info(`Transfer tokens to transferAddress [${transferAddress}]`);
 
   const {
     wei: weiBalance,
@@ -66,40 +100,40 @@ export const makeTransferToken = async (params: TransactionCallbackParams): Tran
 
   let amount = calculateAmount({
     balance: weiBalance,
-    minAndMaxAmount,
-    usePercentBalance,
+    minAndMaxAmount: transferAmount ? [+transferAmount, +transferAmount] : minAndMaxAmount,
+    usePercentBalance: transferAmount ? false : usePercentBalance,
     decimals,
     isBigInt: true,
   });
 
-  if (balanceToLeft && balanceToLeft[0] && balanceToLeft[1]) {
-    const balanceToLeftInt = getRandomNumber(balanceToLeft);
+  if (!transferAmount) {
+    if (balanceToLeft && balanceToLeft[0] && balanceToLeft[1]) {
+      const balanceToLeftInt = getRandomNumber(balanceToLeft);
 
-    const balanceToLeftWei = intToDecimal({
-      amount: balanceToLeftInt,
-      decimals,
-    });
+      const balanceToLeftWei = intToDecimal({
+        amount: balanceToLeftInt,
+        decimals,
+      });
 
-    amount = weiBalance - balanceToLeftWei;
+      amount = weiBalance - balanceToLeftWei;
 
-    if (intBalance - balanceToLeftInt <= 0) {
-      return {
-        status: 'warning',
-        message: `Balance is ${getTrimmedLogsAmount(
-          intBalance,
-          tokenSymbol
-        )}  that is lower than balance to left ${getTrimmedLogsAmount(balanceToLeftInt, tokenSymbol)}`,
-      };
+      if (intBalance - balanceToLeftInt <= 0) {
+        return {
+          status: 'error',
+          message: `Balance is ${getTrimmedLogsAmount(
+            intBalance,
+            tokenSymbol
+          )} that is lower than balance to left ${getTrimmedLogsAmount(balanceToLeftInt, tokenSymbol)}`,
+        };
+      }
     }
   }
 
-  const logCalculatedAmount = `${getTrimmedLogsAmount(
-    decimalToInt({
-      amount,
-      decimals,
-    }),
-    tokenSymbol
-  )}`;
+  const amountInt = decimalToInt({
+    amount,
+    decimals,
+  });
+  const logCalculatedAmount = `${getTrimmedLogsAmount(amountInt, tokenSymbol)}`;
 
   if (minAmount && amount < minAmount) {
     return {
@@ -130,17 +164,21 @@ export const makeTransferToken = async (params: TransactionCallbackParams): Tran
       // ...feeOptions,
     });
 
-    let value = amount - (gasLimit * maxFeePerGas * 15n) / 10n;
+    let value = amount;
 
-    if (network === 'eth') {
-      value = amount - gasLimit * maxFeePerGas;
-    }
-    if (network === 'optimism') {
-      value = amount - gasPrice * maxFeePerGas;
-    }
+    if (usePercentBalance) {
+      value = amount - (gasLimit * maxFeePerGas * 15n) / 10n;
 
-    if (value <= 0n) {
-      value = amount;
+      if (network === 'eth') {
+        value = amount - gasLimit * maxFeePerGas;
+      }
+      if (network === 'optimism') {
+        value = amount - gasPrice * maxFeePerGas;
+      }
+
+      if (value <= 0n) {
+        value = amount;
+      }
     }
 
     logger.info(transferMsg);
@@ -165,11 +203,19 @@ export const makeTransferToken = async (params: TransactionCallbackParams): Tran
 
   await client.waitTxReceipt(txHash);
 
+  const resMsg = `Transferred ${logCalculatedAmount} to ${
+    transferMode === 'self'
+      ? 'myself'
+      : transferMode === 'random'
+      ? 'random address ' + transferAddress
+      : transferAddress
+  } | ${network}`;
+
   return {
     txHash,
     explorerLink,
     status: 'success',
-    tgMessage: `Transferred ${logCalculatedAmount} in ${network} to ${transferAddress}...`,
+    tgMessage: resMsg,
   };
 };
 

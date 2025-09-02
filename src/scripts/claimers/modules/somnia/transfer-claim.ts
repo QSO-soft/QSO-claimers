@@ -207,34 +207,34 @@ const makeTransferClaimSomnia = async (params: TransactionCallbackParams): Trans
         )}] in ${network} is lower than minTokenBalance ${minTokenBalance}`,
       };
     }
-
-    const gasPrice = await publicClient.getGasPrice();
-
-    const { maxFeePerGas } = await publicClient.estimateFeesPerGas();
-    const gasLimit = await publicClient.estimateGas({
-      account: walletAddress,
-      to: transferAddress as Hex,
-      value: amountWei,
-      data: '0x',
-      // ...feeOptions,
-    });
-
-    let value = amountWei;
-
-    if (usePercentBalance) {
-      value = amountWei - (gasLimit * maxFeePerGas * 15n) / 10n;
-
-      if (network === 'eth') {
-        value = amountWei - gasLimit * maxFeePerGas;
-      }
-      if (network === 'optimism') {
-        value = amountWei - gasPrice * maxFeePerGas;
-      }
-
-      if (value <= 0n) {
-        value = amountWei;
-      }
-    }
+    //
+    // const gasPrice = await publicClient.getGasPrice();
+    //
+    // const { maxFeePerGas } = await publicClient.estimateFeesPerGas();
+    // const gasLimit = await publicClient.estimateGas({
+    //   account: walletAddress,
+    //   to: transferAddress as Hex,
+    //   value: amountWei,
+    //   data: '0x',
+    //   // ...feeOptions,
+    // });
+    //
+    const value = amountWei;
+    //
+    // if (usePercentBalance) {
+    //   value = amountWei - (gasLimit * maxFeePerGas * 15n) / 10n;
+    //
+    //   if (network === 'eth') {
+    //     value = amountWei - gasLimit * maxFeePerGas;
+    //   }
+    //   if (network === 'optimism') {
+    //     value = amountWei - gasPrice * maxFeePerGas;
+    //   }
+    //
+    //   if (value <= 0n) {
+    //     value = amountWei;
+    //   }
+    // }
 
     logger.info(`Sending ${amountToTransferInt} SOMI to ${transferAddress}...`);
 

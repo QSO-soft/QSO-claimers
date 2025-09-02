@@ -97,7 +97,7 @@ const makeClaimSomnia = async (params: TransactionCallbackParams): TransactionCa
     const { int: currentBalanceInt } = await client.getNativeBalance();
     currentBalance = currentBalanceInt;
 
-    if (results.claim_at) {
+    if (currentBalanceInt) {
       if (currentBalance === 0) {
         await dbRepo.update(walletInDb.id, {
           status: CLAIM_STATUSES.CLAIMED_AND_SENT,

@@ -109,7 +109,8 @@ export type Route =
   | 'gaia'
   | 'somnia'
   | 'mitosis'
-  | 'debank';
+  | 'debank'
+  | 'linea';
 
 export type Settings = DefaultSettings;
 

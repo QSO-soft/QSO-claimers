@@ -74,7 +74,8 @@ export type ModuleNames =
   // | 'somnia-register-claim'
   | 'mitosis-check-claim'
   | 'mitosis-register-claim'
-  | 'debank-balance-checker';
+  | 'debank-balance-checker'
+  | 'linea-check-claim';
 
 export type SwapModuleNames = Extract<
   ModuleNames,

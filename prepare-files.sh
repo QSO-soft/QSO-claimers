@@ -629,3 +629,33 @@ if [ ! -s src/_outputs/json/debank-saved-modules.json ]
     echo "\nCreating debank-saved-modules.json in src/_outputs/json/"
     touch src/_outputs/json/debank-saved-modules.json && echo "[]" >> src/_outputs/json/debank-saved-modules.json
 fi
+
+#LINEA ===============================================================================================================
+if [ ! -s src/_inputs/csv/linea-wallets.csv ]
+  then :
+    echo "\nCreating linea-wallets.csv in src/_inputs/csv/"
+    touch src/_inputs/csv/linea-wallets.csv && echo "id,walletAddress,privKey,transferAddress,proxy,updateProxyLink" >> src/_inputs/csv/linea-wallets.csv
+fi
+if [ ! -s src/_outputs/json/linea-wallets.json ]
+  then :
+    echo "\nCreating linea-wallets.json in src/_outputs/json/"
+    touch src/_outputs/json/linea-wallets.json && echo "[]" >> src/_outputs/json/linea-wallets.json
+fi
+
+if [ ! -s src/_outputs/csv/linea-failed-wallets.csv ]
+  then :
+    echo "\nCreating linea-failed-wallets.csv in src/_outputs/csv/"
+    touch src/_outputs/csv/linea-failed-wallets.csv && echo "id,walletAddress,privKey,failReason" >> src/_outputs/csv/linea-failed-wallets.csv
+fi
+
+if [ ! -s src/_outputs/json/linea-saved-modules.json ]
+  then :
+    echo "\nCreating linea-saved-modules.json in src/_outputs/json/"
+    touch src/_outputs/json/linea-saved-modules.json && echo "[]" >> src/_outputs/json/linea-saved-modules.json
+fi
+
+if [ ! -s src/_outputs/csv/checkers/linea-claim.csv ]
+  then :
+    echo "\nCreating linea-claim.csv in src/_outputs/csv/checkers/"
+    touch src/_outputs/csv/checkers/linea-claim.csv && echo "id,walletAddress" >> src/_outputs/csv/checkers/linea-claim.csv
+fi

@@ -16,6 +16,7 @@ import {
   somnia,
   mitosis,
   debank,
+  linea,
 } from '../../../_inputs/settings/routes';
 import { Route } from '../../../types';
 
@@ -55,6 +56,8 @@ export const routeHandler = (route: Route) => {
       return mitosis;
     case 'debank':
       return debank;
+    case 'linea':
+      return linea;
 
     default:
       throw new Error('Route name is wrong');

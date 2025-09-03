@@ -15,3 +15,4 @@ export { flow as gaia } from './gaia';
 export { flow as somnia } from './somnia';
 export { flow as mitosis } from './mitosis';
 export { flow as debank } from './debank';
+export { flow as linea } from './linea';

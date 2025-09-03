@@ -13,3 +13,4 @@ export * from './gaia-claim.entity';
 export * from './somnia-airdrop.entity';
 export * from './mitosis-airdrop.entity';
 export * from './debank-checker.entity';
+export * from './linea-claim.entity';

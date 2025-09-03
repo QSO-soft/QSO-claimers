@@ -41,6 +41,9 @@ const savedMitosisModules = JSON.parse(
 const savedDebankModules = JSON.parse(
   fs.readFileSync(new URL('../_outputs/json/debank-saved-modules.json', import.meta.url))
 );
+const savedLineaModules = JSON.parse(
+  fs.readFileSync(new URL('../_outputs/json/linea-saved-modules.json', import.meta.url))
+);
 
 const scripts = {
   // movement: 'movement',
@@ -48,6 +51,7 @@ const scripts = {
   // caldera: 'caldera',
   mitosis: 'mitosis',
   somnia: 'somnia',
+  linea: 'linea',
   gaia: 'gaia',
   hyperlane: 'hyperlane',
   // story: 'story',
@@ -72,18 +76,19 @@ const aliases = {
   runDebank: '1. Debank',
   runMitosis: '2. Mitosis',
   runSomnia: '3. Somnia',
-  runGaia: '4. Gaia',
-  runHyperlane: '5. Hyperlane',
+  runLinea: '4. Linea',
+  runGaia: '5. Gaia',
+  runHyperlane: '6. Hyperlane',
   // runStory: '1. Story',
-  runDelegate: '6. Delegate',
+  runDelegate: '7. Delegate',
   // runOdos: '3. Odos',
   // runScroll: '4. Scroll',
   // runTaiko: '5. Taiko',
   // runPolyhedra: '6. Polyhedra',
   // runLayerZero: '7. LayerZero',
   // runSuperform: '8. Superfrom',
-  runElixir: '7. Elixir',
-  runSymbiotic: '8. Symbiotic',
+  runElixir: '8. Elixir',
+  runSymbiotic: '9. Symbiotic',
   // runSwell: '11. Swell',
 
   exit: '0. Выйти',
@@ -93,6 +98,7 @@ const commandAliases = {
   [aliases.runDebank]: scripts.debank,
   [aliases.runMitosis]: scripts.mitosis,
   [aliases.runSomnia]: scripts.somnia,
+  [aliases.runLinea]: scripts.linea,
   [aliases.runGaia]: scripts.gaia,
   // [aliases.runCaldera]: scripts.caldera,
   // [aliases.runMovement]: scripts.movement,
@@ -128,6 +134,9 @@ const getStartMainCommand = async (projectName) => {
       break;
     case scripts.somnia:
       currentSavedModulesToUse = savedSomniaModules;
+      break;
+    case scripts.linea:
+      currentSavedModulesToUse = savedLineaModules;
       break;
     case scripts.gaia:
       currentSavedModulesToUse = savedGaiaModules;
@@ -268,6 +277,12 @@ const getSecretPhrase = async () => {
     }
     case aliases.runSomnia: {
       const { command, secret, projectName } = await getStartMainCommand(scripts.somnia);
+      selectedCommand = command;
+      args = [secret, projectName, projectName];
+      break;
+    }
+    case aliases.runLinea: {
+      const { command, secret, projectName } = await getStartMainCommand(scripts.linea);
       selectedCommand = command;
       args = [secret, projectName, projectName];
       break;

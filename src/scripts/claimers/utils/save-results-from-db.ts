@@ -14,6 +14,7 @@ import {
   DebankCheckerEntity,
   GaiaClaimEntity,
   HyperlaneAirdropCheckEntity,
+  LineaClaimEntity,
   MitosisAirdropEntity,
   PolyhedraClaimEntity,
   SomniaAirdropEntity,
@@ -74,6 +75,9 @@ export const saveResultsFromDb = async (props: SaveResultsFromDb) => {
       break;
     case 'gaia':
       projectEntity = GaiaClaimEntity;
+      break;
+    case 'linea':
+      projectEntity = LineaClaimEntity;
       break;
 
     default:

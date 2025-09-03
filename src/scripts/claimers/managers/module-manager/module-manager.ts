@@ -39,6 +39,7 @@ import {
   execMakeCheckClaimSomnia,
   execMakeClaimSomnia,
   execMakeTransferClaimSomnia,
+  execMakeCheckClaimLinea,
 } from '../../modules';
 
 export class ModuleManager extends DefaultModuleManager {
@@ -142,6 +143,9 @@ export class ModuleManager extends DefaultModuleManager {
 
       case 'debank-balance-checker':
         return execMakeDebankBalanceChecker;
+
+      case 'linea-check-claim':
+        return execMakeCheckClaimLinea;
 
       default:
         return;

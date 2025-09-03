@@ -13,7 +13,7 @@ import { ABI, CHECKER_CONTRACT } from './constants';
 export const execMakeCheckClaimLinea = async (params: TransformedModuleParams) =>
   transactionWorker({
     ...params,
-    startLogMessage: 'Execute make check claim GAIA...',
+    startLogMessage: 'Execute make check claim LINEA...',
     transactionCallback: makeCheckClaimLinea,
   });
 

@@ -23,7 +23,7 @@ import { TOKEN_CONTRACT } from './constants';
 
 export const getBalance = async (client: ClientType) => {
   const contractInfo: TokenContract = {
-    name: 'GAIA',
+    name: 'LINEA',
     address: TOKEN_CONTRACT,
     abi: defaultTokenAbi,
   };

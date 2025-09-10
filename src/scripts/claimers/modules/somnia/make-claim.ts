@@ -225,8 +225,8 @@ const makeClaimSomnia = async (params: TransactionCallbackParams): TransactionCa
     return {
       tgMessage: `Claimed ${amountInt} SOMI`,
       status: 'success',
-      // txHash,
-      // explorerLink,
+      txHash,
+      explorerLink,
       message: getCheckClaimMessage(CLAIM_STATUSES.CLAIM_SUCCESS),
     };
   } catch (err) {

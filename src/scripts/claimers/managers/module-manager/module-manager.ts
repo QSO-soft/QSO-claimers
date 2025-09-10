@@ -38,7 +38,6 @@ import {
   execMakeDebankBalanceChecker,
   execMakeCheckClaimSomnia,
   execMakeClaimSomnia,
-  execMakeTransferClaimSomnia,
   execMakeCheckClaimLinea,
   execMakeClaimLinea,
   execMakeTransferClaimLinea,
@@ -133,8 +132,6 @@ export class ModuleManager extends DefaultModuleManager {
         return execMakeCheckClaimSomnia;
       case 'somnia-claim':
         return execMakeClaimSomnia;
-      case 'somnia-transfer-claim':
-        return execMakeTransferClaimSomnia;
       // case 'somnia-register-claim':
       //   return execMakeSomniaEligibilityRegister;
 

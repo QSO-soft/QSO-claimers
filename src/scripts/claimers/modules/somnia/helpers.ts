@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Hex } from 'viem';
+import { encodePacked, Hex, keccak256 } from 'viem';
 
 import { BaseAxiosConfig, SupportedNetworks } from '../../../../types';
 
@@ -31,4 +31,27 @@ export const getProofData = async ({ walletAddress, config }: GetData): Promise<
   );
 
   return data;
+};
+
+export const calculateMerkleProof = (proofElements: Hex[], userAddress: Hex, tokenAmount: bigint) => {
+  let currentHash = keccak256(encodePacked(['address', 'uint256'], [userAddress, tokenAmount]));
+
+  proofElements.forEach((proofElement: Hex) => {
+    const hashPair = [currentHash, proofElement].sort((hashA: Hex, hashB: Hex) =>
+      BigInt(hashA) < BigInt(hashB) ? -1 : +(BigInt(hashA) > BigInt(hashB))
+    ) as [Hex, Hex];
+    currentHash = keccak256(encodePacked(['bytes32', 'bytes32'], hashPair));
+  });
+
+  return currentHash;
+};
+
+export const calculateClaimableAllocation = (
+  totalAllocation: bigint,
+  unlocked: bigint,
+  releasedAllocation: bigint
+): bigint => {
+  const twentyPercent = (totalAllocation * 20n) / 100n;
+
+  return releasedAllocation - twentyPercent - unlocked;
 };

@@ -70,7 +70,6 @@ export type ModuleNames =
   | 'gaia-transfer-claim'
   | 'somnia-check-claim'
   | 'somnia-claim'
-  | 'somnia-transfer-claim'
   // | 'somnia-register-claim'
   | 'mitosis-check-claim'
   | 'mitosis-register-claim'

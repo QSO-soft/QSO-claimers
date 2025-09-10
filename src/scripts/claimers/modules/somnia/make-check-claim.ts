@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { CLAIM_STATUSES, DB_NOT_CONNECTED } from '../../../../constants';
 import {
   decimalToInt,
@@ -11,7 +13,7 @@ import { TransformedModuleParams } from '../../../../types';
 import { SomniaAirdropEntity } from '../../db/entities';
 import { formatErrMessage, getCheckClaimMessage } from '../../utils';
 import { HEADERS } from './constants';
-import { getProofData } from './helpers';
+import { calculateClaimableAllocation, getProofData } from './helpers';
 
 export const execMakeCheckClaimSomnia = async (params: TransformedModuleParams) =>
   transactionWorker({
@@ -23,7 +25,7 @@ export const execMakeCheckClaimSomnia = async (params: TransformedModuleParams) 
 const makeCheckClaimSomnia = async (params: TransactionCallbackParams): TransactionCallbackReturn => {
   const { client, dbSource, network, wallet, proxyAgent } = params;
 
-  const { walletAddress, publicClient } = client;
+  const { walletAddress, walletClient } = client;
 
   if (!dbSource) {
     return {
@@ -85,16 +87,49 @@ const makeCheckClaimSomnia = async (params: TransactionCallbackParams): Transact
       };
     }
 
-    const amountWei = BigInt(results.allocation);
-    amountInt = decimalToInt({
-      amount: amountWei,
-      decimals: 18,
-    });
-
     const { int: currentBalanceInt } = await client.getNativeBalance();
     currentBalance = currentBalanceInt;
 
-    if (currentBalanceInt) {
+    const terms = '0xaa1798314db57817f8cd6f63f58bff70fd930a346d149d5f3a18e4d2ce03cca9';
+    const message = `I hereby authorize this message as confirmation of ownership for the wallet address: ${walletAddress.toLowerCase()}. By signing, I acknowledge that I have read and accepted the Airdrop Terms of Service and Privacy Policy. The SHA-256 hash of the referenced terms and policy is: ${terms}.`;
+
+    const signature = await walletClient.signMessage({
+      message,
+    });
+
+    const { data } = await axios.post(
+      'https://acs.clique.tech/ext/partial_claim',
+      {
+        deployment: 'NativeDistributor',
+        batch: 'default',
+        address: walletAddress,
+        sig: signature,
+        appId: 'somnia',
+      },
+      config
+    );
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    const totalUnlockedByWeeks = ((data.weeks || []) as { unlocked: string }[]).reduce<bigint>(
+      (acc, cur) => acc + BigInt(cur.unlocked),
+      0n
+    );
+    const claimedAmount = BigInt(data.released || '0');
+    const claimableAllocation = calculateClaimableAllocation(
+      BigInt(results.allocation),
+      totalUnlockedByWeeks,
+      claimedAmount
+    );
+
+    if (!claimableAllocation) {
+      amountInt = decimalToInt({
+        amount: claimedAmount,
+        decimals: 18,
+      });
+
       if (currentBalance === 0) {
         await dbRepo.update(walletInDb.id, {
           status: CLAIM_STATUSES.CLAIMED_AND_SENT,
@@ -126,6 +161,10 @@ const makeCheckClaimSomnia = async (params: TransactionCallbackParams): Transact
       };
     }
 
+    amountInt = decimalToInt({
+      amount: claimableAllocation,
+      decimals: 18,
+    });
     await dbRepo.update(walletInDb.id, {
       status: CLAIM_STATUSES.NOT_CLAIMED,
       claimAmount: amountInt,

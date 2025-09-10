@@ -20,7 +20,7 @@ const modules: UserModuleConfig[] = [
     indexGroup: 2,
   },
   {
-    moduleName: 'somnia-transfer-claim',
+    moduleName: 'transfer-token',
     indexGroup: 3,
 
     // Сколько токенов отправлять на transferAddress
@@ -28,8 +28,15 @@ const modules: UserModuleConfig[] = [
     // Использовать ли minAndMaxAmount как значение процента от баланса токенов
     usePercentBalance: true,
 
+    // ИЛИ
+
+    // Сколько оставлять токенов на балансе при отправке
+    balanceToLeft: [0.01, 0.05],
+
     // Будет делать трансфер только если баланс выше данного значения
-    minTokenBalance: 1,
+    minTokenBalance: 0.5,
+
+    network: 'somnia',
   },
 ];
 

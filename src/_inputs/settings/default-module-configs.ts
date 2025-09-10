@@ -135,21 +135,6 @@ export const defaultModuleConfigs: DefaultModuleConfigs = {
     // Сеть для которой выполнять модуль
     network: 'somnia',
   },
-  'somnia-transfer-claim': {
-    count: [1, 1],
-    indexGroup: 2,
-
-    stopWalletOnError: true,
-    stopWalletOnPassed: false,
-
-    minAndMaxAmount: [100, 100],
-    usePercentBalance: true,
-
-    minTokenBalance: 0,
-
-    // Сеть для которой выполнять модуль
-    network: 'somnia',
-  },
   // 'somnia-register-claim': {
   //   count: [1, 1],
   //   indexGroup: 0,

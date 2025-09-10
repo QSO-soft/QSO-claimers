@@ -8,8 +8,8 @@ import {
 import { TransformedModuleParams } from '../../../../types';
 import { LineaClaimEntity } from '../../db/entities';
 import { formatErrMessage, getCheckClaimMessage } from '../../utils';
-import { getBalance } from '../gaia/helpers';
 import { ABI, CHECKER_CONTRACT } from './constants';
+import { getBalance } from './helpers';
 
 export const execMakeCheckClaimLinea = async (params: TransformedModuleParams) =>
   transactionWorker({

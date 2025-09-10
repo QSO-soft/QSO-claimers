@@ -42,8 +42,10 @@ export const PUBLIC_RPCS: RPCsRecord = {
 
   zkSync: ['https://zksync-era.blockpi.network/v1/rpc/public'],
   linea: [
-    'https://rpc.linea.build',
+    // 'https://rpc.linea.build',
     // 'https://linea-rpc.publicnode.com',
+    'https://linea.rpc.grove.city/v1/01fdb492',
+    // 'https://1rpc.io/linea',
   ],
 
   bsc: [

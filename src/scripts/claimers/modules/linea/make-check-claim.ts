@@ -8,6 +8,7 @@ import {
 import { TransformedModuleParams } from '../../../../types';
 import { LineaClaimEntity } from '../../db/entities';
 import { formatErrMessage, getCheckClaimMessage } from '../../utils';
+import { getBalance } from '../gaia/helpers';
 import { ABI, CHECKER_CONTRACT } from './constants';
 
 export const execMakeCheckClaimLinea = async (params: TransformedModuleParams) =>
@@ -99,42 +100,49 @@ const makeCheckClaimLinea = async (params: TransactionCallbackParams): Transacti
       amount: allocation,
     });
 
-    // const { currentBalance: currentBalanceInt } = await getBalance(client);
-    currentBalance = 0;
+    const { currentBalance: currentBalanceInt } = await getBalance(client);
+    currentBalance = currentBalanceInt;
 
-    // if (!hasUnclaimed) {
-    //   if (currentBalance === 0) {
-    //     await dbRepo.update(walletInDb.id, {
-    //       status: CLAIM_STATUSES.CLAIMED_AND_SENT,
-    //       claimAmount: amountInt,
-    //       nativeBalance,
-    //       balance: currentBalance,
-    //     });
-    //
-    //     const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_AND_SENT);
-    //
-    //     return {
-    //       status: 'passed',
-    //       message: status,
-    //       tgMessage: `${status} | Amount: ${amountInt}`,
-    //     };
-    //   }
-    //
-    //   await dbRepo.update(walletInDb.id, {
-    //     status: CLAIM_STATUSES.CLAIMED_NOT_SENT,
-    //     claimAmount: amountInt,
-    //     nativeBalance,
-    //     balance: currentBalance,
-    //   });
-    //
-    //   const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_NOT_SENT);
-    //
-    //   return {
-    //     status: 'passed',
-    //     message: status,
-    //     tgMessage: `${status} | Amount: ${amountInt}`,
-    //   };
-    // }
+    const claimed = (await publicClient.readContract({
+      address: CHECKER_CONTRACT,
+      abi: ABI,
+      functionName: 'hasClaimed',
+      args: [walletAddress],
+    })) as boolean;
+
+    if (claimed) {
+      if (currentBalance === 0) {
+        await dbRepo.update(walletInDb.id, {
+          status: CLAIM_STATUSES.CLAIMED_AND_SENT,
+          claimAmount: amountInt,
+          nativeBalance,
+          balance: currentBalance,
+        });
+
+        const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_AND_SENT);
+
+        return {
+          status: 'passed',
+          message: status,
+          tgMessage: `${status} | Amount: ${amountInt}`,
+        };
+      }
+
+      await dbRepo.update(walletInDb.id, {
+        status: CLAIM_STATUSES.CLAIMED_NOT_SENT,
+        claimAmount: amountInt,
+        nativeBalance,
+        balance: currentBalance,
+      });
+
+      const status = getCheckClaimMessage(CLAIM_STATUSES.CLAIMED_NOT_SENT);
+
+      return {
+        status: 'passed',
+        message: status,
+        tgMessage: `${status} | Amount: ${amountInt}`,
+      };
+    }
 
     await dbRepo.update(walletInDb.id, {
       status: CLAIM_STATUSES.NOT_CLAIMED,

@@ -17,6 +17,21 @@ const modules: UserModuleConfig[] = [
 
     network: 'linea',
   },
+  {
+    moduleName: 'linea-claim',
+    indexGroup: 1,
+
+    network: 'linea',
+  },
+  {
+    moduleName: 'linea-transfer-claim',
+    indexGroup: 2,
+
+    minAndMaxAmount: [100, 100],
+    usePercentBalance: true,
+
+    network: 'linea',
+  },
 ];
 
 // Выполнит скрипт на указанном количестве кошельков

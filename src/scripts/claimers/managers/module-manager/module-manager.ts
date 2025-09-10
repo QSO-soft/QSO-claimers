@@ -40,6 +40,8 @@ import {
   execMakeClaimSomnia,
   execMakeTransferClaimSomnia,
   execMakeCheckClaimLinea,
+  execMakeClaimLinea,
+  execMakeTransferClaimLinea,
 } from '../../modules';
 
 export class ModuleManager extends DefaultModuleManager {
@@ -146,6 +148,10 @@ export class ModuleManager extends DefaultModuleManager {
 
       case 'linea-check-claim':
         return execMakeCheckClaimLinea;
+      case 'linea-claim':
+        return execMakeClaimLinea;
+      case 'linea-transfer-claim':
+        return execMakeTransferClaimLinea;
 
       default:
         return;

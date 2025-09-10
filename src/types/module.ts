@@ -75,7 +75,9 @@ export type ModuleNames =
   | 'mitosis-check-claim'
   | 'mitosis-register-claim'
   | 'debank-balance-checker'
-  | 'linea-check-claim';
+  | 'linea-check-claim'
+  | 'linea-claim'
+  | 'linea-transfer-claim';
 
 export type SwapModuleNames = Extract<
   ModuleNames,

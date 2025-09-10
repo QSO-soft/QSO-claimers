@@ -54,6 +54,29 @@ export const defaultModuleConfigs: DefaultModuleConfigs = {
     // Сеть для которой выполнять модуль
     network: 'linea',
   },
+  'linea-claim': {
+    count: [1, 1],
+    indexGroup: 1,
+
+    stopWalletOnError: true,
+    stopWalletOnPassed: false,
+
+    // Сеть для которой выполнять модуль
+    network: 'linea',
+  },
+  'linea-transfer-claim': {
+    count: [1, 1],
+    indexGroup: 2,
+
+    stopWalletOnError: true,
+    stopWalletOnPassed: false,
+
+    minAndMaxAmount: [100, 100],
+    usePercentBalance: true,
+
+    // Сеть для которой выполнять модуль
+    network: 'linea',
+  },
 
   // ============== debank ==============
   'debank-balance-checker': {

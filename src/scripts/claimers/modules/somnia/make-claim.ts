@@ -15,7 +15,7 @@ import { TransformedModuleParams } from '../../../../types';
 import { SomniaAirdropEntity } from '../../db/entities';
 import { formatErrMessage, getCheckClaimMessage } from '../../utils';
 import { ABI, CONTRACT, HEADERS } from './constants';
-import { calculateClaimableAllocation, getProofData } from './helpers';
+import { calculateClaimableAllocation, calculateMerkleProof, getProofData } from './helpers';
 
 export const execMakeClaimSomnia = async (params: TransformedModuleParams) =>
   transactionWorker({
@@ -115,16 +115,14 @@ const makeClaimSomnia = async (params: TransactionCallbackParams): TransactionCa
       throw new Error(data.error);
     }
 
-    const totalUnlockedByWeeks = ((data.weeks || []) as { unlocked: string }[]).reduce<bigint>(
-      (acc, cur) => acc + BigInt(cur.unlocked),
-      0n
-    );
-    const claimedAmount = BigInt(data.released || '0');
-    const claimableAllocation = calculateClaimableAllocation(
-      BigInt(results.allocation),
-      totalUnlockedByWeeks,
-      claimedAmount
-    );
+    const claimedCheck = (await publicClient.readContract({
+      address: CONTRACT,
+      abi: ABI,
+      functionName: 'claimed',
+      args: [calculateMerkleProof(results.extra.proof, walletAddress, BigInt(results.allocation)), walletAddress],
+    })) as [bigint, bigint];
+    const claimedAmount = claimedCheck[1];
+    const claimableAllocation = calculateClaimableAllocation(claimedAmount, BigInt(data.released));
 
     if (!claimableAllocation) {
       amountInt = decimalToInt({
@@ -162,13 +160,6 @@ const makeClaimSomnia = async (params: TransactionCallbackParams): TransactionCa
         tgMessage: `${status} | Amount: ${amountInt}`,
       };
     }
-
-    // const claimed = (await publicClient.readContract({
-    //   address: CONTRACT,
-    //   abi: ABI,
-    //   functionName: 'claimed',
-    //   args: [calculateMerkleProof(results.extra.proof, walletAddress, BigInt(results.allocation)), walletAddress],
-    // })) as [bigint, boolean];
 
     amountInt = decimalToInt({
       amount: claimableAllocation,

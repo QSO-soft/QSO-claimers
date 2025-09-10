@@ -12,8 +12,8 @@ import {
 import { TransformedModuleParams } from '../../../../types';
 import { SomniaAirdropEntity } from '../../db/entities';
 import { formatErrMessage, getCheckClaimMessage } from '../../utils';
-import { HEADERS } from './constants';
-import { calculateClaimableAllocation, getProofData } from './helpers';
+import { ABI, CONTRACT, HEADERS } from './constants';
+import { calculateClaimableAllocation, calculateMerkleProof, getProofData } from './helpers';
 
 export const execMakeCheckClaimSomnia = async (params: TransformedModuleParams) =>
   transactionWorker({
@@ -25,7 +25,7 @@ export const execMakeCheckClaimSomnia = async (params: TransformedModuleParams) 
 const makeCheckClaimSomnia = async (params: TransactionCallbackParams): TransactionCallbackReturn => {
   const { client, dbSource, network, wallet, proxyAgent } = params;
 
-  const { walletAddress, walletClient } = client;
+  const { walletAddress, walletClient, publicClient } = client;
 
   if (!dbSource) {
     return {
@@ -113,16 +113,14 @@ const makeCheckClaimSomnia = async (params: TransactionCallbackParams): Transact
       throw new Error(data.error);
     }
 
-    const totalUnlockedByWeeks = ((data.weeks || []) as { unlocked: string }[]).reduce<bigint>(
-      (acc, cur) => acc + BigInt(cur.unlocked),
-      0n
-    );
-    const claimedAmount = BigInt(data.released || '0');
-    const claimableAllocation = calculateClaimableAllocation(
-      BigInt(results.allocation),
-      totalUnlockedByWeeks,
-      claimedAmount
-    );
+    const claimedCheck = (await publicClient.readContract({
+      address: CONTRACT,
+      abi: ABI,
+      functionName: 'claimed',
+      args: [calculateMerkleProof(results.extra.proof, walletAddress, BigInt(results.allocation)), walletAddress],
+    })) as [bigint, bigint];
+    const claimedAmount = claimedCheck[1];
+    const claimableAllocation = calculateClaimableAllocation(claimedAmount, BigInt(data.released));
 
     if (!claimableAllocation) {
       amountInt = decimalToInt({

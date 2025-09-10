@@ -46,12 +46,6 @@ export const calculateMerkleProof = (proofElements: Hex[], userAddress: Hex, tok
   return currentHash;
 };
 
-export const calculateClaimableAllocation = (
-  totalAllocation: bigint,
-  unlocked: bigint,
-  releasedAllocation: bigint
-): bigint => {
-  const twentyPercent = (totalAllocation * 20n) / 100n;
-
-  return releasedAllocation - twentyPercent - unlocked;
+export const calculateClaimableAllocation = (claimedAllocation: bigint, releasedAllocation: bigint): bigint => {
+  return releasedAllocation - claimedAllocation;
 };
